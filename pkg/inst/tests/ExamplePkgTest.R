@@ -7,8 +7,7 @@ ExamplePkgTest<-R6Class("ExamplePkgTest",
     targetPkgName=""
     ,
     #----------------
-    inDirSetUp=function(){
-      targetPkgName=self$targetPkgName
+    loadExamplePkg=function(targetPkgName){
       resourceDirName<-file.path("..","..","test_resources","example_packages")
       pkgDir="pkg"
       cpDir(file.path(resourceDirName,targetPkgName),pkgDir)
@@ -17,13 +16,6 @@ ExamplePkgTest<-R6Class("ExamplePkgTest",
       if (!file.exists(file.path(pkgDir,"DESCRIPTION"))){ 
         writeDescriptionFile(Depends="methods",pkgName=targetPkgName,pkgDir=pkgDir)
       }
-      # create the documentation 
-      ## perform cran checks
-      #l<-check(pkgDir,document=FALSE,quiet=TRUE)
-      #
-      ##l<-list(errors=c("bla","blub"),warnings=c("foo"),notes=c("bar","foo"))
-      ##l<-check(pkgDir,document=FALSE,quiet=FALSE)
-      #self$assertCranResultOk(l)
     }
   )
 )
