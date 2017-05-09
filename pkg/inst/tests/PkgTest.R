@@ -2,8 +2,10 @@
 ## vim:set ff=unix expandtab ts=2 sw=2:
 require(inlinedocs)
 require(R6Unit)
+source("ExamplePkgTest.R")
 PkgTest<-R6Class("PkgTest",
-	inherit=InDirTest,
+	#inherit=InDirTest,
+	inherit=ExamplePkgTest,
   public=list(
     targetPkgName=""
     ,
@@ -25,16 +27,9 @@ PkgTest<-R6Class("PkgTest",
     ,
     #----------------
     checkExamplePkg=function(targetPkgName){
-      resourceDirName<-file.path("..","..","test_resources","example_packages")
-      pkgDir="pkg"
-      cpDir(file.path(resourceDirName,targetPkgName),pkgDir)
-
-      print("############### in inDirSetUp ###########################")
-      # if necessarry add a default DESCRIPTION file
-      if (!file.exists(file.path(pkgDir,"DESCRIPTION"))){ 
-        writeDescriptionFile(Depends="methods",pkgName=targetPkgName,pkgDir=pkgDir)
-      }
+      self$loadExamplePkg(targetPkgName)
       # create the documentation 
+      pkgDir="pkg"
       package.skeleton.dx(pkgDir)
       
       # perform cran checks

@@ -3,19 +3,26 @@
 source("helpers.R")
 source("ExamplePkgTest.R")
 require(devtools,quiet=TRUE)
-PrototypeTest<-R6Class("PrototypeTest",
+PrototypeTests<-R6Class("PrototypeTest",
 	inherit=ExamplePkgTest,
+	#inherit=InDirTest,
 	public=list(
     #--------------------------------
-		test.src_refs=function(){
-      self$targetPkgName<-"ClassWithMethods"
-      prefix="../../../R"
+    test.consistentS4Naming=function(){
+      # To document a package properly we 
+      # need to be sure that the genericFunctions and 
+      # methods appear in the documentation as they will 
+      # when the package is loaded.
+      # 
+      self$loadExamplePkg("ClassWithMethods")
+      prefix="../../../../R"
       auto_paths=Sys.glob(paste(prefix,"*.R",sep="/"))
       for (f in auto_paths){
-          print(f)
-          #source(f,echo=FALSE)
+          source(f,echo=FALSE)
       }
-      document("pkg")
+
+      pkgDir="pkg"
+      print(mmNameSpaceInfo(pkgDir))
 		}
   )
 )

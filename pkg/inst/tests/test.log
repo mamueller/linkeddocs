@@ -1,14 +1,34 @@
-2017-05-09 11:28:44 ERROR:TestLogger:messages:= Error in file.path(lib, pkg): argument "pkgDir" is missing, with no default
- 2017-05-09 11:28:44 ERROR:TestLogger:output:=################# /home/mm/linkeddocs/pkg/inst/tests/IoTestResults_tmp/PackageTests.test.NameSpaceParsing #################
+2017-05-09 15:50:01 DEBUG:TestLogger:messages:=Creating a new generic function for ‘Rd_argument_lines’ in the global environment
+Creating a new generic function for ‘Rd_usage_lines’ in the global environment
+Creating a new generic function for ‘write_Rd_file’ in the global environment
+Creating a new generic function for ‘documented_args’ in the global environment
+Creating a new generic function for ‘Rd_method_lines’ in the global environment
+Creating a new generic function for ‘Rd_example_lines’ in the global environment
+ 2017-05-09 15:50:01 DEBUG:TestLogger:output:=################# /home/mm/linkeddocs/pkg/inst/tests/IoTestResults_tmp/PrototypeTest.test.consistentS4Naming #################
 
-[1] "############### in inDirSetUp ###########################"
-Applying parsers:
+$documentableMeths
+list()
 
-Moving Rd files to man dir:
+$gens_defined_by_package
+list()
 
-########################################################################
-[1] "pe in package.skeleton.dx getwd : = /home/mm/linkeddocs/pkg/inst/tests/IoTestResults_tmp/PackageTests.test.NameSpaceParsing/pkg/R"
-[1] FALSE
- 2017-05-09 11:28:44 ERROR:TestLogger:error:=TRUE
- 2017-05-09 11:28:44 ERROR:TestLogger:failure:=FALSE
- 2017-05-09 11:28:44 ERROR:TestLogger:fullName:=PackageTests.test.NameSpaceParsing
+$gens_visible_in_pkg
+An object of class "ObjectsWithPackage":
+                                                              
+Object:  "$"    "$<-"  "["    "[<-"  "[[<-" "exposedGeneric"  
+Package: "base" "base" "base" "base" "base" "ClassWithMethods"
+
+$gens_defined_previously
+list()
+
+$gens
+list()
+
+$non_gens
+named list()
+
+$exportedClassNames
+[1] "ExposedClass"
+ 2017-05-09 15:50:01 DEBUG:TestLogger:error:=FALSE
+ 2017-05-09 15:50:01 DEBUG:TestLogger:failure:=FALSE
+ 2017-05-09 15:50:01 DEBUG:TestLogger:fullName:=PrototypeTest.test.consistentS4Naming

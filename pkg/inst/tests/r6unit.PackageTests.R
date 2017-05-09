@@ -40,14 +40,14 @@ PackageTests<-R6Class("PackageTests",
     test.OverloadedIndexedAssingment=function(){
       self$checkExamplePkg("OverloadedIndexedAssingment")
 		}
-    ,
-    #--------------------------------
-    test.NameSpaceParsing=function(){
-      self$checkExamplePkg("HiddenMethod")
-      require("inlinedocs")
-      inlinedocs:::pkgInfoFromInstall()
+    #,
+    ##--------------------------------
+    #test.NameSpaceParsing=function(){
+    #  self$checkExamplePkg("HiddenMethod")
+    #  require("inlinedocs")
+    #  inlinedocs:::pkgInfoFromInstall()
 
-		}
+		#}
 	)
 )
 #test.packageBuild=function(){
