@@ -1,0 +1,14 @@
+2017-05-09 11:28:44 ERROR:TestLogger:messages:= Error in file.path(lib, pkg): argument "pkgDir" is missing, with no default
+ 2017-05-09 11:28:44 ERROR:TestLogger:output:=################# /home/mm/linkeddocs/pkg/inst/tests/IoTestResults_tmp/PackageTests.test.NameSpaceParsing #################
+
+[1] "############### in inDirSetUp ###########################"
+Applying parsers:
+
+Moving Rd files to man dir:
+
+########################################################################
+[1] "pe in package.skeleton.dx getwd : = /home/mm/linkeddocs/pkg/inst/tests/IoTestResults_tmp/PackageTests.test.NameSpaceParsing/pkg/R"
+[1] FALSE
+ 2017-05-09 11:28:44 ERROR:TestLogger:error:=TRUE
+ 2017-05-09 11:28:44 ERROR:TestLogger:failure:=FALSE
+ 2017-05-09 11:28:44 ERROR:TestLogger:fullName:=PackageTests.test.NameSpaceParsing

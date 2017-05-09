@@ -1,0 +1,19 @@
+#
+# vim:set ff=unix expandtab ts=2 sw=2:
+- rewrite all tests that use extract.docs.file to use the new 
+  extract.docs.lines if there is no need to actually write something
+  this will speed up the tests 
+- unify the running of the tests
+  - make it possible to run isolated tests and normla RUnit tests together 
+  - convert the original  tests by inlinedocs to either RUnit or our  
+    isolated extension
+- change the alias (and possibly file name) convention for Rd files of 
+  S4 methods. In order to work properly together with method? and class?
+  there is a naming convention for the alias to be met.
+  e.g.:"f.numeric.ANY-mehtod"
+  (see writing R extensions S4 classes and Methods)
+	At the moment we have something like f__method_numeric_ANY
+- remove the Namespace only flag from the code
+  The default behaviour should be to always only document the exported functions classes or methods
+  If one wants to document a function temporarily one can always add it to the Namespace
+  and remove it from there before releasing the package.

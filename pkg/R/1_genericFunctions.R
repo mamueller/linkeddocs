@@ -1,0 +1,44 @@
+#
+# vim:set ff=unix expandtab ts=2 sw=2:
+setGeneric(
+  name="Rd_argument_lines",
+  def=function
+  (obj){
+    standardGeneric("Rd_argument_lines")
+  }
+)
+setGeneric(
+  name="Rd_usage_lines",
+  def=function
+  (obj){
+    standardGeneric("Rd_usage_lines")
+  }
+)
+setGeneric(
+  name="write_Rd_file",
+  def=function
+  (obj,fn,fff){
+    standardGeneric("write_Rd_file")
+  }
+)
+setGeneric(
+  name="documented_args",
+  def=function
+  (obj){
+    standardGeneric("documented_args")
+  }
+)
+setGeneric(
+  name="Rd_method_lines",
+  def=function
+  (obj){
+    standardGeneric("Rd_method_lines")
+  }
+)
+setGeneric(
+  name="Rd_example_lines",
+  def=function
+  (obj){
+    standardGeneric("Rd_example_lines")
+  }
+)
