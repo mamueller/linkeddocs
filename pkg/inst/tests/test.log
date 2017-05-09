@@ -1,14 +1,19 @@
-2017-05-09 11:28:44 ERROR:TestLogger:messages:= Error in file.path(lib, pkg): argument "pkgDir" is missing, with no default
- 2017-05-09 11:28:44 ERROR:TestLogger:output:=################# /home/mm/linkeddocs/pkg/inst/tests/IoTestResults_tmp/PackageTests.test.NameSpaceParsing #################
+2017-05-09 20:50:05 ERROR:TestLogger:messages:=Updating  documentation Error in as.name(name): attempt to use zero-length variable name
 
-[1] "############### in inDirSetUp ###########################"
-Applying parsers:
+Loading  Error in as.name(name): attempt to use zero-length variable name
 
-Moving Rd files to man dir:
+Invalid DESCRIPTION: Error in as.name(name): attempt to use zero-length variable name
 
-########################################################################
-[1] "pe in package.skeleton.dx getwd : = /home/mm/linkeddocs/pkg/inst/tests/IoTestResults_tmp/PackageTests.test.NameSpaceParsing/pkg/R"
-[1] FALSE
- 2017-05-09 11:28:44 ERROR:TestLogger:error:=TRUE
- 2017-05-09 11:28:44 ERROR:TestLogger:failure:=FALSE
- 2017-05-09 11:28:44 ERROR:TestLogger:fullName:=PackageTests.test.NameSpaceParsing
+Malformed package name Error in as.name(name): attempt to use zero-length variable name
+
+ Error in as.name(name): attempt to use zero-length variable name
+
+See section 'The DESCRIPTION file' in the 'Writing R Extensions' Error in as.name(name): attempt to use zero-length variable name
+
+manual. Error in as.name(name): attempt to use zero-length variable name
+
+ Error in as.name(name): attempt to use zero-length variable name
+ 2017-05-09 20:50:05 ERROR:TestLogger:output:=################# /home/mm/linkeddocs/pkg/inst/tests/IoTestResults_tmp/PrototypeTest.test.src_refs #################
+ 2017-05-09 20:50:05 ERROR:TestLogger:error:=TRUE
+ 2017-05-09 20:50:05 ERROR:TestLogger:failure:=FALSE
+ 2017-05-09 20:50:05 ERROR:TestLogger:fullName:=PrototypeTest.test.src_refs
