@@ -65,8 +65,8 @@ mmNameSpaceInfo<-function(pkgDir){
   if (!dir.exists(privatePackageLib)){
     dir.create(privatePackageLib,recursive=TRUE)
   }
-	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source")
-	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE)
+	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
+	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
   nslist<-parseNamespaceFile(pkgName,package.lib=privatePackageLib)
   #pe(quote(nslist$exportClasses))
 	exportedGens<-getGenerics(sprintf("package:%s",pkgName)) #includes ?internal_generic like  [ [[ $ ..

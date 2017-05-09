@@ -1,6 +1,6 @@
 #
 # vim:set ff=unix expandtab ts=2 sw=2:
-require(stringr)
+require(stringr,quiet=T)
 #####################################################################################################
 pp=function(# print out an 
 ### This function is used to print out a value of a variable together with its name and is helpful for debugging
