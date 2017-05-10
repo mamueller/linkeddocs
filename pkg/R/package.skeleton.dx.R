@@ -22,10 +22,6 @@ package.skeleton.dx <- structure(function # Package skeleton deluxe
 ### A logical indicating whether a NAMESPACE file should be generated
 ### for this package. If \code{TRUE}, all objects whose name starts
 ### with a letter, plus all S4 methods and classes are exported.
- excludePattern=FALSE,
-### A regular expression matching the files that are not to be
-### processed e.g. because inlinedocs can not handle them yet (like
-### generic function definitions)
 inlinedocs.documentNamespaceOnly=TRUE,
 ### A boolean flag indicating if documentation is only built for exported objects
 inlinedocs.exampleDir=file.path(pkgdir,"..","inst","tests"),
@@ -55,26 +51,6 @@ inlinedocs.exampleTrunk="example.",
   if (isTRUE(file.info("unix")$isdir) || isTRUE(file.info("windows")$isdir))
     stop("Platform-specific code in ./R/unix, or ./R/windows is not supported")
 
-  ## Default values and required fields in DESCRIPTION file.
-  description.defaults <-
-    c("Package"="",
-      "Maintainer"=Sys.getenv("USER"),
-      "Author"=Sys.getenv("USER"),
-      "Version"="1.0",
-      "License"="GPL-3",
-      "Title"="a package",
-      "Description"="a package that does\n many things.")
-
-  ## Necessary fields in DESCRIPTION, otherwise error.
-  fields <- names(description.defaults)
-
-  ## Default DESCRIPTION, written if it doesn't exist.
-  empty.description <-
-    matrix(description.defaults,ncol=length(fields),dimnames=list(NULL,fields))
-
-
-  
-  
   ## if no DESCRIPTION, make one and exit.
   descfile <- file.path("..","DESCRIPTION")
   if(!file.exists(descfile)){
@@ -84,21 +60,7 @@ inlinedocs.exampleTrunk="example.",
   ####
   nsi<-mmNameSpaceInfo(pkgDir="..")
   ## Read description and check for errors
-  desc <- read.dcf(descfile)
-  ## TDH 3 Sept 2013 need to support Authors@R for CRAN.
-  if("Authors@R" %in% colnames(desc)){
-    author <- paste(eval(parse(text=desc[,"Authors@R"])), collapse=", ")
-    desc <- cbind(desc,
-                  Author=author,
-                  Maintainer=author)
-  }
-  if(any(f <- !sapply(fields,is.element,colnames(desc))))
-    stop("Need ", paste(names(f)[f], collapse = ", "), " in ", descfile)
-    #PhG: corrected from stop("Need ",names(f)[f]," in ",descfile)
-  if(any(f <- sapply(fields,function(f)desc[,f]=="")))
-    stop("Need a value for ", paste(names(f)[f], collapse = ", "),
-         " in ", descfile)
-    #PhG: corrected from stop("Need a value for ",names(f)[f]," in ",descfile)
+  desc<-extract_description(descfile)
 
   ## Load necessary packages before loading pkg code
   if("Depends" %in% colnames(desc)){
@@ -172,42 +134,9 @@ inlinedocs.exampleTrunk="example.",
   }
   ## if nothing configured, just use the pkg default
   if(is.null(parsers))parsers <- default.parsers
-  
-  ## concatenate code files and parse them
-  # PhG: in Writing R Extensions manuals, source code in /R subdirectory can
-  # have .R, .S, .q, .r, or .s extension. However, it makes sense to restrict
-  # this to .R only for inlinedocs, but a clear indication is required in the
-  # man page!
-  code_files <- if(!"Collate"%in%colnames(desc))Sys.glob("*.R")
-  else strsplit(gsub("\\s+"," ",desc[,"Collate"]),split=" ")[[1]]
-  code_files =grep(excludePattern,code_files,invert=TRUE,value=TRUE)
-  ## TDH 28 Jan 2013, warn users such as Pierre Neuvial if they have
-  ## comments on the last line of one input file. Sometimes comments
-  # on the last line can appear to be the first line of comments of
-  ## the next code file.
-  lines.list <- lapply(code_files,readLines)
-  for(i in seq_along(lines.list)){
-    lvec <- lines.list[[i]]
-    fn <- code_files[i]
-    last <- lvec[length(lvec)]
-    if(grepl("#",last)){
-      warning("comment on last line of ",fn,
-              ", unexpected docs may be extracted")
-    }
-  }
-  #print(excludePattern)
-  ## Make package skeleton and edit Rd files (eventually just don't
-  ## use package.skeleton at all?)
   name <- desc[,"Package"]
   unlink(name,recursive=TRUE)
-
-#  # PhG: one must consider a potential Encoding field in DESCRIPTION file!
-  # which is used also for .R files according to Writing R Extensions
-  if ("Encoding" %in% colnames(desc)) {
-    oEnc <- options(encoding = desc[1, "Encoding"])$encoding
-    on.exit(options(encoding = oEnc), add = TRUE)
-  }
-  code <- do.call(c,lapply(code_files,readLines))
+  code=extract_code(desc)  
 #  #print(code)
   L<- apply.parsers(code,parsers,verbose=TRUE,desc=desc,inlinedocs.exampleDir,inlinedocs.exampleTrunk)
   docs <- L[["docs"]]

@@ -3,7 +3,7 @@
 source("helpers.R")
 source("ExamplePkgTest.R")
 require(devtools,quiet=TRUE)
-PrototypeTests<-R6Class("PrototypeTest",
+PrototypeTests<-R6Class("PrototypeTests",
 	inherit=ExamplePkgTest,
 	#inherit=InDirTest,
 	public=list(
@@ -21,8 +21,17 @@ PrototypeTests<-R6Class("PrototypeTest",
           source(f,echo=FALSE)
       }
 
-      pkgDir="pkg"
-      print(mmNameSpaceInfo(pkgDir))
+      pkgdir="pkg"
+      print(mmNameSpaceInfo(pkgdir))
+      #alternative investigation
+      chdir <- file.path(pkgdir,"R")
+      old.wd <- setwd(chdir)
+      on.exit(setwd(old.wd))
+      print(getwd())
+      descfile <- file.path("..","DESCRIPTION")
+      
+      desc<-extract_description(descfile)
+      print(desc) 
 		}
   )
 )
