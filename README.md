@@ -19,5 +19,5 @@ This R-package is an inlinedocs fork, that aims at compatibility in terms of the
  * It is also planned to link automatically to calling and called functions
  
 ## To install
-install.packages("devtools")
-devtools::install_github("mamueller/linkeddocs/pkg")
+ * install.packages("devtools")
+ * devtools::install_github("mamueller/linkeddocs/pkg")
