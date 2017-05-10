@@ -17,3 +17,7 @@ This R-package is an inlinedocs fork, that aims at compatibility in terms of the
   
  * In contrast to `inlinedocs` and `roxygen2` `linkeddocs` allows S4methods to have their own Rd files which are **linked** to boht classes and Generics. 
  * It is also planned to link automatically to calling and called functions
+ 
+## To install
+install.packages("devtools")
+devtools::install_github("mamueller/linkeddocs/pkg")

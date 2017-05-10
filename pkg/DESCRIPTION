@@ -2,14 +2,12 @@ Package: linkeddocs
 Title: Convert inline comments to documentation
 Type: Package
 Version: 2017.5.17
-Authors@R: c(
-	  person("Markus","Müller",role="aut"),
-Description: Generates Rd files from R source code with comments.
+Authors@R: c( person("Markus","Müller",role=c("aut","cre"),email='markus.mueller.1.g@googlemail.com'))
+Description: Generates Rd files from R source code with comments like inlinedocs.
  The main features of the default syntax are that
  (1) docs are defined in comments near the relevant code,
  (2) function argument names are not repeated in comments, and
- (3) examples are defined in R code, not comments.
- It is also easy to define a new syntax.
+ (3) examples are defined in external R code that can be tested separately.
 URL: https://github.com/mamueller/linkeddocs
 Depends: methods, utils,devtools,stringr,R (>= 2.9)
 License: GPL-2 | GPL-3
