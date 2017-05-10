@@ -22,16 +22,26 @@ PrototypeTests<-R6Class("PrototypeTests",
       }
 
       pkgdir="pkg"
-      print(mmNameSpaceInfo(pkgdir))
+      #print(mmNameSpaceInfo(pkgdir))
       #alternative investigation
       chdir <- file.path(pkgdir,"R")
       old.wd <- setwd(chdir)
       on.exit(setwd(old.wd))
-      print(getwd())
       descfile <- file.path("..","DESCRIPTION")
       
       desc<-extract_description(descfile)
-      print(desc) 
+      #print(desc) 
+      all <- devtools::load_all()
+      fls <- roxygen2:::package_files('..')
+      print(all)
+      env <- all[['env']]
+      pkgName<-packageDescription(pkgdir,".",fields="Package")  
+      print(pkgName)
+      eG <- getGenerics(where=env)
+      exG <- getGeneric('exposedGeneric',where=env)
+      print(utils::getSrcFilename(exG))
+      print('###########################')
+      print(utils::getSrcref(exG))
 		}
   )
 )
