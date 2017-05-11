@@ -154,6 +154,8 @@ inlinedocs.exampleTrunk="example.",
   writeGenericFunctionRdFiles(path=p,docs,nsi)
   #writeMethodTableRdFiles(e,pkgDir="..",path=p,nsi)
   writeMethodRdFiles(e,"..",path=p,exprs,code,desc,inlinedocs.documentNamespaceOnly,inlinedocs.exampleDir,inlinedocs.exampleTrunk,nsi) 
+  # new 
+  #writeMethodRdFiles_fromSrcRef(e)
   writeClassRdFiles(e,pkgDir="..",path=p,exprs,code,desc,nsi)
 
   #writePackageRdFile(pkgDir="..",name=name,path=p,desc)

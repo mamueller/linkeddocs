@@ -49,6 +49,7 @@ PrototypeTests<-R6Class("PrototypeTests",
       #print(lines)
       print(findText(exG))
       # print(as.character(utils::getSrcref(exG),useSource=T))
+      writeMethodRdFiles_fromSrcRef(env)
 
 		}
   )
