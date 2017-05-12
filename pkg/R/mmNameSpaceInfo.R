@@ -1,7 +1,7 @@
 
 # vim:set ff=unix expandtab ts=2 sw=2:
 mmNameSpaceInfo<-function(pkgDir){
-
+ 
   classInSig <- function(g,  cl) {
       cl %in% dm[[g]]@signatures
   }
@@ -61,10 +61,14 @@ mmNameSpaceInfo<-function(pkgDir){
 	  )
 	}
 	pkgName<-packageDescription(pkgDir,".",fields="Package")
-  privatePackageLib<-file.path("tmp",pkgName)
+  privatePackageLib<-file.path("tmp",'lib')
   if (!dir.exists(privatePackageLib)){
     dir.create(privatePackageLib,recursive=TRUE)
   }
+  oldLibs <- .libPaths()[]
+ # on.exit(.libPaths(oldLibs))
+ # .libPaths(privatePackageLib)
+ # devtools::install(pkgDir,keep_source=T)
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
 	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
   nslist<-parseNamespaceFile(pkgName,package.lib=privatePackageLib)

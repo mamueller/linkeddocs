@@ -6,6 +6,10 @@ createObjects <- function(code){
   ### since we often need the objects and the environment 
   ### they inhabit 
   e <- new.env()
+
+  #all <- devtools::load_all()
+  #e <- all[['env']]
+
   ## KMP 2011-03-09 fix problem with DocLink when inlinedocs ran on itself
   ## Error in assignClassDef(Class, classDef, where) :
   ##   Class "DocLink" has a locked definition in package "inlinedocs"

@@ -1,6 +1,6 @@
 #
 ## vim:set ff=unix expandtab ts=2 sw=2:
-require(inlinedocs)
+require(linkeddocs)
 require(R6Unit)
 source("ExamplePkgTest.R")
 PkgTest<-R6Class("PkgTest",

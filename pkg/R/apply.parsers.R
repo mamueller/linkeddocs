@@ -17,12 +17,13 @@ inlinedocs.exampleTrunk,
 ### Additional arguments to pass to Parser Functions.
  ){
   verbose<-TRUE
-  l=createObjects(code)# note that ls will not find S4 classes nor methods for generic functions
-  objs=l[["objs"]] 
-  e=l[["env"]] 
-  exprs=l[["exprs"]] 
+  all <- devtools::load_all()
+  fls <- roxygen2:::package_files('..')
+  print(all)
+  e <- all[['env']]
+  objs <- sapply(ls(e),get,e,simplify=FALSE)
+  exprs <- parse(text=code,keep.source=TRUE)
   docs <- list()
-  dl=
 
   ## apply parsers in sequence to code and objs
   if(verbose)cat("Applying parsers:\n")

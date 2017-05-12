@@ -8,18 +8,27 @@ PrototypeTests<-R6Class("PrototypeTests",
 	#inherit=InDirTest,
 	public=list(
     #--------------------------------
-    test.consistentS4Naming=function(){
+    setUp=function(){
+      #prefix="../../../../R"
+      #auto_paths=Sys.glob(paste(prefix,"*.R",sep="/"))
+      #for (f in auto_paths){
+      #    source(f,echo=FALSE)
+      #}
+    }
+    ,
+    #--------------------------------
+    test.correctNameSpaceInfo=function(){
       # To document a package properly we 
       # need to be sure that the genericFunctions and 
       # methods appear in the documentation as they will 
       # when the package is loaded.
       # 
       self$loadExamplePkg("ClassWithMethods")
-      prefix="../../../../R"
-      auto_paths=Sys.glob(paste(prefix,"*.R",sep="/"))
-      for (f in auto_paths){
-          source(f,echo=FALSE)
-      }
+      #prefix="../../../../R"
+      #auto_paths=Sys.glob(paste(prefix,"*.R",sep="/"))
+      #for (f in auto_paths){
+      #    source(f,echo=FALSE)
+      #}
 
       pkgdir="pkg"
       #print(mmNameSpaceInfo(pkgdir))
@@ -52,6 +61,11 @@ PrototypeTests<-R6Class("PrototypeTests",
       writeMethodRdFiles_fromSrcRef(env)
 
 		}
+    ,
+    #--------------------------------
+    test.consistentS4Naming=function(){
+      print('blub')
+    }
   )
 )
 ############################################ 
