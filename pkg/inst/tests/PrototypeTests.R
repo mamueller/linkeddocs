@@ -9,29 +9,25 @@ PrototypeTests<-R6Class("PrototypeTests",
 	public=list(
     #--------------------------------
     setUp=function(){
-      #prefix="../../../../R"
-      #auto_paths=Sys.glob(paste(prefix,"*.R",sep="/"))
-      #for (f in auto_paths){
-      #    source(f,echo=FALSE)
-      #}
+      require(linkeddocs)
+    }
+    ,
+    #--------------------------------
+    test.consistentS4Naming=function(){
+      print('blub')
     }
     ,
     #--------------------------------
     test.correctNameSpaceInfo=function(){
+      print('###########################')
       # To document a package properly we 
       # need to be sure that the genericFunctions and 
       # methods appear in the documentation as they will 
       # when the package is loaded.
       # 
       self$loadExamplePkg("ClassWithMethods")
-      #prefix="../../../../R"
-      #auto_paths=Sys.glob(paste(prefix,"*.R",sep="/"))
-      #for (f in auto_paths){
-      #    source(f,echo=FALSE)
-      #}
-
       pkgdir="pkg"
-      #print(mmNameSpaceInfo(pkgdir))
+      print(mmNameSpaceInfo(pkgdir))
       #alternative investigation
       chdir <- file.path(pkgdir,"R")
       old.wd <- setwd(chdir)
@@ -47,8 +43,8 @@ PrototypeTests<-R6Class("PrototypeTests",
       pkgName<-packageDescription(pkgdir,".",fields="Package")  
       print(pkgName)
       eG <- getGenerics(where=env)
-      exG <- getGeneric('exposedGeneric',where=env)
-      print('###########################')
+      #pp('eG',environment())
+      #exG <- getGeneric('exposedGeneric',where=env)
       #codeDir<-utils::getSrcDirectory(exG)
       #codeFile<-utils::getSrcFilename(exG,full.names=T)
       #print(utils::getSrcLocation(exG))
@@ -56,16 +52,11 @@ PrototypeTests<-R6Class("PrototypeTests",
       #print(length(utils::getSrcref(exG)))
       #print(codeFile)
       #print(lines)
-      print(findText(exG))
+      #print(findText(exG))
       # print(as.character(utils::getSrcref(exG),useSource=T))
       writeMethodRdFiles_fromSrcRef(env)
 
 		}
-    ,
-    #--------------------------------
-    test.consistentS4Naming=function(){
-      print('blub')
-    }
   )
 )
 ############################################ 
