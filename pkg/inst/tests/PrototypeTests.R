@@ -19,7 +19,6 @@ PrototypeTests<-R6Class("PrototypeTests",
     ,
     #--------------------------------
     test.correctNameSpaceInfo=function(){
-      print('###########################')
       # To document a package properly we 
       # need to be sure that the genericFunctions and 
       # methods appear in the documentation as they will 
@@ -27,22 +26,33 @@ PrototypeTests<-R6Class("PrototypeTests",
       # 
       self$loadExamplePkg("ClassWithMethods")
       pkgdir="pkg"
-      print(mmNameSpaceInfo(pkgdir))
-      #alternative investigation
+      #nsi <- mmNameSpaceInfo(pkgdir)
+      #alternative investigation based on devtools
       chdir <- file.path(pkgdir,"R")
       old.wd <- setwd(chdir)
       on.exit(setwd(old.wd))
       descfile <- file.path("..","DESCRIPTION")
-      
       desc<-extract_description(descfile)
-      #print(desc) 
-      all <- devtools::load_all()
-      fls <- roxygen2:::package_files('..')
-      print(all)
-      env <- all[['env']]
-      pkgName<-packageDescription(pkgdir,".",fields="Package")  
+      pkgName <- as.character(read.dcf(descfile,fields=c('Package')))
       print(pkgName)
-      eG <- getGenerics(where=env)
+      exportedGenerics2 <- getGenerics(sprintf("package:%s",pkgName))
+      print('###########################')
+      print(exportedGenerics2)
+      #all <- devtools::load_all()
+      #fls <- roxygen2:::package_files('..')
+      #env <- all[['env']]
+      #print(env)
+      #exportedGenerics <- getGenerics(where=env)
+      #names <- list()
+      #for ( eg in exportedGenerics){
+      #  names <- append(eg,names)
+      #  o <- getGeneric(eg,env)
+      #  #print(o)
+      #  print(GenHasAnyMethodWithSrc(genName=eg,env=env))
+      #}
+      #print(names)
+      #print(nsi[['exportedGenerics']])
+      #self$assertEqual(exportedGenerics,nsi[['exportedGenerics']])
       #pp('eG',environment())
       #exG <- getGeneric('exposedGeneric',where=env)
       #codeDir<-utils::getSrcDirectory(exG)
@@ -54,7 +64,7 @@ PrototypeTests<-R6Class("PrototypeTests",
       #print(lines)
       #print(findText(exG))
       # print(as.character(utils::getSrcref(exG),useSource=T))
-      writeMethodRdFiles_fromSrcRef(env)
+      #writeMethodRdFiles_fromSrcRef(env)
 
 		}
   )

@@ -34,6 +34,7 @@ mmNameSpaceInfo<-function(pkgDir){
     }else{
       res<-FALSE
     }
+    #pp("MethodDefinition",environment())
     #pp("res",environment())
 		res
 	}
@@ -75,6 +76,8 @@ mmNameSpaceInfo<-function(pkgDir){
   #pe(quote(nslist$exportClasses))
 	exportedGens<-getGenerics(sprintf("package:%s",pkgName)) #includes ?internal_generic like  [ [[ $ ..
 	GensWithDocMethods<-exportedGens[unlist(sapply(exportedGens,GenHasAnyMethodWithSrc))]
+  print('###########################')
+  print(GensWithDocMethods)
 	GensWithSrc<-exportedGens[unlist(sapply(exportedGens,GenHasSrc))]
 	
 	documentableMeths<-list()
