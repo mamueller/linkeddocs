@@ -14,8 +14,12 @@ PrototypeTests<-R6Class("PrototypeTests",
     ,
     #--------------------------------
     test.allMethods=function(){
-      print('blub')
       writeMethodRdFiles_fromSrcRef(env)
+    }
+    ,
+    #--------------------------------
+    test.selfload=function(){
+      self$loadExamplePkg("linkeddocs")
     }
     ,
     #--------------------------------
@@ -44,7 +48,7 @@ PrototypeTests<-R6Class("PrototypeTests",
       all <- devtools::load_all(export_all=FALSE)
       #fls <- roxygen2:::package_files('..')
       env <- all[['env']]
-      print(as.name(env))
+      print(name(env))
       #exportedGenerics <- getGenerics(where=env,searchForm=T)
       exportedGenerics <- getGenerics(sprintf("package:%s",pkgName))
       #names <- list()
