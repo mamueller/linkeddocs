@@ -13,8 +13,9 @@ PrototypeTests<-R6Class("PrototypeTests",
     }
     ,
     #--------------------------------
-    test.consistentS4Naming=function(){
+    test.allMethods=function(){
       print('blub')
+      writeMethodRdFiles_fromSrcRef(env)
     }
     ,
     #--------------------------------
@@ -25,8 +26,10 @@ PrototypeTests<-R6Class("PrototypeTests",
       # when the package is loaded.
       # 
       self$loadExamplePkg("ClassWithMethods")
+      #self$loadExamplePkg("HiddenMehtod")
       pkgdir="pkg"
-      #nsi <- mmNameSpaceInfo(pkgdir)
+      nsi = mmNameSpaceInfo(pkgdir)
+      #print(nsi)
       #alternative investigation based on devtools
       chdir <- file.path(pkgdir,"R")
       old.wd <- setwd(chdir)
@@ -34,24 +37,28 @@ PrototypeTests<-R6Class("PrototypeTests",
       descfile <- file.path("..","DESCRIPTION")
       desc<-extract_description(descfile)
       pkgName <- as.character(read.dcf(descfile,fields=c('Package')))
-      print(pkgName)
-      exportedGenerics2 <- getGenerics(sprintf("package:%s",pkgName))
-      print('###########################')
-      print(exportedGenerics2)
-      #all <- devtools::load_all()
+      #print(pkgName)
+      #exportedGenerics2 <- getGenerics(sprintf("package:%s",pkgName))
+      #print('###########################')
+      #print(exportedGenerics2)
+      all <- devtools::load_all(export_all=FALSE)
       #fls <- roxygen2:::package_files('..')
-      #env <- all[['env']]
-      #print(env)
-      #exportedGenerics <- getGenerics(where=env)
+      env <- all[['env']]
+      print(as.name(env))
+      #exportedGenerics <- getGenerics(where=env,searchForm=T)
+      exportedGenerics <- getGenerics(sprintf("package:%s",pkgName))
       #names <- list()
       #for ( eg in exportedGenerics){
-      #  names <- append(eg,names)
       #  o <- getGeneric(eg,env)
-      #  #print(o)
-      #  print(GenHasAnyMethodWithSrc(genName=eg,env=env))
+      #  v<-GenHasAnyMethodWithSrc(genName=eg,env=env)
+      #  if (v){
+      #    names <- append(eg,names)
+      #    #print(names(o)) 
+      #    #pp('v')
+      #  }
       #}
-      #print(names)
-      #print(nsi[['exportedGenerics']])
+      #pp('names')
+      print(exportedGenerics)
       #self$assertEqual(exportedGenerics,nsi[['exportedGenerics']])
       #pp('eG',environment())
       #exG <- getGeneric('exposedGeneric',where=env)
@@ -64,7 +71,6 @@ PrototypeTests<-R6Class("PrototypeTests",
       #print(lines)
       #print(findText(exG))
       # print(as.character(utils::getSrcref(exG),useSource=T))
-      #writeMethodRdFiles_fromSrcRef(env)
 
 		}
   )

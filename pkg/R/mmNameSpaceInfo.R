@@ -52,13 +52,14 @@ mmNameSpaceInfo<-function(pkgDir){
 	GenHasAnyMethodWithSrc=function
 	(genName,env){
 	  methDefs <- findMethods(genName)
+    #pp('genName')
 	  return(
 	  	any(
 			  sapply(
 	    			methDefs,
 	    			MethodHasSrc
-			)
-		)
+			  )
+		  )
 	  )
 	}
 	pkgName<-packageDescription(pkgDir,".",fields="Package")
@@ -75,9 +76,14 @@ mmNameSpaceInfo<-function(pkgDir){
   nslist<-parseNamespaceFile(pkgName,package.lib=privatePackageLib)
   #pe(quote(nslist$exportClasses))
 	exportedGens<-getGenerics(sprintf("package:%s",pkgName)) #includes ?internal_generic like  [ [[ $ ..
+  for (eg in exportedGens){
+    #pp('eg')
+    v<-GenHasAnyMethodWithSrc(eg)
+    #pp('v')
+  }
 	GensWithDocMethods<-exportedGens[unlist(sapply(exportedGens,GenHasAnyMethodWithSrc))]
   print('###########################')
-  print(GensWithDocMethods)
+  #pp('GensWithDocMethods')
 	GensWithSrc<-exportedGens[unlist(sapply(exportedGens,GenHasSrc))]
 	
 	documentableMeths<-list()
@@ -91,6 +97,7 @@ mmNameSpaceInfo<-function(pkgDir){
     }
 		documentableMeths[[genName]]<-MethodsWithSrcRefForGen(genName)
 	}
+  print(gens_defined_by_package)
   gens<-c(gens_defined_by_package,gens_defined_previously)
 
   # find all functions in the package
