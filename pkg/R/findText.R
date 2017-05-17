@@ -2,7 +2,7 @@
 ## vim:set ff=unix expandtab ts=2 sw=2:
   findText <- function(obj){
   srcref <- utils::getSrcref(obj)
-  print(srcref)
+  #print(srcref)
   codeFileName<-utils::getSrcFilename(obj,full.names=T)
   codeText <- as.character(srcref,useSource=T)
   lines <- readLines(codeFileName)

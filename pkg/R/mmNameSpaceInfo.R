@@ -1,6 +1,9 @@
 
 # vim:set ff=unix expandtab ts=2 sw=2:
 mmNameSpaceInfo<-function(pkgDir){
+  require(tools)
+  privatePackageLib<-file.path(pkgDir,"tmp",'lib')
+  pkgRPath<-normalizePath(file.path(pkgDir,'R'))
  
   classInSig <- function(g,  cl) {
       cl %in% dm[[g]]@signatures
@@ -13,7 +16,6 @@ mmNameSpaceInfo<-function(pkgDir){
 	GenHasSrc<-function(genName,pkg){
     gen<-getGeneric(genName)
     srcDir<-getSrcDirectory(gen)
-    pkgRPath<-file.path(getwd())
     
     if (length(srcDir)>0){
       res<-pkgRPath==srcDir
@@ -27,8 +29,8 @@ mmNameSpaceInfo<-function(pkgDir){
 	### This function tells if we can find a src reference for this method
 	MethodHasSrc<-function(MethodDefinition){
     srcDir<-getSrcDirectory(MethodDefinition)
-    pkgRPath<-file.path(getwd())
-    
+    #pp('srcDir')
+    #pp('pkgRPath') 
     if (length(srcDir)>0){
       res<-pkgRPath==srcDir
     }else{
@@ -62,16 +64,15 @@ mmNameSpaceInfo<-function(pkgDir){
 		  )
 	  )
 	}
-	pkgName<-packageDescription(pkgDir,".",fields="Package")
-  privatePackageLib<-file.path("tmp",'lib')
   if (!dir.exists(privatePackageLib)){
     dir.create(privatePackageLib,recursive=TRUE)
   }
   oldLibs <- .libPaths()[]
- # on.exit(.libPaths(oldLibs))
+  on.exit(.libPaths(oldLibs))
  # .libPaths(privatePackageLib)
  # devtools::install(pkgDir,keep_source=T)
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
+	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
 	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
   nslist<-parseNamespaceFile(pkgName,package.lib=privatePackageLib)
   #pe(quote(nslist$exportClasses))
@@ -81,6 +82,7 @@ mmNameSpaceInfo<-function(pkgDir){
     v<-GenHasAnyMethodWithSrc(eg)
     #pp('v')
   }
+  #pp('exportedGens')
 	GensWithDocMethods<-exportedGens[unlist(sapply(exportedGens,GenHasAnyMethodWithSrc))]
   print('###########################')
   #pp('GensWithDocMethods')
@@ -97,7 +99,6 @@ mmNameSpaceInfo<-function(pkgDir){
     }
 		documentableMeths[[genName]]<-MethodsWithSrcRefForGen(genName)
 	}
-  print(gens_defined_by_package)
   gens<-c(gens_defined_by_package,gens_defined_previously)
 
   # find all functions in the package
