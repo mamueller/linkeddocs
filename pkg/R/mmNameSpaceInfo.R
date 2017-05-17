@@ -70,7 +70,7 @@ mmNameSpaceInfo<-function(pkgDir){
   oldLibs <- .libPaths()[]
   on.exit(.libPaths(oldLibs))
  # .libPaths(privatePackageLib)
- # devtools::install(pkgDir,keep_source=T)
+  #devtools::install(pkgDir,keep_source=T)
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
 	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
