@@ -65,13 +65,21 @@ PrototypeTests<-R6Class("PrototypeTests",
       pkgName <- as.character(read.dcf(descfile,fields=c('Package')))
       print(pkgName)
       myEnv <- new.env(parent=globalenv())
+      print(names(myEnv))
       myPkgName <- "linkedoc_devtest"
       methods::setPackageName(myPkgName, myEnv)
       pkg<-as.package('pkg')
       paths<- devtools:::find_code(pkg)
       devtools:::withr_with_dir(file.path(pkg$path), devtools:::source_many(paths, myEnv))
-       allGenerics <- getGenerics(where=myEnv,searchForm=T)
-       print(allGenerics)
+      allGenerics <- getGenerics(where=myEnv,searchForm=T)
+      #print(allGenerics)
+      print(loadedNamespaces())
+      nsInfo <-devtools:::parse_ns_file(pkg)
+      exports <- nsInfo$exports
+      for (p in nsInfo$exportPatterns) exports <- c(ls(nsenv, 
+            pattern = p, all.names = TRUE), exports)
+      print(exports)
+      print(loadedNamespaces())
        #exportedGenerics <- getGenerics(sprintf("package:%s",pkgName))
        ##names <- list()
        ##for ( eg in exportedGenerics){
