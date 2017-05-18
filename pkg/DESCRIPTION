@@ -13,3 +13,4 @@ Depends: methods, utils,devtools,stringr,R (>= 2.9)
 License: GPL-2 | GPL-3
 LazyLoad: yes
 Encoding: UTF-8
+RoxygenNote: 6.0.1

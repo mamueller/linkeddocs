@@ -17,7 +17,7 @@ PrototypeTests<-R6Class("PrototypeTests",
       # demonstrate how a package with the same name and function names similar to 
       # linkeddocs functions can be loaded
       # without interfering
-      self$loadExamplePkg("linkeddocs")
+      self$cp_package_files("linkeddocs")
       require(methods)
       myEnv <- new.env(parent=globalenv())
       myPkgName <- "linkedoc_devtest"
@@ -53,8 +53,8 @@ PrototypeTests<-R6Class("PrototypeTests",
       # in mmNameSpaceInfo
       # The second way is to create a new environment and source the 
       # relevant files in the package to be documented
-      self$loadExamplePkg("ClassWithMethods")
-      #self$loadExamplePkg("HiddenMehtod")
+      self$cp_package_files("ClassWithMethods")
+      #self$cp_package_files("HiddenMehtod")
       pkgDir="pkg"
       nsi = mmNameSpaceInfo(pkgDir)
       #print(nsi)

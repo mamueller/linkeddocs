@@ -27,7 +27,7 @@ PkgTest<-R6Class("PkgTest",
     ,
     #----------------
     checkExamplePkg=function(targetPkgName){
-      self$loadExamplePkg(targetPkgName)
+      self$cp_package_files(targetPkgName)
       # create the documentation 
       pkgDir="pkg"
       package.skeleton.dx(pkgDir)

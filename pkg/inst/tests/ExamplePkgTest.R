@@ -7,7 +7,7 @@ ExamplePkgTest<-R6Class("ExamplePkgTest",
     targetPkgName=""
     ,
     #----------------
-    loadExamplePkg=function(targetPkgName){
+    cp_package_files=function(targetPkgName){
       resourceDirName<-file.path("..","..","test_resources","example_packages")
       pkgDir="pkg"
       cpDir(file.path(resourceDirName,targetPkgName),pkgDir)
