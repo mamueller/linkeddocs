@@ -42,17 +42,8 @@ mmNameSpaceInfo<-function(pkgDir){
 	}
 	
 	
-	### Not all methods for a Generic are defined in the src we want to document.
-	### This function helps to find the methods we want.
-	MethodsWithSrcRefForGen=function(genName){ 
-	  l=findMethods(genName)[sapply(findMethods(genName),MethodHasSrc)]
-	  l
-	}
-	
-	
 	### function to check if we have a src reference for any of the methods of this generic
-	GenHasAnyMethodWithSrc=function
-	(genName,env){
+	GenHasAnyMethodWithSrc=function(genName,env){
 	  methDefs <- findMethods(genName)
     #pp('genName')
 	  return(
@@ -75,17 +66,13 @@ mmNameSpaceInfo<-function(pkgDir){
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
 	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
   nslist<-parseNamespaceFile(pkgName,package.lib=privatePackageLib)
-  #pe(quote(nslist$exportClasses))
 	exportedGens<-getGenerics(sprintf("package:%s",pkgName)) #includes ?internal_generic like  [ [[ $ ..
   for (eg in exportedGens){
     #pp('eg')
     v<-GenHasAnyMethodWithSrc(eg)
     #pp('v')
   }
-  #pp('exportedGens')
 	GensWithDocMethods<-exportedGens[unlist(sapply(exportedGens,GenHasAnyMethodWithSrc))]
-  print('###########################')
-  #pp('GensWithDocMethods')
 	GensWithSrc<-exportedGens[unlist(sapply(exportedGens,GenHasSrc))]
 	
 	documentableMeths<-list()
@@ -125,8 +112,10 @@ mmNameSpaceInfo<-function(pkgDir){
     gens_visible_in_pkg     = exportedGens,
     gens_defined_previously = gens_defined_previously,
     gens                    = gens,
+    GensWithSrc             = GensWithSrc,
     non_gens                = nonGenerics,
-    exportedClassNames      = exportedClassNames
+    exportedClassNames      = exportedClassNames,
+    GensWithDocMethods      = GensWithDocMethods
     #exportedClassNames      = nslist$exportClasses
     ))
 }

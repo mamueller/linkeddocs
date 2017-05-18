@@ -11,13 +11,23 @@ package.skeleton.dx_2<-function(pkgDir){
   all<-devtools::load_all(pkgDir,export_all=F)
   #print(all)
   env <- all$env
-	gens<-getGenerics(sprintf("package:%s",pkgName)) 
+	gens<-getGenerics(where=env) 
+	GensWithDocMethods<-gens[unlist(sapply(gens,GenHasAnyMethodWithSrc,env=env))]
 	GensWithSrc<-gens[unlist(sapply(gens,GenHasSrc,pkgDir,env))]
-
+	
+  gens2<-getGenerics(sprintf("package:%s",pkgName)) 
+  documentableMeths <-  documentableMeths(gens2,env,pkgDir)
+  write_Rd_file(documentableMeths[['[']][[1]])
+  
+  
+  
   return(
     list(
-      gens        = gens,
-      GensWithSrc = GensWithSrc
+      documentableMeths   = documentableMeths,
+      gens                = gens,
+      gens2               = gens2,
+      GensWithSrc         = GensWithSrc,
+      GensWithDocMethods  = GensWithDocMethods
     )
   )
 }

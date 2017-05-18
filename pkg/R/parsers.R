@@ -136,16 +136,7 @@ MethodSignatureHasOnlyExportedClasses=function(MethodDefinition,env,pkgDir)
   res <- (length(intersection)==0)
   res
 }
-############################################################
-MethodsWithSrcRefForGen=function
-### Not all methods for a Generic are defined in the src we want to document.
-### This function helps to find the methods we want.
-(genName,env){ 
-  l=findMethods(genName,where=env)[sapply(findMethods(genName,where=env),MethodHasSrc)]
-  #class(l)<-"methods"
-  l
-}
-############################################################
+#############################################################
 getMethodName <- function(doc.link,e){
   method.name<- doc.link@name
   method.name

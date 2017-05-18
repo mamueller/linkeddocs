@@ -59,16 +59,21 @@ PrototypeTests<-R6Class("PrototypeTests",
       nsi = mmNameSpaceInfo(pkgDir)
       #print(nsi)
       #alternative investigation based on devtools
-      l=package.skeleton.dx_2(pkgDir)
+      nsi_2 <- package.skeleton.dx_2(pkgDir)
       ref <- c("[","exposedGeneric")
-      self$assertEqual(as.character(l$gens),ref)
+      self$assertEqual(names(nsi$documentableMeths),ref)
+      self$assertEqual(names(nsi_2$documentableMeths),ref)
+      self$assertEqual(as.character(nsi_2$gens2),ref)
 
-      print('#########################################')
-      print(as.character(l$gens))
-      print(as.character(l$GensWithSrc))
       ref <- c("exposedGeneric")
-      self$assertEqual(as.character(l$GensWithSrc),ref)
-      print(names(nsi$documentableMeths))
+      self$assertEqual(as.character(nsi$GensWithSrc),ref)
+
+      ref <- c("[","exposedGeneric","hiddenGeneric" )
+      self$assertEqual(as.character(nsi_2$gens),ref)
+      self$assertEqual(as.character(nsi_2$GensWithDocMethods),ref)
+
+      ref <- c("exposedGeneric","hiddenGeneric" )
+      self$assertEqual(as.character(nsi_2$GensWithSrc),ref)
       #print(nsi$documentableMeths)
       #descfile <- file.path(pkgDir,"DESCRIPTION")
       #print(descfile)
