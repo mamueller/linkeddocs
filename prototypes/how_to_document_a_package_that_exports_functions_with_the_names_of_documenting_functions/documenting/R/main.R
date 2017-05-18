@@ -8,6 +8,7 @@ main <- function(pkgDir){
 	library(pkgName,character.only=TRUE,quietly=TRUE)
 	rafter <- do_something(pgkDir)
 	rspecific <- documented::do_something(pkgDir)
+	#rspecific <- 
 	
 	results <- list(rbefore,rafter,rspecific)
 	
