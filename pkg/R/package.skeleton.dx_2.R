@@ -16,7 +16,7 @@ package.skeleton.dx_2<-function(pkgDir){
 	GensWithSrc<-gens[unlist(sapply(gens,GenHasSrc,pkgDir,env))]
 	
   gens2<-getGenerics(sprintf("package:%s",pkgName)) 
-  documentableMeths <-  documentableMeths(gens2,env,pkgDir)
+  documentableMeths <-  documentableMeths(gens2,pkgDir)
   write_Rd_file(documentableMeths[['[']][[1]])
   
   

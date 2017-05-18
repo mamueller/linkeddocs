@@ -1,10 +1,17 @@
 
 # vim:set ff=unix expandtab ts=2 sw=2:
 mmNameSpaceInfo<-function(pkgDir){
+
   require(tools)
   privatePackageLib<-file.path(pkgDir,"tmp",'lib')
   pkgRPath<-normalizePath(file.path(pkgDir,'R'))
  
+
+  MethodsWithSrcRefForGen=function(genName){ 
+    l=findMethods(genName)[sapply(findMethods(genName),MethodHasSrc)]
+    l
+  }
+
   classInSig <- function(g,  cl) {
       cl %in% dm[[g]]@signatures
   }
