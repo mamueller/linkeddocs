@@ -109,12 +109,6 @@ allClasses <- function(env){
 hiddenClasses <- function(env,pkgDir){
   setdiff(allClasses(env),exportedClasses(pkgDir))
 }
-############################################################
-# now find all Generics whose src can be found
-GenHasSrc=function
-### This function tells us if we can find a src reference for this generic
-(genName,e)
-{!is.null(getSrcref(getGeneric(genName,where=e)))}
 
 
 # we now want to find all Generics that have at least one Method where we can get at the source

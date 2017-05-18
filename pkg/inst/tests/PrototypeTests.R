@@ -13,35 +13,35 @@ PrototypeTests<-R6Class("PrototypeTests",
     }
     ,
     #--------------------------------
-    test.selfload=function(){
-      # demonstrate how a package with the same name and function names similar to 
-      # linkeddocs functions can be loaded
-      # without interfering
-      self$cp_package_files("linkeddocs")
-      require(methods)
-      myEnv <- new.env(parent=globalenv())
-      myPkgName <- "linkedoc_devtest"
-      methods::setPackageName(myPkgName, myEnv)
-      pkg<-as.package('pkg')
-      paths<- devtools:::find_code(pkg)
-      devtools:::withr_with_dir(file.path(pkg$path), devtools:::source_many(paths, myEnv))
-      tf <- mmNameSpaceInfo
-      d1 <- findText(tf)
-      # compare the first line of code
-      # first the original one
-      self$assertEqual(d1[1],"function(pkgDir){")
+    #test.selfload=function(){
+    #  # demonstrate how a package with the same name and function names similar to 
+    #  # linkeddocs functions can be loaded
+    #  # without interfering
+    #  self$cp_package_files("linkeddocs")
+    #  require(methods)
+    #  myEnv <- new.env(parent=globalenv())
+    #  myPkgName <- "linkedoc_devtest"
+    #  methods::setPackageName(myPkgName, myEnv)
+    #  pkg<-as.package('pkg')
+    #  paths<- devtools:::find_code(pkg)
+    #  devtools:::withr_with_dir(file.path(pkg$path), devtools:::source_many(paths, myEnv))
+    #  tf <- mmNameSpaceInfo
+    #  d1 <- findText(tf)
+    #  # compare the first line of code
+    #  # first the original one
+    #  self$assertEqual(d1[1],"function(pkgDir){")
 
-      tf2 <- myEnv[['mmNameSpaceInfo']]
-      d2 <- findText(tf2)
-      # now the new function of the package to be documented
-      self$assertEqual(d2[1],"function( # a fake only there to test if we can avoid overloading the original function in linkeddocs")
-    }
+    #  tf2 <- myEnv[['mmNameSpaceInfo']]
+    #  d2 <- findText(tf2)
+    #  # now the new function of the package to be documented
+    #  self$assertEqual(d2[1],"function( # a fake only there to test if we can avoid overloading the original function in linkeddocs")
+    #}
     #,
     ##--------------------------------
     #test.allMethods=function(){
     #  writeMethodRdFiles_fromSrcRef(env)
     #}
-    ,
+    #,
     #--------------------------------
     test.correctNameSpaceInfo=function(){
       # To document a package properly we 
@@ -59,27 +59,38 @@ PrototypeTests<-R6Class("PrototypeTests",
       nsi = mmNameSpaceInfo(pkgDir)
       #print(nsi)
       #alternative investigation based on devtools
-      descfile <- file.path(pkgDir,"DESCRIPTION")
-      print(descfile)
-      desc<-extract_description(descfile)
-      pkgName <- as.character(read.dcf(descfile,fields=c('Package')))
-      print(pkgName)
-      myEnv <- new.env(parent=globalenv())
-      print(names(myEnv))
-      myPkgName <- "linkedoc_devtest"
-      methods::setPackageName(myPkgName, myEnv)
-      pkg<-as.package('pkg')
-      paths<- devtools:::find_code(pkg)
-      devtools:::withr_with_dir(file.path(pkg$path), devtools:::source_many(paths, myEnv))
-      allGenerics <- getGenerics(where=myEnv,searchForm=T)
-      #print(allGenerics)
-      print(loadedNamespaces())
-      nsInfo <-devtools:::parse_ns_file(pkg)
-      exports <- nsInfo$exports
-      for (p in nsInfo$exportPatterns) exports <- c(ls(nsenv, 
-            pattern = p, all.names = TRUE), exports)
-      print(exports)
-      print(loadedNamespaces())
+      l=package.skeleton.dx_2(pkgDir)
+      ref <- c("[","exposedGeneric")
+      self$assertEqual(as.character(l$gens),ref)
+
+      print('#########################################')
+      print(as.character(l$gens))
+      print(as.character(l$GensWithSrc))
+      ref <- c("exposedGeneric")
+      self$assertEqual(as.character(l$GensWithSrc),ref)
+      print(names(nsi$documentableMeths))
+      #print(nsi$documentableMeths)
+      #descfile <- file.path(pkgDir,"DESCRIPTION")
+      #print(descfile)
+      #desc<-extract_description(descfile)
+      #pkgName <- as.character(read.dcf(descfile,fields=c('Package')))
+      #print(pkgName)
+      #myEnv <- new.env(parent=globalenv())
+      #print(names(myEnv))
+      #myPkgName <- "linkedoc_devtest"
+      #methods::setPackageName(myPkgName, myEnv)
+      #pkg<-as.package('pkg')
+      #paths<- devtools:::find_code(pkg)
+      #devtools:::withr_with_dir(file.path(pkg$path), devtools:::source_many(paths, myEnv))
+      #allGenerics <- getGenerics(where=myEnv,searchForm=T)
+      ##print(allGenerics)
+      #print(loadedNamespaces())
+      #nsInfo <-devtools:::parse_ns_file(pkg)
+      #exports <- nsInfo$exports
+      #for (p in nsInfo$exportPatterns) exports <- c(ls(nsenv, 
+      #      pattern = p, all.names = TRUE), exports)
+      #print(exports)
+      #print(loadedNamespaces())
        #exportedGenerics <- getGenerics(sprintf("package:%s",pkgName))
        ##names <- list()
        ##for ( eg in exportedGenerics){
