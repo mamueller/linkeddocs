@@ -20,4 +20,5 @@ This R-package is an inlinedocs fork, that aims at compatibility in terms of the
  
 ## To install
  * install.packages("devtools")
+ * require(devtools)
  * devtools::install_github("mamueller/linkeddocs/pkg")
