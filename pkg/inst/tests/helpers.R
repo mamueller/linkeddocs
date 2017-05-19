@@ -65,7 +65,10 @@ pe=function(string,env=parent.frame()){
   cat("\n########################################################################\n")
   callingFun <-as.list(sys.call(-1))[[1]]
   callerName<-toString(callingFun)
-  print(paste("pe in",callerName,string,": =",toString(eval(string,env))))
+  res <- toString(eval(string,env))
+  out <- sprintf('pe in %s:\nExpression\t: %s\nResult\t\t: %s \n',callerName,as.expression(string),res)
+  cat(out)
+  cat("\n########################################################################\n")
 }
 #------------------------------------------------------------------------------
 trimmedNonEmptyLines=function(s){

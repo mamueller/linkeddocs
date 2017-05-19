@@ -7,16 +7,19 @@ package.skeleton.dx_2<-function(pkgDir){
   descfile <- file.path(pkgDir,"DESCRIPTION")
   desc<-extract_description(descfile)
   pkgName <- as.character(read.dcf(descfile,fields=c('Package')))
-  
+   
   all<-devtools::load_all(pkgDir,export_all=F)
   #print(all)
   env <- all$env
 	gens<-getGenerics(where=env) 
-	GensWithDocMethods<-gens[unlist(sapply(gens,GenHasAnyMethodWithSrc,env=env))]
+  pp('pkgDir')
 	GensWithSrc<-gens[unlist(sapply(gens,GenHasSrc,pkgDir,env))]
 	
   gens2<-getGenerics(sprintf("package:%s",pkgName)) 
-  documentableMeths <-  documentableMeths(gens2,pkgDir)
+	GensWithDocMethods <- getGenerics(asNamespace(pkgName)) 
+
+  
+  documentableMeths <-  documentableMeths(gens2,pkgName)
   write_Rd_file(documentableMeths[['[']][[1]])
   
   

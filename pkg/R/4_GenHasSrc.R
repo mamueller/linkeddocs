@@ -6,10 +6,8 @@ GenHasSrc<-function(genName,pkgDir,env){
     if (length(srcDir)>0){
       res<-pkgRPath(pkgDir)==srcDir
     }else{
-      #{!is.null(getSrcref(getGeneric(genName,where=env)))}
       res<-FALSE
     }
-    #pp("res",environment())
     res
 }
 

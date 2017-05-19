@@ -2,9 +2,8 @@
 # vim:set ff=unix expandtab ts=2 sw=2:
 
 #source("R6_prolog.R")
-source("helpers.R")
 require(R6Unit)
-require(linkeddocs)
+#require(linkeddocs)
 #s<-get_suitefromDiscoveredTestInstances(".","^r6unit.*.R")
 source("PackageTests.R")
 source("PrototypeTests.R")
@@ -15,6 +14,7 @@ tr<-TestResults$new()
 #tc<-PackageTests$new("test.abbriviatedSignature")
 #tc<-PackageTests$new("test.GenericWithDotDotDotArgumets")
 tc<-PackageTests$new("test.OverloadedIndexOperator")
+#tc <- PrototypeTests$new("test.correctNameSpaceInfo")
 
 tc$run(tr)
 #stop(mmsg())

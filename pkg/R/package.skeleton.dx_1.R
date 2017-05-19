@@ -1,17 +1,11 @@
 
 # vim:set ff=unix expandtab ts=2 sw=2:
-mmNameSpaceInfo<-function(pkgDir){
+package.skeleton.dx_1<-function(pkgDir){
 
   require(tools)
   privatePackageLib<-file.path(pkgDir,"tmp",'lib')
-  pkgRPath<-normalizePath(file.path(pkgDir,'R'))
+  pkgR<-normalizePath(file.path(pkgDir,'R'))
  
-
-  MethodsWithSrcRefForGen=function(genName){ 
-    l=findMethods(genName)[sapply(findMethods(genName),MethodHasSrc)]
-    l
-  }
-
   classInSig <- function(g,  cl) {
       cl %in% dm[[g]]@signatures
   }
@@ -20,48 +14,7 @@ mmNameSpaceInfo<-function(pkgDir){
 		getSrcref(unRematchDefinition(MethodDefinition))
 	}
 	
-	GenHasSrc<-function(genName,pkg){
-    gen<-getGeneric(genName)
-    srcDir<-getSrcDirectory(gen)
-    
-    if (length(srcDir)>0){
-      res<-pkgRPath==srcDir
-    }else{
-      res<-FALSE
-    }
-    #pp("res",environment())
-		res
-	}
 	
-	### This function tells if we can find a src reference for this method
-	MethodHasSrc<-function(MethodDefinition){
-    srcDir<-getSrcDirectory(MethodDefinition)
-    #pp('srcDir')
-    #pp('pkgRPath') 
-    if (length(srcDir)>0){
-      res<-pkgRPath==srcDir
-    }else{
-      res<-FALSE
-    }
-    #pp("MethodDefinition",environment())
-    #pp("res",environment())
-		res
-	}
-	
-	
-	### function to check if we have a src reference for any of the methods of this generic
-	GenHasAnyMethodWithSrc=function(genName,env){
-	  methDefs <- findMethods(genName)
-    #pp('genName')
-	  return(
-	  	any(
-			  sapply(
-	    			methDefs,
-	    			MethodHasSrc
-			  )
-		  )
-	  )
-	}
   if (!dir.exists(privatePackageLib)){
     dir.create(privatePackageLib,recursive=TRUE)
   }
@@ -74,13 +27,10 @@ mmNameSpaceInfo<-function(pkgDir){
 	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
   nslist<-parseNamespaceFile(pkgName,package.lib=privatePackageLib)
 	exportedGens<-getGenerics(sprintf("package:%s",pkgName)) #includes ?internal_generic like  [ [[ $ ..
-  for (eg in exportedGens){
-    #pp('eg')
-    v<-GenHasAnyMethodWithSrc(eg)
-    #pp('v')
-  }
-	GensWithDocMethods<-exportedGens[unlist(sapply(exportedGens,GenHasAnyMethodWithSrc))]
-	GensWithSrc<-exportedGens[unlist(sapply(exportedGens,GenHasSrc))]
+
+
+	GensWithDocMethods<-exportedGens[unlist(sapply(exportedGens,GenHasAnyMethodWithSrc,pkgDir))]
+	GensWithSrc<-exportedGens[unlist(sapply(exportedGens,GenHasSrc,pkgDir,asNamespace(pkgName)))]
 	
 	documentableMeths<-list()
   gens_defined_by_package<-list()
@@ -91,7 +41,7 @@ mmNameSpaceInfo<-function(pkgDir){
       }else{
         gens_defined_previously[[genName]]<-getGeneric(genName)
     }
-		documentableMeths[[genName]]<-MethodsWithSrcRefForGen(genName)
+		documentableMeths[[genName]]<- findMethods(genName,where=asNamespace(pkgName))
 	}
   gens<-c(gens_defined_by_package,gens_defined_previously)
 

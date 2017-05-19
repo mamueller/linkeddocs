@@ -3,6 +3,8 @@
 source("helpers.R")
 source("ExamplePkgTest.R")
 require(devtools,quiet=TRUE)
+devtools::install('../..')
+require("linkeddocs")
 PrototypeTests<-R6Class("PrototypeTests",
 	inherit=ExamplePkgTest,
 	#inherit=InDirTest,
@@ -13,36 +15,6 @@ PrototypeTests<-R6Class("PrototypeTests",
     }
     ,
     #--------------------------------
-    #test.selfload=function(){
-    #  # demonstrate how a package with the same name and function names similar to 
-    #  # linkeddocs functions can be loaded
-    #  # without interfering
-    #  self$cp_package_files("linkeddocs")
-    #  require(methods)
-    #  myEnv <- new.env(parent=globalenv())
-    #  myPkgName <- "linkedoc_devtest"
-    #  methods::setPackageName(myPkgName, myEnv)
-    #  pkg<-as.package('pkg')
-    #  paths<- devtools:::find_code(pkg)
-    #  devtools:::withr_with_dir(file.path(pkg$path), devtools:::source_many(paths, myEnv))
-    #  tf <- mmNameSpaceInfo
-    #  d1 <- findText(tf)
-    #  # compare the first line of code
-    #  # first the original one
-    #  self$assertEqual(d1[1],"function(pkgDir){")
-
-    #  tf2 <- myEnv[['mmNameSpaceInfo']]
-    #  d2 <- findText(tf2)
-    #  # now the new function of the package to be documented
-    #  self$assertEqual(d2[1],"function( # a fake only there to test if we can avoid overloading the original function in linkeddocs")
-    #}
-    #,
-    ##--------------------------------
-    #test.allMethods=function(){
-    #  writeMethodRdFiles_fromSrcRef(env)
-    #}
-    #,
-    #--------------------------------
     test.correctNameSpaceInfo=function(){
       # To document a package properly we 
       # need to be sure that the genericFunctions and 
@@ -50,13 +22,13 @@ PrototypeTests<-R6Class("PrototypeTests",
       # when the package is loaded.
       # To ensure this we load the package in 2 ways
       # The first one is to really use library and detach which is implemented 
-      # in mmNameSpaceInfo
+      # in package.skeleton.dx_1
       # The second way is to create a new environment and source the 
       # relevant files in the package to be documented
       self$cp_package_files("ClassWithMethods")
       #self$cp_package_files("HiddenMehtod")
       pkgDir="pkg"
-      nsi = mmNameSpaceInfo(pkgDir)
+      nsi = package.skeleton.dx_1(pkgDir)
       #print(nsi)
       #alternative investigation based on devtools
       nsi_2 <- package.skeleton.dx_2(pkgDir)

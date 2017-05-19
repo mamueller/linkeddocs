@@ -33,6 +33,7 @@ inlinedocs.exampleTrunk="example.",
  ){
   ## This causes a warning on R CMD check TDH 28 Jan 2013.
   ##alias< < inlinedocs
+  nsi<-package.skeleton.dx_1(normalizePath(pkgdir))
 	oldLocation=getwd() 
   chdir <- file.path(pkgdir,"R")
   ## adapt the possibly relative path to the examples to the new location
@@ -58,7 +59,7 @@ inlinedocs.exampleTrunk="example.",
     stop("Need ",descfile,"; please fill that in and try again")
   }
   ####
-  nsi<-mmNameSpaceInfo(pkgDir="..")
+  #nsi<-package.skeleton.dx_1(pkgDir="..")
   ## Read description and check for errors
   desc<-extract_description(descfile)
 

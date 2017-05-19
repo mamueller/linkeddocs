@@ -120,10 +120,7 @@ methSrc=function
 methSig=function
 ### Extract the definition as text from an MethodDefinition object
 (MethodDefinition){attr(MethodDefinition,"defined")}
-############################################################
-MethodHasSrc=function(MethodDefinition)
-### This function tells if we can find a src reference for this method
-{!is.null(methSrc(MethodDefinition))}
+
 ############################################################
 MethodSignatureHasOnlyExportedClasses=function(MethodDefinition,env,pkgDir)
 ### check if all the classes in the signature are exported in the NAMESPACE file.

@@ -4,9 +4,10 @@
 GenHasAnyMethodWithSrc=function
 ### function to check if we have a src reference for any of the methods of this generic
 ### This helps to decide how the *-methods.Rd file should look like for this generic
-(genName,env){
-  methDefs <- findMethods(genName,where=env)
+(genName,pkgDir){
+  methDefs <- findMethods(genName)
   any(sapply(
     methDefs,
-    MethodHasSrc))
+    MethodHasSrc,
+    pkgDir))
 }
