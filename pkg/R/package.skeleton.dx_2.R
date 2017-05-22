@@ -12,7 +12,6 @@ package.skeleton.dx_2<-function(pkgDir){
   #print(all)
   env <- all$env
 	gens<-getGenerics(where=env) 
-  pp('pkgDir')
 	GensWithSrc<-gens[unlist(sapply(gens,GenHasSrc,pkgDir,env))]
 	
   gens2<-getGenerics(sprintf("package:%s",pkgName)) 
@@ -20,9 +19,21 @@ package.skeleton.dx_2<-function(pkgDir){
 
   
   documentableMeths <-  documentableMeths(gens2,pkgName)
-  write_Rd_file(documentableMeths[['[']][[1]])
-  
-  
+  manPath <- file.path(pkgDir,'man')
+  manManPath <- file.path(manPath,'manMan')
+  if (!file.exists(manManPath)){
+    dir.create(recursive=TRUE,manManPath)
+  }
+  for (genName in names(documentableMeths)){
+    #genName <- '['
+    i <- 1
+    for (method in documentableMeths[[genName]]){
+      i <- i+1
+      Nme <-fixPackageFileNames(paste(genName,"-method_",toString(i),sep=""))
+      p=file.path(manPath,paste(Nme,".Rd",sep=""))
+      write_Rd_file(documentableMeths[[genName]][[1]],p)
+    }
+  }
   
   return(
     list(

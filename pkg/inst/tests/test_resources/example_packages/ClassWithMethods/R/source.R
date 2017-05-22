@@ -69,6 +69,10 @@ setMethod(### for [ (and others [[,$...) documentation is required although the 
   x, ##<< the soil model
   i  ##<< the name of the method
   ){
+    ##details<<
+    ## here come the details
+    ##anotherFunnySection<<
+    ## whatever you want
   2 ##<< the result of the get[[PropertyName]] method
   }
 )

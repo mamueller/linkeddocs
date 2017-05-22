@@ -17,7 +17,7 @@ setGeneric(
 setGeneric(
   name="write_Rd_file",
   def=function
-  (obj,fn,fff){
+  (obj,fn,fff,exampleDir,exampleTrunk){
     standardGeneric("write_Rd_file")
   }
 )

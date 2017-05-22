@@ -18,7 +18,7 @@ inlinedocs.exampleTrunk,
  ){
   verbose<-TRUE
   all <- devtools::load_all()
-  fls <- roxygen2:::package_files('..')
+  #fls <- roxygen2:::package_files('..')
   print(all)
   e <- all[['env']]
   objs <- sapply(ls(e),get,e,simplify=FALSE)

@@ -1,13 +1,12 @@
-source('helpers.R')
-#source('../../R/mmNameSpaceInfo.R')
-pkgDir<-'../../../pkg'
-privatePackageLib<-file.path("tmp",'lib')
-install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
-pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
-library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
-library(linkeddocs)
-nsi <- mmNameSpaceInfo(pkgDir)
-library(devtools)
-pkgDir<-'IoTestResults_tmp/PrototypeTests.test.selfload/pkg/'
-all<-devtools::load_all(pkgDir)
-print((mmNameSpaceInfo))
+pkgDir='IoTestResults_tmp/PrototypeTests.test.correctNameSpaceInfo/pkg/'
+devtools::install(pkgDir,keep_source = TRUE)
+library('ClassWithMethods')
+md=findMethods('[',asNamespace('ClassWithMethods'))
+mds=md[[1]]
+srcRef=utils::getSrcref(mds)
+codeText=as.character(srcRef)
+expr=parse(text=codeText)
+print(expr)
+e=new.env()
+eval(expr,envir = e)
+ls(e)
