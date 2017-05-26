@@ -51,6 +51,7 @@ PrototypeTests<-R6Class("PrototypeTests",
     ,
     #--------------------------------
     test.package.skeleton.dx_2=function(){
+      pkgDir="pkg"
       self$cp_package_files("ClassWithMethods")
       nsi_2 <- package.skeleton.dx_2(pkgDir)
       list.files('.')
