@@ -46,54 +46,15 @@ PrototypeTests<-R6Class("PrototypeTests",
 
       ref <- c("exposedGeneric","hiddenGeneric" )
       self$assertEqual(as.character(nsi_2$GensWithSrc),ref)
-      #print(nsi$documentableMeths)
-      #descfile <- file.path(pkgDir,"DESCRIPTION")
-      #print(descfile)
-      #desc<-extract_description(descfile)
-      #pkgName <- as.character(read.dcf(descfile,fields=c('Package')))
-      #print(pkgName)
-      #myEnv <- new.env(parent=globalenv())
-      #print(names(myEnv))
-      #myPkgName <- "linkedoc_devtest"
-      #methods::setPackageName(myPkgName, myEnv)
-      #pkg<-as.package('pkg')
-      #paths<- devtools:::find_code(pkg)
-      #devtools:::withr_with_dir(file.path(pkg$path), devtools:::source_many(paths, myEnv))
-      #allGenerics <- getGenerics(where=myEnv,searchForm=T)
-      ##print(allGenerics)
-      #print(loadedNamespaces())
-      #nsInfo <-devtools:::parse_ns_file(pkg)
-      #exports <- nsInfo$exports
-      #for (p in nsInfo$exportPatterns) exports <- c(ls(nsenv, 
-      #      pattern = p, all.names = TRUE), exports)
-      #print(exports)
-      #print(loadedNamespaces())
-       #exportedGenerics <- getGenerics(sprintf("package:%s",pkgName))
-       ##names <- list()
-       ##for ( eg in exportedGenerics){
-       ##  o <- getGeneric(eg,env)
-       ##  v<-GenHasAnyMethodWithSrc(genName=eg,env=env)
-       ##  if (v){
-       ##    names <- append(eg,names)
-       ##    #print(names(o)) 
-       ##    #pp('v')
-       ##  }
-       ##}
-       ##pp('names')
-       #self$assertEqual(exportedGenerics,nsi[['exportedGenerics']])
-       #pp('eG',environment())
-       #exG <- getGeneric('exposedGeneric',where=env)
-       #codeDir<-utils::getSrcDirectory(exG)
-       #codeFile<-utils::getSrcFilename(exG,full.names=T)
-       #print(utils::getSrcLocation(exG))
-       #print(class(utils::getSrcref(exG)))
-       #print(length(utils::getSrcref(exG)))
-       #print(codeFile)
-       #print(lines)
-       #print(findText(exG))
-       # print(as.character(utils::getSrcref(exG),useSource=T))
 
 	 	}
+    ,
+    #--------------------------------
+    test.package.skeleton.dx_2=function(){
+      self$cp_package_files("ClassWithMethods")
+      nsi_2 <- package.skeleton.dx_2(pkgDir)
+      list.files('.')
+    }
   )
 )
 ############################################ 
