@@ -6,22 +6,21 @@ setMethod(
   signature=signature(obj="MethodDefinition"),
   def=function(obj,fn,exampleDir=NULL,exampleTrunk=NULL){
     
+    genName <- attr(obj,'generic')
+    sig <-attr(obj,'defined')
     
     srcref <- utils::getSrcref(obj)
-
     codeText <- as.character(srcref,useSource=T)
     pp('codeText')
     expr <- parse(text=codeText)
-    fff <- eval(expr)
+    nsEnv <- environment(slot(obj,name='.Data'))
+    fff <- eval(expr,nsEnv)
     
     
     Text <- findText(obj)
     #pp('Text')
     pe(quote(prefixed.lines(codeText)))
     l <- extract.xxx.chunks(codeText)
-    genName <- 'fake'
-    sig <-attr(obj,'defined')
-    print(sig)
     N<-methodDocName(genName,sig)
     
     #flat<-list()

@@ -50,11 +50,11 @@ PrototypeTests<-R6Class("PrototypeTests",
 	 	}
     ,
     #--------------------------------
-    test.package.skeleton.dx_2=function(){
+    test.package.skeleton.dx_3=function(){
       pkgDir="pkg"
       self$cp_package_files("ClassWithMethods")
-      nsi_2 <- package.skeleton.dx_2(pkgDir)
-      list.files('.')
+      nsi_2 <- package.skeleton.dx_3(pkgDir)
+      pe(quote(list.files(file.path('pkg','man'))))
     }
   )
 )
