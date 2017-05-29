@@ -55,6 +55,12 @@ PrototypeTests<-R6Class("PrototypeTests",
       self$cp_package_files("ClassWithMethods")
       nsi_2 <- package.skeleton.dx_3(pkgDir)
       pe(quote(list.files(file.path('pkg','man'))))
+      cD <- 'check_dir'
+      if (!dir.exists(cD)){
+         dir.create(cD,recursive=TRUE)
+       }
+      #l<-check(pkgDir,document=FALSE,quiet=TRUE,check_dir=cD)
+      #print(l)
     }
   )
 )

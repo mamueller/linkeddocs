@@ -522,15 +522,6 @@ definition.from.source=function(doc,src,...)
     list(definition=src)
   else list()
 }
-## title from first line of function def
-title.from.firstline=function
-### extract the title from the first line of a function definition
-(src,...){
-  first <- src[1]
-  if(!is.character(first))return(list())
-  if(!grepl("#",first))return(list())
-  list(title=gsub("[^#]*#\\s*(.*)","\\1",first,perl=TRUE))
-}
 ############
 mm.examples.from.testfile=function
 ### extract examples from external files 

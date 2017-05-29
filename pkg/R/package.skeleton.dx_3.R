@@ -5,6 +5,10 @@ package.skeleton.dx_3<-function(pkgDir){
   require(tools)
   privatePackageLib<-file.path(pkgDir,"tmp",'lib')
   pkgR<-normalizePath(file.path(pkgDir,'R'))
+  codeFiles <- list.files(pkgR,full.names=TRUE)
+  code<- ''
+  for (fn in codeFiles){code <- append(code,readLines(fn))}
+
   manPath <- file.path(pkgDir,'man')
   manManPath <- file.path(manPath,'manMan')
   if (!file.exists(manManPath)){
@@ -35,38 +39,37 @@ package.skeleton.dx_3<-function(pkgDir){
   # 2.) the package Namespace environment which encloses its functions  and defines 
   # where the functions find their values.
   # http://adv-r.had.co.nz/Environments.html#function-envs
-
   pkgNsEnv <- asNamespace(pkgName) #
   
 	exportedGens<-getGenerics(fqPkgName) #includes ?internal_generic like  [ [[ $ ..
-  pp('exportedGens')
+  #pp('exportedGens')
 	exportedGenNames<-getGenerics(where=pkgEnv) #includes ?internal_generic like  [ [[ $ but only if the package defines mehtods for them
-  pp('exportedGenNames')
+  #pp('exportedGenNames')
   #print(exportedGenNames2)
 
   # we find all generics for which at least one  method is defined by the package
   # because we have to document it if it is exported
 	GensWithDocMethods<-exportedGenNames[unlist(sapply(exportedGenNames,GenHasAnyMethodWithSrc,pkgDir))]
-  pp('GensWithDocMethods')
+  #pp('GensWithDocMethods')
 
 	
 	for (genName in GensWithDocMethods){
 		meths<- findMethods(genName,where=pkgEnv)
     i <- 1
     for (m in meths){
-      pp('m')
-      pe(quote(class(m)))
-      i <- i+1
+      #pp('m')
+      #pe(quote(class(m)))
       Nme <-fixPackageFileNames(paste(genName,"-method_",toString(i),sep=""))
       p=file.path(manPath,paste(Nme,".Rd",sep=""))
       write_Rd_file(m,p)
+      i <- i+1
     }
     # not all the generics our package defines mehtods for are also defined by the 
     # package. Some like [, [[, $ have been there before.
     # Only the generics in the package need their own Rd file
     if (GenHasSrc(genName,pkgDir,pkgEnv)){
-      pp('genName')  
-      pe(quote(class(getGeneric(genName))))  
+      #pp('genName')  
+      #pe(quote(class(getGeneric(genName))))  
       write_Rd_file(
         getGeneric(genName),
         file.path(manPath,paste(fixPackageFileNames(genName),".Rd",sep=""))
@@ -74,9 +77,17 @@ package.skeleton.dx_3<-function(pkgDir){
     }
 	}
 
+  
+  #### document S4 classes
+  exportedClassNames<-getClasses(pkgEnv)
+  for (eCName in exportedClassNames){
+      filename <- file.path(manPath,sprintf("%s-class.Rd",eCName))
+      # We have to find the part of the source code since R doen not provide a srcref for class definitions
+      write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
+  }
+
   # find all functions in the package
   objectNames<-ls(sprintf("package:%s",pkgName))
-  exportedGenNames<-unlist(as.list(exportedGenNames))
   funcs<-list()
   for (fn in objectNames){
     f<-eval(as.symbol(fn))
@@ -87,7 +98,6 @@ package.skeleton.dx_3<-function(pkgDir){
   remaining_objects<-setdiff(objectNames,names(funcs))
 
   #pe(quote(),environment())
-  exportedClassNames<-getClasses(as.environment(sprintf("package:%s",pkgName)))
   nonGenericNames<-setdiff(names(funcs),exportedGenNames)
   nonGenerics<-funcs[nonGenericNames]
 	detach(sprintf("package:%s" ,pkgName),unload=TRUE,character.only=TRUE)

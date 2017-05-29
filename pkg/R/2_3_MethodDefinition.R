@@ -11,7 +11,12 @@ setMethod(
     
     srcref <- utils::getSrcref(obj)
     codeText <- as.character(srcref,useSource=T)
-    pp('codeText')
+    pl <- prefixed.lines(codeText)
+    l <- extract.xxx.chunks(codeText)
+    for ( n in names(pl)){
+      l[[n]] <- append(pl[[n]],l[[n]])
+    }
+    #pp('codeText')
     expr <- parse(text=codeText)
     nsEnv <- environment(slot(obj,name='.Data'))
     fff <- eval(expr,nsEnv)
@@ -19,8 +24,7 @@ setMethod(
     
     Text <- findText(obj)
     #pp('Text')
-    pe(quote(prefixed.lines(codeText)))
-    l <- extract.xxx.chunks(codeText)
+    #pe(quote(prefixed.lines(codeText)))
     N<-methodDocName(genName,sig)
     
     #flat<-list()
