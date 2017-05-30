@@ -12,9 +12,7 @@ setMethod(
     srcRef <- utils::getSrcref(obj)
     codeText <- as.character(srcRef,useSource=T)
     code <- readLines(getSrcFilename(obj,full.names=TRUE))
-    pp('code')
     pos <- utils::getSrcLocation(srcRef)
-    pp('pos')
     leadingComments <- ''
     pos <- pos-1
     line <- code[pos]
@@ -27,7 +25,13 @@ setMethod(
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
     l <- extract.xxx.chunks(codeText)
-    l[['description']] <- append(leadingDesc,l[['description']])
+    pl <- prefixed.lines(codeText)
+    print('####################################################################')
+    print('####################################################################')
+    pp('codeText')
+    pl[['description']] <- append(leadingDesc,pl[['description']])
+    l[['description']] <- append(pl[['description']],l[['description']])
+    pp('l')
     #pp('codeText')
     expr <- parse(text=codeText)
     nsEnv <- environment(slot(obj,name='.Data'))

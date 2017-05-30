@@ -55,7 +55,8 @@ setMethod(
    ### Preceding lines of comment:
    definition=function#short title
    ### short description
-   (object){
+   (object ##<< an object 
+   ){
        return(object@times)
      }
 )
