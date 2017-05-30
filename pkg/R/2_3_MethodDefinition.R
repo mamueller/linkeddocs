@@ -9,13 +9,25 @@ setMethod(
     genName <- attr(obj,'generic')
     sig <-attr(obj,'defined')
     
-    srcref <- utils::getSrcref(obj)
-    codeText <- as.character(srcref,useSource=T)
-    pl <- prefixed.lines(codeText)
-    l <- extract.xxx.chunks(codeText)
-    for ( n in names(pl)){
-      l[[n]] <- append(pl[[n]],l[[n]])
+    srcRef <- utils::getSrcref(obj)
+    codeText <- as.character(srcRef,useSource=T)
+    code <- readLines(getSrcFilename(obj,full.names=TRUE))
+    pp('code')
+    pos <- utils::getSrcLocation(srcRef)
+    pp('pos')
+    leadingComments <- ''
+    pos <- pos-1
+    line <- code[pos]
+    while(grepl('^\\s*###',line) && pos >1){
+      #codeText<- c(line,codeText)
+      leadingComments<- c(line,leadingComments)
+      pos <- pos-1
+      line <- code[pos]
     }
+    leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
+    leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
+    l <- extract.xxx.chunks(codeText)
+    l[['description']] <- append(leadingDesc,l[['description']])
     #pp('codeText')
     expr <- parse(text=codeText)
     nsEnv <- environment(slot(obj,name='.Data'))

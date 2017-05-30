@@ -28,6 +28,7 @@ setMethod(
       #codeText<- c(line,codeText)
       leadingComments<- c(line,leadingComments)
     }
+    pp('leadingComments')
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
     

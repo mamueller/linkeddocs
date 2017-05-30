@@ -47,11 +47,12 @@ setMethod(
      }
 )
 #------------------------------------------------
-# the next method should appear in the help 
-# because the generic function is exported
+### This method should appear in the help 
+### because the generic function is exported
 setMethod(
    f= "exposedGeneric",
    signature="ExposedClass",
+   ### Preceding lines of comment:
    definition=function#short title
    ### short description
    (object){
