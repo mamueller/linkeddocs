@@ -28,19 +28,25 @@ setMethod(
       #codeText<- c(line,codeText)
       leadingComments<- c(line,leadingComments)
     }
-    pp('leadingComments')
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
     
     l <- extract.xxx.chunks(codeText)
-    l[['description']] <- append(leadingDesc,l[['description']])
-    l[['title']]<- gsub('^.*#','',codeText[[1]])
+    desc <- append(leadingDesc,l[['description']])
+    if ( length(desc) < 1 ){ 
+        desc <- 'no Description'
+    }
+    title <- title.from.firstline(codeText)
+  	if ( 0 == length(title) ){
+  	  title <- list(title=paste(clName,"S4 class"))
+  	}
+    l[["title"]]<-title
     on <- paste(clName,"class",sep="-")
+    l[['description']] <- desc
     l[["name"]] <-on
     l[["alias"]] <- on
     l[["docType"]] <- "class"
     l[["section{Methods}"]] <- Rd_method_lines(obj)
-    pp('l')
   	name <-attr(obj,'generic')[[1]]
     writeFlattenedListToRd(l,fn)
 }
@@ -92,7 +98,7 @@ setMethod(
           .meths.body <- c(.meths.body, "\t }")
         }else{
         .meths.body <- paste("No methods defined with class", 
-            obj@name, "in the signature.")
+            clName, "in the signature.")
         }
           
    }

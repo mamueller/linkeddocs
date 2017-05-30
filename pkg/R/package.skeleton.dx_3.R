@@ -24,14 +24,17 @@ package.skeleton.dx_3<-function(pkgDir){
 	}
 	
 	
-  if (!dir.exists(privatePackageLib)){
-    dir.create(privatePackageLib,recursive=TRUE)
-  }
-  oldLibs <- .libPaths()[]
-  on.exit(.libPaths(oldLibs))
-	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
+  #if (!dir.exists(privatePackageLib)){
+  #  dir.create(privatePackageLib,recursive=TRUE)
+  #}
+  #oldLibs <- .libPaths()[]
+  #on.exit( .libPaths(oldLibs) 
+  #)
+	#install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
+	install.packages(pkgDir,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
-	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
+	#library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
+	library(pkgName,character.only=TRUE,quietly=TRUE)
   fqPkgName <- sprintf("package:%s",pkgName)
   # Every package has two environments 
   # 1.) the package environment is where its (exported) function are bound to
@@ -86,8 +89,8 @@ package.skeleton.dx_3<-function(pkgDir){
       write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
   }
 
-  # find all functions in the package
-  objectNames<-ls(sprintf("package:%s",pkgName))
+  #### document non generic functions
+  objectNames<-ls(pkgEnv)
   funcs<-list()
   for (fn in objectNames){
     f<-eval(as.symbol(fn))
@@ -95,10 +98,40 @@ package.skeleton.dx_3<-function(pkgDir){
       funcs[[fn]]<-f
       }
   }
-  remaining_objects<-setdiff(objectNames,names(funcs))
-
-  #pe(quote(),environment())
   nonGenericNames<-setdiff(names(funcs),exportedGenNames)
+  list0 <- fixPackageFileNames(nonGenericNames)
+  names(list0) <- nonGenericNames
   nonGenerics<-funcs[nonGenericNames]
-	detach(sprintf("package:%s" ,pkgName),unload=TRUE,character.only=TRUE)
+  sapply(
+    nonGenericNames, 
+    function(funcName) {
+      obj<-get(funcName)
+      fn <- file.path(manPath, paste(list0[[funcName]],".Rd",sep=""))
+      srcRef <- utils::getSrcref(obj)
+      codeText <- as.character(srcRef,useSource=T)
+      code <- readLines(getSrcFilename(obj,full.names=TRUE))
+      pos <- utils::getSrcLocation(srcRef)
+      leadingComments <- ''
+      pos <- pos-1
+      line <- code[pos]
+      while(grepl('^\\s*###',line) && pos >1){
+        #codeText<- c(line,codeText)
+        leadingComments<- c(line,leadingComments)
+        pos <- pos-1
+        line <- code[pos]
+      }
+      leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
+      leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
+      l <- extract.xxx.chunks(codeText)
+      pl <- prefixed.lines(codeText)
+      pl[['description']] <- append(leadingDesc,pl[['description']])
+      l[['description']] <- append(pl[['description']],l[['description']])
+      l[['title']]<- title.from.firstline(codeText)
+      fdo=functionDocObject(name=funcName,l=l,functionObject=obj)
+      write_Rd_file(fdo,fn)
+    }
+  )
+  #### warn about objects that are not documented yet 
+  remaining_objects<-setdiff(objectNames,names(funcs))
+  detach(sprintf("package:%s" ,pkgName),unload=TRUE,character.only=TRUE) 
 }

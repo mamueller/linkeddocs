@@ -59,8 +59,8 @@ PrototypeTests<-R6Class("PrototypeTests",
       if (!dir.exists(cD)){
          dir.create(cD,recursive=TRUE)
        }
-      #l<-check(pkgDir,document=FALSE,quiet=TRUE,check_dir=cD)
-      #print(l)
+      l<-check(pkgDir,document=FALSE,quiet=TRUE,check_dir=cD)
+      print(l)
     }
   )
 )

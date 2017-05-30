@@ -7,15 +7,17 @@ package.skeleton.dx_2<-function(pkgDir){
   descfile <- file.path(pkgDir,"DESCRIPTION")
   #desc<-extract_description(descfile)
   pkgName <- as.character(read.dcf(descfile,fields=c('Package')))
-  ns <-  asNamespace(pkgName)
-  all<-devtools::load_all(pkgDir,export_all=F)
+  fqPkgName <- sprintf("package:%s",pkgName)
+  #ns <-  asNamespace(pkgName)
+  all<-devtools::load_all(pkgDir,export_all=FALSE)
+  pkgEnv <- as.environment(fqPkgName) 
   #print(all)
   env <- all$env
 	gens<-getGenerics(where=env) 
 	GensWithSrc<-gens[unlist(sapply(gens,GenHasSrc,pkgDir,env))]
 	
-  gens2<-getGenerics(sprintf("package:%s",pkgName)) 
-	GensWithDocMethods <- getGenerics(ns) 
+  gens2<-getGenerics(fqPkgName) 
+	GensWithDocMethods <- getGenerics(where=env)
 
   
   documentableMeths <-  documentableMeths(gens2,pkgName)
@@ -25,7 +27,7 @@ package.skeleton.dx_2<-function(pkgDir){
     dir.create(recursive=TRUE,manManPath)
   }
   for (genName in names(documentableMeths)){
-    g <- getGeneric(genName,ns)
+    g <- getGeneric(genName,pkgEnv)
     i <- 1
     for (method in documentableMeths[[genName]]){
       i <- i+1

@@ -27,7 +27,7 @@ PackageTests<-R6Class("PackageTests",
 		}
     ,
     #--------------------------------
-    test.MethodLinksForClass=function(){
+    test.ClassWithMethods=function(){
       self$checkExamplePkg("ClassWithMethods")
 		}
     ,

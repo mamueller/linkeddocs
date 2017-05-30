@@ -22,9 +22,11 @@ writeFunctionRdFiles <- function(path,docs,nsi){
   sapply(
     funNamesToDocument, 
     function(item) {
+      dl <- docs[[item]]
+      pp('dl')
       fn <- file.path(path, paste(list0[[item]],".Rd",sep=""))
       fff<-funs[[item]]
-      fdo=functionDocObject(name=item,l=docs[[item]],functionObject=fff)
+      fdo=functionDocObject(name=item,l=dl,functionObject=fff)
       write_Rd_file(fdo,fn)
     }
   )

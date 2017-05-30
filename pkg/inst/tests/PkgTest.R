@@ -26,11 +26,11 @@ PkgTest<-R6Class("PkgTest",
     }
     ,
     #----------------
-    checkExamplePkg=function(targetPkgName){
+    checkExamplePkg=function(targetPkgName,main=package.skeleton.dx){
       self$cp_package_files(targetPkgName)
       # create the documentation 
       pkgDir="pkg"
-      package.skeleton.dx(pkgDir)
+      main(pkgDir)
       
       # perform cran checks
       l<-check(pkgDir,document=FALSE,quiet=TRUE)

@@ -26,21 +26,14 @@ setMethod(
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
     l <- extract.xxx.chunks(codeText)
     pl <- prefixed.lines(codeText)
-    print('####################################################################')
-    print('####################################################################')
-    pp('codeText')
     pl[['description']] <- append(leadingDesc,pl[['description']])
     l[['description']] <- append(pl[['description']],l[['description']])
-    pp('l')
-    #pp('codeText')
     expr <- parse(text=codeText)
     nsEnv <- environment(slot(obj,name='.Data'))
     fff <- eval(expr,nsEnv)
     
     
     Text <- findText(obj)
-    #pp('Text')
-    #pe(quote(prefixed.lines(codeText)))
     N<-methodDocName(genName,sig)
     
     #flat<-list()

@@ -1,6 +1,18 @@
 #
 # vim:set ff=unix expandtab ts=2 sw=2:
 #------------------------------------------------
+### a preceding line of comment
+simpleFunc <- function(# a title
+  ### some more comments
+  x ##<< a number
+  )
+  {
+  ##<< aditional description
+  y <- x^2 ##<< an argument
+  return(y)
+  ### the result
+  }
+#------------------------------------------------
 setGeneric(
     name="hiddenGeneric",
     def=function( # convert its argument to a Delta14C representation
