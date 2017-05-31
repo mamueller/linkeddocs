@@ -30,9 +30,10 @@ package.skeleton.dx_3<-function(pkgDir){
   #oldLibs <- .libPaths()[]
   #on.exit( .libPaths(oldLibs) 
   #)
+	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
+  if(is.element(pkgName,installed.packages()){remove.packages(pkgName)}
 	#install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
 	install.packages(pkgDir,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
-	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
 	#library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
 	library(pkgName,character.only=TRUE,quietly=TRUE)
   fqPkgName <- sprintf("package:%s",pkgName)

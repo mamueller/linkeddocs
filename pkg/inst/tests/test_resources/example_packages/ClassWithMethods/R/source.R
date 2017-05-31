@@ -4,12 +4,13 @@
 ### a preceding line of comment
 simpleFunc <- function(# a title
   ### some more comments
-  x ##<< a number
+  x, ##<< a number
+  y  ##<< a number
   )
   {
   ##<< aditional description
-  y <- x^2 ##<< an argument
-  return(y)
+  z <- x^2 
+  z
   ### the result
   }
 #------------------------------------------------
@@ -70,6 +71,7 @@ setMethod(
    (object ##<< an object 
    ){
        return(object@times)
+       ### the result
      }
 )
 #---------------------------------------------------------------
