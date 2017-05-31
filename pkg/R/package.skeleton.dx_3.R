@@ -3,7 +3,7 @@
 package.skeleton.dx_3<-function(pkgDir){
 
   require(tools)
-  privatePackageLib<-file.path(pkgDir,"tmp",'lib')
+  privatePackageLib<-normalizePath(file.path(pkgDir,'..','tmp','lib'))
   pkgR<-normalizePath(file.path(pkgDir,'R'))
   codeFiles <- list.files(pkgR,full.names=TRUE)
   code<- ''
@@ -24,18 +24,26 @@ package.skeleton.dx_3<-function(pkgDir){
 	}
 	
 	
-  #if (!dir.exists(privatePackageLib)){
-  #  dir.create(privatePackageLib,recursive=TRUE)
-  #}
-  #oldLibs <- .libPaths()[]
-  #on.exit( .libPaths(oldLibs) 
-  #)
+  if (!dir.exists(privatePackageLib)){
+    dir.create(privatePackageLib,recursive=TRUE)
+  }
+  oldLibs <- .libPaths()
+  newp <- append(privatePackageLib,oldLibs)
+  .libPaths(newp)
+  pe(quote(.libPaths()))
+  on.exit( .libPaths(oldLibs) 
+  )
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
-  if(is.element(pkgName,installed.packages()){remove.packages(pkgName)}
-	#install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
+  if(is.element(pkgName,installed.packages())){
+    stop(sprintf('packgage:%s is allready installed in lib %s',pkgName,find.package(pkgName)))
+  }
+	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
+	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
+  #devtools::install(pkgDir,keep_source=TRUE)
 	install.packages(pkgDir,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
-	#library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
-	library(pkgName,character.only=TRUE,quietly=TRUE)
+	#library(pkgName,character.only=TRUE,quietly=TRUE)
+  #all<-devtools::load_all(pkgDir,export_all=FALSE)
+
   fqPkgName <- sprintf("package:%s",pkgName)
   # Every package has two environments 
   # 1.) the package environment is where its (exported) function are bound to
@@ -134,5 +142,6 @@ package.skeleton.dx_3<-function(pkgDir){
   )
   #### warn about objects that are not documented yet 
   remaining_objects<-setdiff(objectNames,names(funcs))
-  detach(sprintf("package:%s" ,pkgName),unload=TRUE,character.only=TRUE) 
+  detach(fqPkgName,unload=TRUE,character.only=TRUE) 
+  unlink(privatePackageLib,recursive=TRUE,force=TRUE)
 }
