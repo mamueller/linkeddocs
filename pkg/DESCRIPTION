@@ -9,7 +9,7 @@ Description: Generates Rd files from R source code with comments like inlinedocs
  (2) function argument names are not repeated in comments, and
  (3) examples are defined in external R code that can be tested separately.
 URL: https://github.com/mamueller/linkeddocs
-Depends: methods, utils,devtools,stringr,R (>= 2.9)
+Depends: methods, utils,devtools,roxygen2,stringr,R (>= 2.9)
 License: GPL-2 | GPL-3
 LazyLoad: yes
 Encoding: UTF-8

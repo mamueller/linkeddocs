@@ -29,17 +29,6 @@ PkgTest<-R6Class("PkgTest",
     checkExamplePkg=function(targetPkgName,main=package.skeleton.dx){
       # copy the files 
       self$cp_package_files(targetPkgName)
-      # create private library location and make it the first place to look at
-      privatePackageLib<-"tmp"
-      if (file.exists(privatePackageLib)){unlink(privatePackageLib,recursive=TRUE,force=TRUE)}
-      dir.create(privatePackageLib,recursive=TRUE)
-      oldp <- .libPaths()
-      newp <- append(privatePackageLib,oldp)
-      .libPaths(newp)
-      on.exit({
-        .libPaths(oldp) 
-        unlink(privatePackageLib,recursive=TRUE,force=TRUE)
-      })
 
       # create the documentation 
       pkgDir="pkg"
