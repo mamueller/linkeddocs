@@ -1,4 +1,4 @@
-import(methods,stringr, utils)
+import(methods,stringr, utils,roxygen2)
 
 exportPattern("^[[:alpha:]]+")
 
