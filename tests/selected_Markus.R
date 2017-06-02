@@ -15,14 +15,14 @@ source("PrototypeTests.R")
 tc<-PackageTests$new("test.SoilR")
 #tc<-PackageTests$new("test.abbriviatedSignature")
 #tc<-PackageTests$new("test.GenericWithDotDotDotArgumets")
-#tc<-PackageTests$new("test.OverloadedIndexOperator")
 #tc <- PrototypeTests$new("test.package.skeleton.dx_3")
 #tc<-PrototypeTests$new("test.correctNameSpaceInfo")
 t1 <- PackageTests$new('test.ClassWithMethods')
 t2 <- PackageTests_3$new('test.ClassWithMethods')
-#s<-TestSuite$new(list(t1))
+t1<-PackageTests$new("test.OverloadedIndexOperator")
+s<-TestSuite$new(list(t1))
 #s<-TestSuite$new(list(t2))
-s<-TestSuite$new(list(t2,t1)) # in this order the test work
+#s<-TestSuite$new(list(t2,t1)) # in this order the test work
 #s<-TestSuite$new(list(t1,t2)) # in this order the tests fail
 print(s$test_names())
 s$parallel <- 1 
