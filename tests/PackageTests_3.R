@@ -8,11 +8,11 @@ source("PkgTest_3.R")
 PackageTests_3<-R6Class("PackageTests_3",
 	inherit=PkgTest_3,
 	public=list(
-  #  #--------------------------------
-  #  test.SoilR=function(){
-  #    self$checkExamplePkg("SoilR")
-	#  }
-  #  ,
+    #--------------------------------
+    test.SoilR=function(){
+      self$checkExamplePkg("SoilR")
+	  }
+    ,
     #--------------------------------
 	  test.abbriviatedSignature=function(){
       self$checkExamplePkg("Signatures")

@@ -3,7 +3,7 @@
 package.skeleton.dx_3<-function(pkgDir){
 
   require(tools)
-  privatePackageLib<-normalizePath(file.path(pkgDir,'..','tmp','lib'))
+  privatePackageLib<-file.path(pkgDir,'..','tmp','lib')
   pkgR<-normalizePath(file.path(pkgDir,'R'))
   codeFiles <- list.files(pkgR,full.names=TRUE)
   code<- ''
@@ -31,16 +31,20 @@ package.skeleton.dx_3<-function(pkgDir){
   newp <- append(privatePackageLib,oldLibs)
   .libPaths(newp)
   pe(quote(.libPaths()))
-  on.exit( .libPaths(oldLibs) 
-  )
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
   if(is.element(pkgName,installed.packages())){
     stop(sprintf('packgage:%s is allready installed in lib %s',pkgName,find.package(pkgName)))
   }
-	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
+	#install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
+	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source")
 	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
+  on.exit({
+    .libPaths(oldLibs) 
+    detach(fqPkgName,unload=TRUE,character.only=TRUE) 
+    unlink(privatePackageLib,recursive=TRUE,force=TRUE)
+    })
+  
   #devtools::install(pkgDir,keep_source=TRUE)
-	install.packages(pkgDir,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
 	#library(pkgName,character.only=TRUE,quietly=TRUE)
   #all<-devtools::load_all(pkgDir,export_all=FALSE)
 
@@ -142,6 +146,4 @@ package.skeleton.dx_3<-function(pkgDir){
   )
   #### warn about objects that are not documented yet 
   remaining_objects<-setdiff(objectNames,names(funcs))
-  detach(fqPkgName,unload=TRUE,character.only=TRUE) 
-  unlink(privatePackageLib,recursive=TRUE,force=TRUE)
 }

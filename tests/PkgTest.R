@@ -32,10 +32,11 @@ PkgTest<-R6Class("PkgTest",
 
       # create the documentation 
       pkgDir="pkg"
-      main(pkgDir)
+      package.skeleton.dx(pkgDir)
+      #main(pkgDir)
       
       # perform cran checks
-      l<-check(pkgDir,document=FALSE,quiet=TRUE)
+      l<-check(pkgDir,document=FALSE,quiet=TRUE,cran=TRUE,check_dir='.')
       #l<-check(pkgDir,document=FALSE)
       
       #l<-list(errors=c("bla","blub"),warnings=c("foo"),notes=c("bar","foo"))

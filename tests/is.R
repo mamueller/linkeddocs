@@ -24,7 +24,7 @@ doc_and_test <- function(testName,main){
   check(path,document=FALSE,cran=TRUE)
   .libPaths(oldp)
 }
-#doc_and_test(testName,package.skeleton.dx)
 doc_and_test(testName_3,package.skeleton.dx_3)
+doc_and_test(testName,package.skeleton.dx)
 #cat(paste(readLines(file.path(path,"man","ExposedClass-class.Rd")),collapse="\n"))
 #cat(paste(readLines(file.path(path,"man","exposedGeneric.Rd")),collapse=f\n"))

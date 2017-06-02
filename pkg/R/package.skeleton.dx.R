@@ -42,7 +42,9 @@ inlinedocs.exampleTrunk="example.",
   }
   if(!file.exists(chdir))stop("need pkgdir/R, tried ",chdir)
   old.wd <- setwd(chdir)
-  on.exit(setwd(old.wd))
+  on.exit(
+ 	 setwd(old.wd)
+  )
   # PhG: R allows for specific code to be in /unix, or /windows subdirectories
   # but apparently, inlinedocs does not support this. I think it is fair to
   # stop here with an explicit error message if at least one of /unix or
@@ -104,6 +106,7 @@ inlinedocs.exampleTrunk="example.",
     on.exit(suppressWarnings({
       try(for (pkg in pkgnames)detach(paste("package", pkg, sep = ":"),
         unload = TRUE, character.only = TRUE), silent = TRUE)
+ 	setwd(old.wd)
     }), add = TRUE)
     # PhG: Shouldn't we need to check that packages are loaded and shouldn't
     # we exit with an explicit error message if not? Note: we don't use version

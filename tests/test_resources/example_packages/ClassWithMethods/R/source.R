@@ -4,12 +4,11 @@
 ### a preceding line of comment
 simpleFunc <- function(# a title
   ### some more comments
-  x, ##<< a number
-  y  ##<< a number
+  x1 ##<< a number
   )
   {
   ##<< aditional description
-  z <- x^2 
+  z <- x1^2 
   z
   ### the result
   }
@@ -29,10 +28,13 @@ setGeneric(
 g<-function( # convert its argument to a Delta14C representation
     ### This function returns an object of the same type as its imput
     ### this can be a number a matrix or an object of class FcAtm
-    object ##<< an object that contains data and a formatdescription.  So it can be converted into the AbsoluteFractionModern format if a conversion is implemented.
+      object     ##<< an object that contains data and a formatdescription.  So it can be converted into the AbsoluteFractionModern format if a conversion is implemented.
+      ,
+      somethingElse ##<< another object
     ){
         standardGeneric("exposedGeneric")
     }
+
 setGeneric(
     name="exposedGeneric",
     def=g
@@ -64,11 +66,32 @@ setMethod(
 ### because the generic function is exported
 setMethod(
    f= "exposedGeneric",
-   signature="ExposedClass",
+   signature=c("ExposedClass","numeric"),
    ### Preceding lines of comment:
    definition=function#short title
    ### short description
-   (object ##<< an object 
+   (
+     object ##<< an object 
+     ,
+     somethingElse ##<< an object 
+   ){
+       return(object@times)
+       ### the result
+     }
+)
+#------------------------------------------------
+### This method should appear in the help 
+### because the generic function is exported
+setMethod(
+   f= "exposedGeneric",
+   signature=c("character","numeric"),
+   ### Preceding lines of comment:
+   definition=function#short title
+   ### short description
+   (
+     object ##<< an object 
+     ,
+     somethingElse ##<< an object 
    ){
        return(object@times)
        ### the result
