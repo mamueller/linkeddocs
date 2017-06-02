@@ -3,7 +3,6 @@
 source("helpers.R")
 source("ExamplePkgTest.R")
 require(devtools,quiet=TRUE)
-devtools::install('../..')
 require("linkeddocs")
 PrototypeTests<-R6Class("PrototypeTests",
 	inherit=ExamplePkgTest,
