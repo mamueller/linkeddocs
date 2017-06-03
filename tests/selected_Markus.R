@@ -19,11 +19,11 @@ tc<-PackageTests$new("test.SoilR")
 #tc<-PrototypeTests$new("test.correctNameSpaceInfo")
 t1 <- PackageTests$new('test.ClassWithMethods')
 t2 <- PackageTests_3$new('test.ClassWithMethods')
-t1<-PackageTests$new("test.OverloadedIndexOperator")
-s<-TestSuite$new(list(t1))
+#t1<-PackageTests$new("test.OverloadedIndexOperator")
+#s<-TestSuite$new(list(t1))
 #s<-TestSuite$new(list(t2))
 #s<-TestSuite$new(list(t2,t1)) # in this order the test work
-#s<-TestSuite$new(list(t1,t2)) # in this order the tests fail
+s<-TestSuite$new(list(t1,t2)) # in this order the tests fail
 print(s$test_names())
 s$parallel <- 1 
 tr <- s$run()

@@ -3,7 +3,7 @@
 source("helpers.R")
 library(devtools)
 s<-get_suitefromDiscoveredTestInstances(".",".*Test.*.R")
-s$parallel <- 1
+#s$parallel <- 4
 print(s$test_names())
 tr<-s$run()
 tr$summary()
