@@ -29,6 +29,7 @@ inlinedocs.exampleTrunk,
   if(verbose)cat("Applying parsers:\n")
   for(i in seq_along(parsers)){
     N <- names(parsers[i])
+    pp("N")
     if(verbose){
       if(is.character(N) && N!=""){
         #cat(" this is parser:",N,"\n",sep="")
@@ -37,14 +38,14 @@ inlinedocs.exampleTrunk,
     p <- parsers[[i]]
     ## This is the argument list that each parser receives:
     L <- p(
-	code=code,
-	objs=objs,
-	docs=docs,
-	env=e,
-	inlinedocs.exampleDir=inlinedocs.exampleDir,
-	inlinedocs.exampleTrunk=inlinedocs.exampleTrunk,
-	...
-	)
+	    code=code,
+	    objs=objs,
+	    docs=docs,
+	    env=e,
+	    inlinedocs.exampleDir=inlinedocs.exampleDir,
+	    inlinedocs.exampleTrunk=inlinedocs.exampleTrunk,
+	    ...
+	  )
     docs <- combine(docs,L) 
   }
   ## post-process to collapse all character vectors

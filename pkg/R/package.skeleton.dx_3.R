@@ -137,8 +137,10 @@ package.skeleton.dx_3<-function(pkgDir){
       leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
       l <- extract.xxx.chunks(codeText)
       pl <- prefixed.lines(codeText)
+      pp('pl')
       pl[['description']] <- append(leadingDesc,pl[['description']])
-      l[['description']] <- append(pl[['description']],l[['description']])
+      #l[['description']] <- append(pl[['description']],l[['description']])
+      l <- combine(l,pl)
       tit_list <- title.from.firstline(codeText)
       #fixme mm:
       # at the moment title.from.firstline(codeText) returns a list
