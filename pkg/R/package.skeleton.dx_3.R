@@ -139,7 +139,13 @@ package.skeleton.dx_3<-function(pkgDir){
       pl <- prefixed.lines(codeText)
       pl[['description']] <- append(leadingDesc,pl[['description']])
       l[['description']] <- append(pl[['description']],l[['description']])
-      l[['title']]<- title.from.firstline(codeText)
+      tit_list <- title.from.firstline(codeText)
+      #fixme mm:
+      # at the moment title.from.firstline(codeText) returns a list
+      # which is unnecessary, it should be changed to a character vector or NULL
+      # as soon as the old version is not needed any more
+      if(is.null(tit_list[['title']])){tit_list <- funcName}
+      l[['title']] <- tit_list
       fdo=functionDocObject(name=funcName,l=l,functionObject=obj)
       write_Rd_file(fdo,fn)
     }

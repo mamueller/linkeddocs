@@ -12,8 +12,16 @@ setMethod(
     for ( n in names(pl)){
       l[[n]] <- append(pl[[n]],l[[n]])
     }
-    l[['title']]<- title.from.firstline(codeText)
+    tit_list <- title.from.firstline(codeText)
   	name <-attr(obj,'generic')[[1]]
+    #fixme mm:
+    # at the moment title.from.firstline(codeText) returns a list
+    # which is unnecessary, it should be changed to a character vector or NULL
+    # as soon as the old version is not needed any more
+  	if ( is.null(tit_list[['title']]) ){
+  	  tit_list <- list(title=paste(name,"generic function"))
+  	}
+    l[["title"]]<-tit_list
     fff <- obj
     fdo=genericFunctionDocObject(name=name,l=l,functionObject=fff)
     write_Rd_file(fdo,fn)

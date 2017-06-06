@@ -23,24 +23,29 @@ setMethod(
     leadingComments <- ''
     line <- code[pos-1]
     while(grepl('^\\s*###',line) && pos >1){
+      leadingComments<- c(line,leadingComments)
       pos <- pos-1
       line <- code[pos]
       #codeText<- c(line,codeText)
-      leadingComments<- c(line,leadingComments)
     }
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
+    pp('leadingDesc')
     
     l <- extract.xxx.chunks(codeText)
     desc <- append(leadingDesc,l[['description']])
     if ( length(desc) < 1 ){ 
         desc <- 'no Description'
     }
-    title <- title.from.firstline(codeText)
-  	if ( 0 == length(title) ){
-  	  title <- list(title=paste(clName,"S4 class"))
+    tit_list <- title.from.firstline(codeText)
+    #fixme mm:
+    # at the moment title.from.firstline(codeText) returns a list
+    # which is unnecessary, it should be changed to a character vector or NULL
+    # as soon as the old version is not needed any more
+  	if ( is.null(tit_list[['title']]) ){
+  	  tit_list <- list(title=paste(clName,"S4 class"))
   	}
-    l[["title"]]<-title
+    l[["title"]]<-tit_list
     on <- paste(clName,"class",sep="-")
     l[['description']] <- desc
     l[["name"]] <-on
