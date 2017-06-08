@@ -1,0 +1,55 @@
+#	1_combine.R
+#	1_genericFunctions.R
+#	1_title.from.firstline.R
+#	2_1_DocOject.R
+#	2_2_functionDocObject.R
+#	2_2_genericFunctionDocObject.R
+#	2_2_methodDocObject.R
+#	2_3_MethodDefinition.R
+#	2_4_nonstandardGenericFunction.R
+#	2_5_classRepresentation.R
+#	4_GenHasSrc.R
+#	arglistStr.R
+#	classDocObjects.R
+#	classInSig.R
+#	deathlist
+#	deprecated
+#	documentableMeths.R
+#	escape.R
+#	extract_code.R
+#	extract_description.R
+#	extract.docs.file.R
+#	extract.docs.lines.R
+#	extract.docs.setMethod.R
+#	extract.xxx.chunks.R
+#	fakePackageName.R
+findText.R
+GenHasAnyExposedMethod.R
+GenHasAnyMethodWithSrc.R
+genWithClass.R
+mask_special_Rd_characters.R
+methodDocName.R
+MethodHasSrc.R
+mmPromptMethods.R
+not_used
+package.skeleton.dx_1.R
+package.skeleton.dx_2.R
+package.skeleton.dx_3.R
+package.skeleton.dx.R
+parsers.R
+pastePar.R
+pkgRPath.R
+remove_comments_from_Rd_list.R
+sigList.R
+testhelpers.R
+unWrapArgName.R
+utils.R
+warnArgs.R
+wrapArgName.R
+writeClassRdFiles.R
+writeFlattenedListToRd.R
+writeFunctionRdFiles.R
+writeGenericFunctionRdFiles.R
+writeMethodRdFiles.R
+writeMethodTableRdFiles.R
+writePackageRdFile.R
