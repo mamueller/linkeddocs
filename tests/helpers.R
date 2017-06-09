@@ -1,8 +1,6 @@
 
 ## vim:set ff=unix expandtab ts=2 sw=2:
 library(R6Unit,quiet=TRUE)
-require(devtools,quiet=TRUE)
-require(getopt,quiet=TRUE)
 mmsg=function(){"################## mm ####################"}
 #------------------------------------------------------------------------------
 writeDescriptionFile<-function(Depends=NULL,pkgName="ExamplePackage",pkgDir="."){
