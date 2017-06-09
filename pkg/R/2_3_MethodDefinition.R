@@ -33,7 +33,6 @@ setMethod(
     fff <- eval(expr,nsEnv)
     
     
-    Text <- findText(obj)
     N<-methodDocName(genName,sig)
     
     #flat<-list()
