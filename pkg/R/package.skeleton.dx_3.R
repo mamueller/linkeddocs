@@ -32,7 +32,16 @@ package.skeleton.dx_3<-function(pkgDir){
   .libPaths(newp)
   pe(quote(.libPaths()))
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
-  if(is.element(pkgName,installed.packages())){
+  ip <- tryCatch(
+    installed.packages(),
+    error=function(e){e}
+  )
+  if (inherits(ip,'simpleError'){
+    Sys.sleep(1) 
+    ip <- installed.packages
+  }
+
+  if(is.element(pkgName,ip)){
     stop(sprintf('packgage:%s is allready installed in lib %s',pkgName,find.package(pkgName)))
   }
 	#install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
