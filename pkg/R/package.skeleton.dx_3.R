@@ -36,7 +36,7 @@ package.skeleton.dx_3<-function(pkgDir){
     installed.packages(),
     error=function(e){e}
   )
-  if (inherits(ip,'simpleError'){
+  if (inherits(ip,'simpleError')){
     Sys.sleep(1) 
     ip <- installed.packages
   }
