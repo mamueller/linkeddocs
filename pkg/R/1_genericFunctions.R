@@ -42,3 +42,4 @@ setGeneric(
     standardGeneric("Rd_example_lines")
   }
 )
+ 
