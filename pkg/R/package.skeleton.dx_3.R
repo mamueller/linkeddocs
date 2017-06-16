@@ -14,6 +14,9 @@ package.skeleton.dx_3<-function(pkgDir){
   if (!file.exists(manManPath)){
     dir.create(recursive=TRUE,manManPath)
   }
+  for (fn in list.files(manManPath)){
+  	file.copy(file.path(manManPath,fn),manPath,recursive=TRUE,overwrite=TRUE)
+  }
  
   classInSig <- function(g,  cl) {
       cl %in% dm[[g]]@signatures

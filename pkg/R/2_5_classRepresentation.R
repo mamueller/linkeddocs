@@ -52,6 +52,7 @@ setMethod(
     l[["alias"]] <- on
     l[["docType"]] <- "class"
     l[["section{Methods}"]] <- Rd_method_lines(obj)
+    if (!is.null(Rd_subclass_lines(obj))){ l[["section{Subclasses}"]] <- Rd_subclass_lines(obj) }
   	name <-attr(obj,'generic')[[1]]
     writeFlattenedListToRd(l,fn)
 }
@@ -108,3 +109,16 @@ setMethod(
           
    }
 )
+Rd_subclass_lines<-function(obj){
+  l <- NULL
+  #pkg <- attr(obj,"package")
+  scs <- attr(obj,"subclasses")
+  if (length(scs)>0){
+    l<-'\\describe{'
+    for(scn in names(scs)){
+      l<- c(l,sprintf('\t\\code{\\link{%s-class}}\\cr',scn))
+    }
+    l<- c(l, "}")
+  }
+  return(l)
+}
