@@ -6,8 +6,8 @@ setMethod(
   signature=signature(obj="MethodDefinition"),
   def=function(obj,fn,exampleDir=NULL,exampleTrunk=NULL){
     
-    genName <- attr(obj,'generic')
-    sig <-attr(obj,'defined')
+    genName <- obj@generic
+    sig <-obj@defined
     
     srcRef <- utils::getSrcref(obj)
     codeText <- as.character(srcRef,useSource=T)

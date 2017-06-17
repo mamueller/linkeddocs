@@ -35,6 +35,7 @@ package.skeleton.dx_3<-function(pkgDir){
   .libPaths(newp)
   pe(quote(.libPaths()))
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
+  fqPkgName <- sprintf("package:%s",pkgName)
 	#install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source")
 	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
@@ -48,7 +49,6 @@ package.skeleton.dx_3<-function(pkgDir){
 	#library(pkgName,character.only=TRUE,quietly=TRUE)
   #all<-devtools::load_all(pkgDir,export_all=FALSE)
 
-  fqPkgName <- sprintf("package:%s",pkgName)
   # Every package has two environments 
   # 1.) the package environment is where its (exported) function are bound to
   pkgEnv <- as.environment(fqPkgName) 
@@ -66,7 +66,6 @@ package.skeleton.dx_3<-function(pkgDir){
   # we find all generics for which at least one  method is defined by the package
   # because we have to document it if it is exported
 	GensWithDocMethods<-exportedGenNames[unlist(sapply(exportedGenNames,GenHasAnyMethodWithSrc,pkgDir))]
-  #pp('GensWithDocMethods')
 
 	
 	for (genName in GensWithDocMethods){
@@ -84,7 +83,6 @@ package.skeleton.dx_3<-function(pkgDir){
     # package. Some like [, [[, $ have been there before.
     # Only the generics in the package need their own Rd file
     if (GenHasSrc(genName,pkgDir,pkgEnv)){
-      #pp('genName')  
       #pe(quote(class(getGeneric(genName))))  
       write_Rd_file(
         getGeneric(genName),

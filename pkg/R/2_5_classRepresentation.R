@@ -5,7 +5,7 @@ setMethod(
   f="write_Rd_file",
   signature=signature(obj="classRepresentation"),
   def=function(obj,fn,exampleDir=NULL,exampleTrunk=NULL,code){
-    clName <-attr(obj,'className')[[1]]
+    clName <-obj@className[[1]]
     # since  srcref does not work for classdefinitions yet we have to find the appropriate piece of code ourselves
     expressions <-  exprs <- parse(text=code,keep.source=TRUE)
     chunks <- attr(exprs,'srcref')
@@ -46,13 +46,23 @@ setMethod(
   	  tit_list <- list(title=paste(clName,"S4 class"))
   	}
     l[["title"]]<-tit_list
-    on <- paste(clName,"class",sep="-")
+    on <- sprintf("%s-class",clName)
     l[['description']] <- desc
     l[["name"]] <-on
     l[["alias"]] <- on
     l[["docType"]] <- "class"
     l[["section{Methods}"]] <- Rd_method_lines(obj)
-    if (!is.null(Rd_subclass_lines(obj))){ l[["section{Subclasses}"]] <- Rd_subclass_lines(obj) }
+
+    cl <- Rd_subclass_lines(obj)
+    if (!(is.null(cl))){ 
+      l[["section{Subclasses}"]] <- cl
+    }
+    
+    cl <- Rd_constructor_lines(obj)
+    if (!is.null(cl)){ 
+      l[["section{Constructors}"]] <- cl
+    }
+    
   	name <-attr(obj,'generic')[[1]]
     writeFlattenedListToRd(l,fn)
 }
@@ -109,10 +119,11 @@ setMethod(
           
    }
 )
+#-------------------------------------------------------------------------
 Rd_subclass_lines<-function(obj){
   l <- NULL
   #pkg <- attr(obj,"package")
-  scs <- attr(obj,"subclasses")
+  scs <- obj@subclasses
   if (length(scs)>0){
     l<-'\\describe{'
     for(scn in names(scs)){
@@ -120,5 +131,33 @@ Rd_subclass_lines<-function(obj){
     }
     l<- c(l, "}")
   }
+  return(l)
+}
+#-------------------------------------------------------------------------
+Rd_constructor_lines<-function(obj){
+  l <- NULL
+  clName <-obj@className[[1]]
+  if (obj@virtual){
+    constructorName <- sprintf('%sSubClassInstance',clName)
+  }else{
+    constructorName <- clName
+  }
+  pp('constructorName')
+	fqpkgName <- sprintf('package:%s',obj@package)
+  possibleConstructor<- tryCatch(
+    getFunction(constructorName,where=as.environment(fqpkgName))
+    ,
+    error=function(e){e}
+  )
+  if (! inherits(possibleConstructor,'simpleError')){
+    l<- as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName))
+  }
+  #if(clName=='DecompOp'){
+  #  pp('l')
+  #  pp('constructorName')
+  #  pe(quote(class(possibleConstructor)))
+  #  pe(quote(as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName))))
+  #  stop()
+  #}
   return(l)
 }

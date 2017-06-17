@@ -57,7 +57,23 @@ setMethod(
       obj
       )
       {
-        return(sprintf("\\code{\\link{%s-methods}}",obj@name))
+        functionObject=obj@functionObject
+        genName <-functionObject@generic
+        pkgName<-functionObject@package
+        l <- NULL
+
+        fqPkgName <- sprintf("package:%s",pkgName)
+        pkgEnv <- as.environment(fqPkgName) 
+		    meths<- findMethods(genName,where=pkgEnv)
+        for (m in meths){
+          sig <-m@defined
+          N<-methodDocName(genName,sig)
+          l<- c(l,sprintf('\t\\code{\\link{%s}}\\cr',N))
+          if (genName=='DecompOpSubClassInstance'){
+            pp('l')
+          }
+        }
+        return(l)
       }
 )
 #-------------------------------------------------------------------------
@@ -84,8 +100,8 @@ setMethod(
     args<-Rd_argument_lines(obj)
     if (!is.null(args)){flat[["arguments"]]<-args} 
 
-    #methods<-Rd_method_lines(obj)
-    #if (!is.null(methods)){flat[["methods"]]<-methods} 
+    meths<-Rd_method_lines(obj)
+    if (!is.null(meths)){flat[["section{Methods}"]]<-meths} 
     # add the parts from d that could be extracted 
     target_secs<-c("title","description","references","note","value")
     for (sec in target_secs){
