@@ -15,7 +15,7 @@ setMethod(
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_argument_lines",
-  signature=signature(obj="docObject"),
+  signature=signature(obj="genericFunctionDocObject"),
   definition=function(obj){
     d=obj@l
     functionObject=obj@functionObject
@@ -69,9 +69,6 @@ setMethod(
           sig <-m@defined
           N<-methodDocName(genName,sig)
           l<- c(l,sprintf('\t\\code{\\link{%s}}\\cr',N))
-          if (genName=='DecompOpSubClassInstance'){
-            pp('l')
-          }
         }
         return(l)
       }

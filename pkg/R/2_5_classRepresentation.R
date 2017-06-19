@@ -30,7 +30,6 @@ setMethod(
     }
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
-    pp('leadingDesc')
     
     l <- extract.xxx.chunks(codeText)
     desc <- append(leadingDesc,l[['description']])
@@ -60,7 +59,7 @@ setMethod(
     
     cl <- Rd_constructor_lines(obj)
     if (!is.null(cl)){ 
-      l[["section{Constructors}"]] <- cl
+      l[["section{Constructors found by naming convention}"]] <- cl
     }
     
   	name <-attr(obj,'generic')[[1]]
@@ -91,7 +90,6 @@ setMethod(
           for (i in 1L:nmeths) {
               
               .sig <- sigsList(methnms[i], where = pkgEnv)
-             # pp(".sig")
               for (j in seq_along(.sig)) {
                   # find signatures containing the class we are documenting
                   msigs=match(.sig[[j]], clName)
@@ -137,27 +135,32 @@ Rd_subclass_lines<-function(obj){
 Rd_constructor_lines<-function(obj){
   l <- NULL
   clName <-obj@className[[1]]
+	fqpkgName <- sprintf('package:%s',obj@package)
   if (obj@virtual){
+    # this is a convention 
     constructorName <- sprintf('%sSubClassInstance',clName)
+    possibleConstructor<- tryCatch(
+      getFunction(constructorName,where=as.environment(fqpkgName))
+      ,
+      error=function(e){e}
+    )
+    if (! inherits(possibleConstructor,'simpleError')){
+      l <- c('Since the class is virtual it can not be instanciated directly, but a function:')
+      l<-c(l, as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
+      l <- c(l,'has been found, that produces instances of subclasses.
+             Please also look at constructors of non virtual subclasses ')
+    }
   }else{
     constructorName <- clName
+    possibleConstructor<- tryCatch(
+      getFunction(constructorName,where=as.environment(fqpkgName))
+      ,
+      error=function(e){e}
+    )
+    if (! inherits(possibleConstructor,'simpleError')){
+      l <- c(as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
+      l <- c(l,' Please also look at constructors of non virtual subclasses ')
+    }
   }
-  pp('constructorName')
-	fqpkgName <- sprintf('package:%s',obj@package)
-  possibleConstructor<- tryCatch(
-    getFunction(constructorName,where=as.environment(fqpkgName))
-    ,
-    error=function(e){e}
-  )
-  if (! inherits(possibleConstructor,'simpleError')){
-    l<- as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName))
-  }
-  #if(clName=='DecompOp'){
-  #  pp('l')
-  #  pp('constructorName')
-  #  pe(quote(class(possibleConstructor)))
-  #  pe(quote(as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName))))
-  #  stop()
-  #}
   return(l)
 }

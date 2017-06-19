@@ -10,21 +10,18 @@ package.skeleton.dx_3<-function(pkgDir){
   for (fn in codeFiles){code <- append(code,readLines(fn))}
 
   manPath <- file.path(pkgDir,'man')
-  manManPath <- file.path(manPath,'manMan')
-  if (!file.exists(manManPath)){
-    dir.create(recursive=TRUE,manManPath)
-  }
-  for (fn in list.files(manManPath)){
-  	file.copy(file.path(manManPath,fn),manPath,recursive=TRUE,overwrite=TRUE)
-  }
+  lapply(
+     list.files(full.names = TRUE ,manPath,recursive = FALSE,patter='*.Rd'),
+     unlink
+  )
  
-  classInSig <- function(g,  cl) {
-      cl %in% dm[[g]]@signatures
-  }
-	### get at the src of a method given as  an MethodDefinition object
-	methSrc=function(MethodDefinition){
-		getSrcref(unRematchDefinition(MethodDefinition))
-	}
+  #classInSig <- function(g,  cl) {
+  #    cl %in% dm[[g]]@signatures
+  #}
+	##### get at the src of a method given as  an MethodDefinition object
+	#methSrc=function(MethodDefinition){
+	#	getSrcref(unRematchDefinition(MethodDefinition))
+	#}
 	
 	
   if (!dir.exists(privatePackageLib)){
@@ -135,7 +132,6 @@ package.skeleton.dx_3<-function(pkgDir){
       leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
       l <- extract.xxx.chunks(codeText)
       pl <- prefixed.lines(codeText)
-      pp('pl')
       pl[['description']] <- append(leadingDesc,pl[['description']])
       #l[['description']] <- append(pl[['description']],l[['description']])
       l <- combine(l,pl)
@@ -152,4 +148,12 @@ package.skeleton.dx_3<-function(pkgDir){
   )
   #### warn about objects that are not documented yet 
   remaining_objects<-setdiff(objectNames,names(funcs))
+
+  #### copy the manMan Files back
+  manManPath <- file.path(manPath,'manMan')
+  if (file.exists(manManPath)){
+    for (fn in list.files(manManPath)){
+  	  file.copy(file.path(manManPath,fn),manPath,recursive=TRUE,overwrite=TRUE)
+    }
+  }
 }
