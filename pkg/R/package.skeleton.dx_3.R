@@ -10,11 +10,14 @@ package.skeleton.dx_3<-function(pkgDir){
   for (fn in codeFiles){code <- append(code,readLines(fn))}
 
   manPath <- file.path(pkgDir,'man')
-  lapply(
-     list.files(full.names = TRUE ,manPath,recursive = FALSE,patter='*.Rd'),
-     unlink
-  )
- 
+  if (!file.exists(manPath)){
+    dir.create(recursive=TRUE,manPath)
+  }else{
+    lapply(
+       list.files(full.names = TRUE ,manPath,recursive = FALSE,patter='*.Rd'),
+      unlink
+    )
+  }
   #classInSig <- function(g,  cl) {
   #    cl %in% dm[[g]]@signatures
   #}
@@ -97,7 +100,7 @@ package.skeleton.dx_3<-function(pkgDir){
       write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
   }
 
-  #### document non generic functions
+  #### document non generic functions
   objectNames<-ls(pkgEnv)
   funcs<-list()
   for (fn in objectNames){
