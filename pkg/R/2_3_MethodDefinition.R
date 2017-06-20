@@ -2,6 +2,17 @@
 ## vim:set ff=unix expandtab ts=2 sw=2:
 #-------------------------------------------------------------------------
 setMethod(
+  f="exampleFileName",
+  signature=signature(obj="MethodDefinition"),
+  def=function(obj,id){
+    sig <- obj@defined
+    Nme <-fixPackageFileNames(paste(genName,"-method_",digest(as.character(sig)),sep=""))
+    return(paste('example',Nme,sep='.'))
+  }
+)
+
+#-------------------------------------------------------------------------
+setMethod(
   f="write_Rd_file",
   signature=signature(obj="MethodDefinition"),
   def=function(obj,fn,exampleDir=NULL,exampleTrunk=NULL){

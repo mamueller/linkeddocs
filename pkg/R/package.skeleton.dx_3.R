@@ -3,6 +3,7 @@
 package.skeleton.dx_3<-function(pkgDir){
 
   require(tools)
+  require(digest)
   privatePackageLib<-file.path(pkgDir,'..','tmp','lib')
   pkgR<-normalizePath(file.path(pkgDir,'R'))
   codeFiles <- list.files(pkgR,full.names=TRUE)
@@ -18,14 +19,6 @@ package.skeleton.dx_3<-function(pkgDir){
       unlink
     )
   }
-  #classInSig <- function(g,  cl) {
-  #    cl %in% dm[[g]]@signatures
-  #}
-	##### get at the src of a method given as  an MethodDefinition object
-	#methSrc=function(MethodDefinition){
-	#	getSrcref(unRematchDefinition(MethodDefinition))
-	#}
-	
 	
   if (!dir.exists(privatePackageLib)){
     dir.create(privatePackageLib,recursive=TRUE)
@@ -72,9 +65,9 @@ package.skeleton.dx_3<-function(pkgDir){
 		meths<- findMethods(genName,where=pkgEnv)
     i <- 1
     for (m in meths){
-      #pp('m')
-      #pe(quote(class(m)))
-      Nme <-fixPackageFileNames(paste(genName,"-method_",toString(i),sep=""))
+      #Nme <-fixPackageFileNames(paste(genName,"-method_",toString(i),sep=""))
+      sig <- m@defined
+      Nme <-fixPackageFileNames(paste(genName,"-method_",digest(as.character(sig)),sep=""))
       p=file.path(manPath,paste(Nme,".Rd",sep=""))
       write_Rd_file(m,p)
       i <- i+1

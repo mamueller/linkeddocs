@@ -42,6 +42,15 @@ setGeneric(
     standardGeneric("Rd_example_lines")
   }
 )
- 
+setGeneric(
+  name="exampleFileName",
+  def=function
+  (
+  obj,
+  id
+  ){
+    standardGeneric("exampleFileName")
+  }
+) 
  
  
