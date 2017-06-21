@@ -70,6 +70,9 @@ setMethod(
    ### Preceding lines of comment:
    definition=function#short title
    ### short description
+   ##examples<<
+   ## eci <- new(Class="ExposedClass",1:4)
+   ## exposedGeneric(eci,3)
    (
      object ##<< an object 
      ,
@@ -113,7 +116,6 @@ setMethod(### for [ (and others [[,$...) documentation is required although the 
     ##anotherFunnySection<<
     ## whatever you want
   2 ##<< the result of the get[[PropertyName]] method
-    ##sigHash<<45e6a2d5c738352283ff20e4fcd6c650
   }
 )
 

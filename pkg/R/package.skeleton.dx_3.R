@@ -66,8 +66,7 @@ package.skeleton.dx_3<-function(pkgDir){
     i <- 1
     for (m in meths){
       #Nme <-fixPackageFileNames(paste(genName,"-method_",toString(i),sep=""))
-      sig <- m@defined
-      Nme <-fixPackageFileNames(paste(genName,"-method_",digest(as.character(sig)),sep=""))
+      Nme <- uniqueMethodFileNameTrunk(m) 
       p=file.path(manPath,paste(Nme,".Rd",sep=""))
       write_Rd_file(m,p)
       i <- i+1

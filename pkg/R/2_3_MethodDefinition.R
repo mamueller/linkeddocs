@@ -5,8 +5,7 @@ setMethod(
   f="exampleFileName",
   signature=signature(obj="MethodDefinition"),
   def=function(obj,id){
-    sig <- obj@defined
-    Nme <-fixPackageFileNames(paste(genName,"-method_",digest(as.character(sig)),sep=""))
+    Nme <- uniqueMethodFileNameTrunk(obj) 
     return(paste('example',Nme,sep='.'))
   }
 )
