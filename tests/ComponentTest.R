@@ -7,8 +7,6 @@ ComponentTest<-R6Class("ComponentTest",
 	#inherit=InDirTest,
 	inherit=ExamplePkgTest,
   public=list(
-    targetPkgName=""
-    ,
     #----------------
     evalWithExamplePackageLoaded=function(targetPkgName,expr){
       # copy the files 
@@ -19,11 +17,15 @@ ComponentTest<-R6Class("ComponentTest",
     ,
     #----------------
     test.exampleExtractionFromComments=function(){
+        print(.libPaths())
         self$evalWithExamplePackageLoaded(
         'ClassWithMethods'
         ,
         quote({
-          m1=findMethods(exposedGeneric)[[1]]
+          print('Markus')
+          meths <- findMethods(exposedGeneric)
+          sig=meths[[1]]@defined
+          print(sig)
         })
       )
     }
@@ -31,6 +33,7 @@ ComponentTest<-R6Class("ComponentTest",
 )
 ############################################ 
 if(is.null(sys.calls()[[sys.nframe()-1]])){
+  source("helpers.R")
   s=get_suite_from_file(get_Rscript_filename())
   s$parallel <- 1 
   tr<-s$run()
