@@ -27,7 +27,7 @@ extract.xxx.chunks <- function # Extract documentation from a function
 
   skeleton.fields <- c("alias","details","keyword","references","author",
                        "note","seealso","value","title","description",
-                       "describe","end")
+                       "describe","end","examples")
   ##details<< Additionally, consecutive sections of \code{##} comment
   ## lines beginning with \code{##}\emph{xxx}\code{<<} (where
   ## \emph{xxx} is one of the fields: \code{alias}, \code{details},

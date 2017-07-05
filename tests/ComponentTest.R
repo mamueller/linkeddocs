@@ -11,23 +11,36 @@ ComponentTest<-R6Class("ComponentTest",
     evalWithExamplePackageLoaded=function(targetPkgName,expr){
       # copy the files 
       self$cp_package_files(targetPkgName)
-      devtools::install('pkg')
+      devtools::install('pkg',keep_source=TRUE)
       evalWithPackageLoaded(targetPkgName,expr)
     }
     ,
     #----------------
     test.exampleExtractionFromComments=function(){
         print(.libPaths())
-        self$evalWithExamplePackageLoaded(
+        res <- self$evalWithExamplePackageLoaded(
         'ClassWithMethods'
         ,
         quote({
-          print('Markus')
           meths <- findMethods(exposedGeneric)
+          targetSig <- signature("ExposedClass","numeric")
           sig=meths[[1]]@defined
-          print(sig)
+          meth <- getMethod(exposedGeneric,targetSig)
+          pe(quote(meth@defined))
+          srcRef <- utils::getSrcref(meth)
+          codeText <- as.character(srcRef,useSource=T)
+          pp('codeText')
+          l <- extract.xxx.chunks(codeText)
+          l
         })
       )
+
+      pe(quote(res[['examples']]))
+      ref=as.character('
+        eci <- new(Class="ExposedClass",1:4)
+        exposedGeneric(eci,3)
+      ')
+      self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
     }
   )
 )
