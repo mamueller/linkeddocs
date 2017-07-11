@@ -6,7 +6,7 @@ evalWithPackageLoaded <- function(pkgName,expr){
   if (succ){
     myEnv=new.env()
     res <- eval(expr,envir=myEnv)
-    detach(fqN(pkgName),character.only=TRUE,unload=TRUE)
+    detach(sprintf('package:%s',pkgName),character.only=TRUE,unload=TRUE)
   }
   return(res)
 }

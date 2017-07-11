@@ -42,6 +42,34 @@ ComponentTest<-R6Class("ComponentTest",
       ')
       self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
     }
+    ,
+    #----------------
+    test.AWBmodelexample=function(){
+        print(.libPaths())
+        res <- self$evalWithExamplePackageLoaded(
+          'SoilR'
+          ,
+          quote({
+            funcName <-'AWBmodel' 
+            func <- get(funcName)
+            srcRef <- utils::getSrcref(func)
+            codeText <- as.character(srcRef,useSource=T)
+            l <- extract.xxx.chunks(codeText)
+            fdo <- functionDocObject(name=funcName,l=l,functionObject=func)
+            fdo
+          })
+      )
+
+      pe(quote(class(res)))
+      pe(quote(names(res@l)))
+      pe(quote(res@l[['examples']]))
+
+      #ref=as.character('
+      #  eci <- new(Class="ExposedClass",1:4)
+      #  exposedGeneric(eci,3)
+      #')
+      #self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
+    }
   )
 )
 ############################################ 

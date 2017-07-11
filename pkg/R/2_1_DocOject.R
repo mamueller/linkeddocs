@@ -90,7 +90,8 @@ setMethod(
     args<-Rd_argument_lines(obj)
     if (!is.null(args)){flat[["arguments"]]<-args} 
     # add the parts from d that could be extracted 
-    target_secs<-c("title","description","details","references","note","seealso","value")
+    #target_secs<-c("title","description","details","references","note","seealso","value","examples")
+    target_secs<-RdTargetSections()
     for (sec in target_secs){
       if (is.element(sec,names(d))){
         flat[[sec]]<-d[[sec]]
