@@ -44,7 +44,7 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleFunctionFromFiles <- function(){
+    test.exampleFunctionFromFiles=function(){
       res <-exampleFromFiles
       ref=as.character('
         eci <- new(Class="ExposedClass",1:4)

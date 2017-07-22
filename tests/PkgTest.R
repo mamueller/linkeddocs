@@ -36,8 +36,8 @@ PkgTest<-R6Class("PkgTest",
       #main(pkgDir)
       
       # perform cran checks
-      l<-check(pkgDir,document=FALSE,quiet=TRUE,cran=TRUE,check_dir='.')
-      #l<-check(pkgDir,document=FALSE)
+      #l<-check(pkgDir,document=FALSE,quiet=TRUE,cran=TRUE,check_dir='.')
+      l<-check(pkgDir,document=FALSE)
       
       #l<-list(errors=c("bla","blub"),warnings=c("foo"),notes=c("bar","foo"))
       #l<-check(pkgDir,document=FALSE,quiet=FALSE)
