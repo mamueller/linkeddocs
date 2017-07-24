@@ -16,7 +16,7 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleExtractionFromComments=function(){
+    test.exampleExtractionFromComments=function(SKIP){
         print(.libPaths())
         res <- self$evalWithExamplePackageLoaded(
         'ClassWithMethods'
@@ -44,7 +44,7 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleFunctionFromFiles=function(){
+    test.exampleFunctionFromFiles=function(SKIP){
       res <-exampleFromFiles
       ref=as.character('
         eci <- new(Class="ExposedClass",1:4)
