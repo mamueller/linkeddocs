@@ -12,9 +12,9 @@ setMethod(
 
 #-------------------------------------------------------------------------
 setMethod(
-  f="write_Rd_file",
+  f="get_docObject",
   signature=signature(obj="MethodDefinition"),
-  def=function(obj,fn,exampleDir=NULL,exampleTrunk=NULL){
+  def=function(obj){
     
     genName <- obj@generic
     sig <-obj@defined
@@ -56,6 +56,15 @@ setMethod(
       src=codeText,
       functionObject=fff
     ) 
+    return(mdo)
+    }
+)    
+#-------------------------------------------------------------------------
+setMethod(
+  f="write_Rd_file",
+  signature=signature(obj="MethodDefinition"),
+  def=function(obj,fn,exampleDir=NULL,exampleTrunk=NULL){
+    mdo <- get_docObject(obj)
     write_Rd_file(mdo,fn)
     }
 )    

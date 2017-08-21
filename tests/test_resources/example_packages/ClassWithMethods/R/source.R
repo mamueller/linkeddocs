@@ -73,9 +73,9 @@ setMethod(
    ##examples<<
    ## eci <- new(Class="ExposedClass",1:4)
    ## exposedGeneric(eci,3)
-   ##exampleFunction<< test.exposedGeneric 
-   ## eci <- new(Class="ExposedClass",1:4)
-   ## exposedGeneric(eci,3)
+   
+   ##exampleFunctionsFromFiles<< 
+   ##inst/examples/examples_1.R  test.exposedGeneric 
    (
      object ##<< an object 
      ,

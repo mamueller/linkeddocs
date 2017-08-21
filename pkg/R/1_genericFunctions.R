@@ -52,5 +52,13 @@ setGeneric(
     standardGeneric("exampleFileName")
   }
 ) 
- 
+setGeneric(
+  name='get_docObject',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('get_docObject')
+  }
+)
  

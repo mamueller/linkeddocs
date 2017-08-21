@@ -4,7 +4,6 @@ require(linkeddocs)
 require(R6Unit)
 source("ExamplePkgTest.R")
 ComponentTest<-R6Class("ComponentTest",
-	#inherit=InDirTest,
 	inherit=ExamplePkgTest,
   public=list(
     #----------------
@@ -16,8 +15,7 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleExtractionFromComments=function(SKIP){
-        print(.libPaths())
+    test.exampleExtractionFromComments=function(){
         res <- self$evalWithExamplePackageLoaded(
         'ClassWithMethods'
         ,
@@ -26,16 +24,12 @@ ComponentTest<-R6Class("ComponentTest",
           targetSig <- signature("ExposedClass","numeric")
           sig=meths[[1]]@defined
           meth <- getMethod(exposedGeneric,targetSig)
-          pe(quote(meth@defined))
           srcRef <- utils::getSrcref(meth)
           codeText <- as.character(srcRef,useSource=T)
-          pp('codeText')
           l <- extract.xxx.chunks(codeText)
           l
         })
       )
-
-      pe(quote(res[['examples']]))
       ref=as.character('
         eci <- new(Class="ExposedClass",1:4)
         exposedGeneric(eci,3)
@@ -44,13 +38,30 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleFunctionFromFiles=function(SKIP){
-      res <-exampleFromFiles
-      ref=as.character('
-        eci <- new(Class="ExposedClass",1:4)
-        exposedGeneric(eci,2)
-      ')
-      self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
+    test.exampleFunctionFromFiles=function(){#SKIP){
+        res <- self$evalWithExamplePackageLoaded(
+        'ClassWithMethods'
+        ,
+        quote({
+          meths <- findMethods(exposedGeneric)
+          targetSig <- signature("ExposedClass","numeric")
+          sig=meths[[1]]@defined
+          meth <- getMethod(exposedGeneric,targetSig)
+          do <- get_docObject(meth) 
+          l <- do@l
+          #srcRef <- utils::getSrcref(meth)
+          #codeText <- as.character(srcRef,useSource=T)
+          #l <- extract.xxx.chunks(codeText)
+          l
+        })
+      )
+      #pe(quote(res))
+      pe(quote(res['exampleFunctionsFromFiles']))
+      #ref=as.character('
+      #  eci <- new(Class="ExposedClass",1:4)
+      #  exposedGeneric(eci,2)
+      #')
+      #self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
     }
   )
 )

@@ -68,6 +68,24 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
+  f="Rd_example_lines",
+  signature=signature(obj="methodDocObject"),
+  definition=function(obj){
+    d=obj@l
+    functionObject=obj@functionObject
+    srcRef <- utils::getSrcref(meth)
+    codeText <- as.character(srcRef,useSource=T)
+    l <- extract.xxx.chunks(codeText)
+    exlines <- l['examples']
+    if(is.element('exampleFunctionsFromFiles',names(l))){
+      print('found examplefile')
+    
+    }
+    return(exlines)
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
   f="write_Rd_file",
   signature=signature(obj="docObject",fn="character"),
   def=function(
@@ -82,8 +100,9 @@ setMethod(
     flat[["name"]]  <- obj@name
     flat[["alias"]] <- obj@name
 	  flat[["usage"]] <- Rd_usage_lines(obj)
+	  flat[["examples"]] <- Rd_example_lines(obj)
 
-    # for generic functions it is possible 
+    # for functions it is possible 
     # that no arguments have been documented
     # in setGeneric
     # Of cause the methods will define arguments.
@@ -91,7 +110,7 @@ setMethod(
     if (!is.null(args)){flat[["arguments"]]<-args} 
     # add the parts from d that could be extracted 
     #target_secs<-c("title","description","details","references","note","seealso","value","examples")
-    target_secs<-RdTargetSections()
+    target_secs<-setdiff(RdTargetSections()-names(flat))
     for (sec in target_secs){
       if (is.element(sec,names(d))){
         flat[[sec]]<-d[[sec]]

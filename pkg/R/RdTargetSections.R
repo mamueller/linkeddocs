@@ -6,6 +6,7 @@ RdTargetSections <- function(){
 	"description",
 	"details",
 	"examples",
+	"exampleFunctionsFromFiles",
 	"note",
 	"references",
 	"seealso",

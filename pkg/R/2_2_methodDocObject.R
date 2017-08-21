@@ -68,18 +68,6 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
-  f="Rd_example_lines",
-  signature=signature(obj="methodDocObject"),
-  definition=function(obj){
-    d=obj@l
-    functionObject=obj@functionObject
-    print(getSrcLocation(functionObject))
-    print(functionObject)
-    #stop("################################# mm #####################################")
-  }
-)
-#-------------------------------------------------------------------------
-setMethod(
   f="write_Rd_file",
   signature=signature(obj="methodDocObject",fn="character"),
   def=function(
