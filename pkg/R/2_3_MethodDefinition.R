@@ -60,6 +60,10 @@ setMethod(
     }
 )    
 #-------------------------------------------------------------------------
+# possible fixme mm:
+# We would  not need this method here if we did not call it directly elsewhere for MethodDefinitions
+# In the future, code could actually always create the doc objects and then call the write_Rd_file method of them.
+# This is just a convienient delegation
 setMethod(
   f="write_Rd_file",
   signature=signature(obj="MethodDefinition"),

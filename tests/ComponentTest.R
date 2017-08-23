@@ -24,10 +24,8 @@ ComponentTest<-R6Class("ComponentTest",
           targetSig <- signature("ExposedClass","numeric")
           sig=meths[[1]]@defined
           meth <- getMethod(exposedGeneric,targetSig)
-          srcRef <- utils::getSrcref(meth)
-          codeText <- as.character(srcRef,useSource=T)
-          l <- extract.xxx.chunks(codeText)
-          l
+          do <- get_docObject(meth) 
+          l <- do@l
         })
       )
       ref=as.character('
@@ -40,7 +38,7 @@ ComponentTest<-R6Class("ComponentTest",
     #----------------
     test.exampleFunctionFromFiles=function(){#SKIP){
         res <- self$evalWithExamplePackageLoaded(
-        'ClassWithMethods'
+        'ClassWithMethodsAndExampleFiles'
         ,
         quote({
           meths <- findMethods(exposedGeneric)
@@ -48,15 +46,11 @@ ComponentTest<-R6Class("ComponentTest",
           sig=meths[[1]]@defined
           meth <- getMethod(exposedGeneric,targetSig)
           do <- get_docObject(meth) 
-          l <- do@l
-          #srcRef <- utils::getSrcref(meth)
-          #codeText <- as.character(srcRef,useSource=T)
-          #l <- extract.xxx.chunks(codeText)
-          l
+          exlines <- Rd_example_lines(do)
         })
       )
       #pe(quote(res))
-      pe(quote(res['exampleFunctionsFromFiles']))
+      pe(quote(res))
       #ref=as.character('
       #  eci <- new(Class="ExposedClass",1:4)
       #  exposedGeneric(eci,2)

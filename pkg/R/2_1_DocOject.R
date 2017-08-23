@@ -71,20 +71,26 @@ setMethod(
   f="Rd_example_lines",
   signature=signature(obj="docObject"),
   definition=function(obj){
-    d=obj@l
-    functionObject=obj@functionObject
-    #srcRef <- utils::getSrcref(meth)
-    srcRef <- utils::getSrcref(functionObject)
-    codeText <- as.character(srcRef,useSource=T)
+    codeText <- obj@src
     l <- extract.xxx.chunks(codeText)
+    # first add the examples that are in the comments
     exlines <- l['examples']
-    if(is.element('exampleFunctionsFromFiles',names(l))){
-      print('found examplefile')
-    
+    # then look for examples in external files
+    key <- 'exampleFunctionsFromFiles'
+    if(is.element(key,names(l))){
+      refs <- l[key]
+      print('found references to example files')
+      pp("refs")
+      for (ref in refs) {
+        # parse the ref 
+        print('faked path')
+        example_lines_from_file('inst/examples/example1','func1')
+      }
     }
     return(exlines)
   }
 )
+
 #-------------------------------------------------------------------------
 setMethod(
   f="write_Rd_file",
