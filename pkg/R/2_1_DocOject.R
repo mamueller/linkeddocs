@@ -69,11 +69,12 @@ setMethod(
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_example_lines",
-  signature=signature(obj="methodDocObject"),
+  signature=signature(obj="docObject"),
   definition=function(obj){
     d=obj@l
     functionObject=obj@functionObject
-    srcRef <- utils::getSrcref(meth)
+    #srcRef <- utils::getSrcref(meth)
+    srcRef <- utils::getSrcref(functionObject)
     codeText <- as.character(srcRef,useSource=T)
     l <- extract.xxx.chunks(codeText)
     exlines <- l['examples']
@@ -110,7 +111,7 @@ setMethod(
     if (!is.null(args)){flat[["arguments"]]<-args} 
     # add the parts from d that could be extracted 
     #target_secs<-c("title","description","details","references","note","seealso","value","examples")
-    target_secs<-setdiff(RdTargetSections()-names(flat))
+    target_secs<-setdiff(RdTargetSections(),names(flat))
     for (sec in target_secs){
       if (is.element(sec,names(d))){
         flat[[sec]]<-d[[sec]]
