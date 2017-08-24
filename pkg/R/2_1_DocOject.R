@@ -79,13 +79,7 @@ setMethod(
     key <- 'exampleFunctionsFromFiles'
     if(is.element(key,names(l))){
       refs <- l[key]
-      print('found references to example files')
-      pp("refs")
-      for (ref in refs) {
-        # parse the ref 
-        print('faked path')
-        example_lines_from_file('inst/examples/example1','func1')
-      }
+      exlines <- c(exlines,unlist(sapply(refs,example_lines_from_file))) 
     }
     return(exlines)
   }

@@ -51,11 +51,20 @@ ComponentTest<-R6Class("ComponentTest",
       )
       #pe(quote(res))
       pe(quote(res))
-      #ref=as.character('
-      #  eci <- new(Class="ExposedClass",1:4)
-      #  exposedGeneric(eci,2)
-      #')
-      #self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
+      ref=as.character('
+        eci <- new(Class="ExposedClass",1:4)
+        exposedGeneric(eci,3)
+
+        # examples from external files
+        # inst/examples/example1.R func1: 
+        eci <- new(Class="ExposedClass",1:4)
+        exposedGeneric(eci,1)
+        
+        # inst/examples/example1.R func2: 
+        eci <- new(Class="ExposedClass",1:4)
+        exposedGeneric(eci,2)
+      ')
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
   )
 )
