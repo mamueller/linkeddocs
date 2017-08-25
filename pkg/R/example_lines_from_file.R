@@ -6,6 +6,7 @@ example_lines_from_file <- function(
  ){
  #the file has to be sourced and the function extracted
  relPathStr <- unlist(str_split(ref,'\\s+'))[[1]]
+ name <-  unlist(str_split(ref,'\\s+'))[[2]]
  parts <- unlist(str_split(relPathStr,'/'))
  relPath <- paste(parts,collapse=.Platform$file.sep) # for some reason file.path does not work with the output of str_split
  path <- file.path(pkgDir,relPath)
@@ -20,12 +21,12 @@ example_lines_from_file <- function(
  nO <- as.list(a)[nN]
  nF <- nO[sapply(nO,is.function)]
  
- lines <- '# examples from external files'
- for(name in names(nF)){ 
+ if(is.element(name,names(nF))){ 
   lstr <- paste('#',' ',as.character(relPath),' ',name,':',collapse='',sep='')
   fstr <- extract_function_body_with_comments(nF[[name]])
-  lines <- c(lines,lstr,fstr)
- }
- pp('lines')
- return(lines)
+  lines <- c(lstr,fstr)
+  return(lines)
+ }else{
+  stop(paste('the example function:',name,' could not be found in the file:',path,sep=""))
+  }
 }

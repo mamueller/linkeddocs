@@ -65,24 +65,24 @@ ComponentTest<-R6Class("ComponentTest",
         ,
         quote({
           path <- file.path('inst','examples','examples_1.R')
-          ref <- paste(as.character(path),'func1',collapse=" ")
-          r <- example_lines_from_file(ref)
-          r
+          r <- example_lines_from_file(paste(as.character(path),'func1',collapse=" "))
+          s <- example_lines_from_file(paste(as.character(path),'func2',collapse=" "))
+          list(r,s)
         })
       )
-      ref=as.character('
-        # examples from external files
+      refr=as.character('
         # inst/examples/examples_1.R func1: 
         # a comment in the example
         eci <- new(Class="ExposedClass",1:4)
         # another comment
-        exposedGeneric(eci,1)
-        
+        exposedGeneric(eci,1)')
+      self$assertTrue(CompareTrimmedNonEmptyLines(res[[1]],refr))
+      refs=as.character('
         # inst/examples/examples_1.R func2: 
         eci <- new(Class="ExposedClass",1:4)
         exposedGeneric(eci,2)
       ')
-      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+      self$assertTrue(CompareTrimmedNonEmptyLines(res[[2]],refs))
     }
     ,
     #----------------

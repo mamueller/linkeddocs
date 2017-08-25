@@ -73,12 +73,15 @@ setMethod(
   definition=function(obj){
     codeText <- obj@src
     l <- extract.xxx.chunks(codeText)
+    pp('l')
     # first add the examples that are in the comments
     exlines <- l['examples']
     # then look for examples in external files
+    exlines <- append(exlines,"# examples from external files")
     key <- 'exampleFunctionsFromFiles'
     if(is.element(key,names(l))){
       refs <- l[key]
+      pp('refs')
       exlines <- c(exlines,unlist(lapply(refs,example_lines_from_file))) 
     }
     exlines <- unlist(exlines)
