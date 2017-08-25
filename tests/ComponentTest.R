@@ -37,6 +37,7 @@ ComponentTest<-R6Class("ComponentTest",
     ,
     #----------------
     test.exampleFromFunction=function(){
+        # we only look at one external example function
         res <- self$evalWithExamplePackageLoaded(
         'ClassWithMethodsAndExampleFiles'
         ,
@@ -63,7 +64,7 @@ ComponentTest<-R6Class("ComponentTest",
         'ClassWithMethodsAndExampleFiles'
         ,
         quote({
-          path <- file.path('pkg','inst','examples','examples_1.R')
+          path <- file.path('inst','examples','examples_1.R')
           ref <- paste(as.character(path),'func1',collapse=" ")
           r <- example_lines_from_file(ref)
           r

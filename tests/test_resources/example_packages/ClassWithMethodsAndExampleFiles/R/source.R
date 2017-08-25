@@ -75,7 +75,8 @@ setMethod(
    ## exposedGeneric(eci,3)
    
    ##exampleFunctionsFromFiles<< 
-   ##inst/examples/examples_1.R  test.exposedGeneric 
+   ##inst/examples/examples_1.R  func1
+   ##inst/examples/examples_1.R  func2
    (
      object ##<< an object 
      ,

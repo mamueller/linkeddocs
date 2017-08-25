@@ -1,12 +1,15 @@
 
 # vim:set ff=unix expandtab ts=2 sw=2:
 example_lines_from_file <- function(
- ref ## a line containing the path and the name of the wrapper function 
+ ref, ## a line containing the path and the name of the wrapper function 
+ pkgDir='pkg'
  ){
  #the file has to be sourced and the function extracted
- #fake it
- relPath <- file.path('inst','examples','examples_1.R')
- path <- file.path('pkg','inst','examples','examples_1.R')
+ relPathStr <- unlist(str_split(ref,'\\s+'))[[1]]
+ parts <- unlist(str_split(relPathStr,'/'))
+ relPath <- paste(parts,collapse=.Platform$file.sep) # for some reason file.path does not work with the output of str_split
+ path <- file.path(pkgDir,relPath)
+ pp('path')
  pe(quote(getwd()))
  # we now source the file and search for the functions that are added
  # to the current environment
