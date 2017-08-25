@@ -36,7 +36,56 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleFunctionFromFiles=function(){#SKIP){
+    test.exampleFromFunction=function(){
+        res <- self$evalWithExamplePackageLoaded(
+        'ClassWithMethodsAndExampleFiles'
+        ,
+        quote({
+          path <- file.path('pkg','inst','examples','examples_1.R')
+          source(path,keep.source=TRUE)
+          ref <- paste(as.character(path),'func1',collapse=" ")
+					extract_function_body_with_comments(func1)
+        })
+      )
+      #pe(quote(res))
+      ref=as.character('
+        # a comment in the example
+        eci <- new(Class="ExposedClass",1:4)
+        # another comment
+        exposedGeneric(eci,1)
+      ')
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+    }
+    ,
+    #----------------
+    test.exampleFunctionFromFile=function(){
+        res <- self$evalWithExamplePackageLoaded(
+        'ClassWithMethodsAndExampleFiles'
+        ,
+        quote({
+          path <- file.path('pkg','inst','examples','examples_1.R')
+          ref <- paste(as.character(path),'func1',collapse=" ")
+          r <- example_lines_from_file(ref)
+          r
+        })
+      )
+      ref=as.character('
+        # examples from external files
+        # inst/examples/examples_1.R func1: 
+        # a comment in the example
+        eci <- new(Class="ExposedClass",1:4)
+        # another comment
+        exposedGeneric(eci,1)
+        
+        # inst/examples/examples_1.R func2: 
+        eci <- new(Class="ExposedClass",1:4)
+        exposedGeneric(eci,2)
+      ')
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+    }
+    ,
+    #----------------
+    test.exampleFunctionFromFiles=function(SKIP){
         res <- self$evalWithExamplePackageLoaded(
         'ClassWithMethodsAndExampleFiles'
         ,
@@ -50,14 +99,16 @@ ComponentTest<-R6Class("ComponentTest",
         })
       )
       #pe(quote(res))
-      pe(quote(res))
+      pp("res") 
       ref=as.character('
         eci <- new(Class="ExposedClass",1:4)
         exposedGeneric(eci,3)
 
         # examples from external files
         # inst/examples/example1.R func1: 
+        # a comment in the example
         eci <- new(Class="ExposedClass",1:4)
+        # another comment
         exposedGeneric(eci,1)
         
         # inst/examples/example1.R func2: 

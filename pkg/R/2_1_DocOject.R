@@ -81,6 +81,8 @@ setMethod(
       refs <- l[key]
       exlines <- c(exlines,unlist(sapply(refs,example_lines_from_file))) 
     }
+    exlines <- unlist(exlines)
+    pp('exlines')
     return(exlines)
   }
 )
