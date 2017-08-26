@@ -137,7 +137,7 @@ package.skeleton.dx_3<-function(pkgDir){
       # as soon as the old version is not needed any more
       if(is.null(tit_list[['title']])){tit_list <- funcName}
       l[['title']] <- tit_list
-      fdo=functionDocObject(name=funcName,l=l,functionObject=obj)
+      fdo=functionDocObject(name=funcName,l=l,functionObject=obj,src=codeText)
       write_Rd_file(fdo,fn)
     }
   )

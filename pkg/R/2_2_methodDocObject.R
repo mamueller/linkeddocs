@@ -1,6 +1,6 @@
 #
 # vim:set ff=unix expandtab ts=2 sw=2:
-methodDocObject<-setClass(Class="methodDocObject",contains="docObject",slots=c(genName="character",sig="character",src="character"))
+methodDocObject<-setClass(Class="methodDocObject",contains="docObject",slots=c(genName="character",sig="character"))
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_usage_lines",

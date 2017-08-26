@@ -29,7 +29,7 @@ ComponentTest<-R6Class("ComponentTest",
         })
       )
       ref=as.character('
-        eci <- new(Class="ExposedClass",1:4)
+        eci <- new(Class="ExposedClass",times=1:4)
         exposedGeneric(eci,3)
       ')
       self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
@@ -51,7 +51,7 @@ ComponentTest<-R6Class("ComponentTest",
       #pe(quote(res))
       ref=as.character('
         # a comment in the example
-        eci <- new(Class="ExposedClass",1:4)
+        eci <- new(Class="ExposedClass",times=1:4)
         # another comment
         exposedGeneric(eci,1)
       ')
@@ -73,13 +73,13 @@ ComponentTest<-R6Class("ComponentTest",
       refr=as.character('
         # inst/examples/examples_1.R func1: 
         # a comment in the example
-        eci <- new(Class="ExposedClass",1:4)
+        eci <- new(Class="ExposedClass",times=1:4)
         # another comment
         exposedGeneric(eci,1)')
       self$assertTrue(CompareTrimmedNonEmptyLines(res[[1]],refr))
       refs=as.character('
         # inst/examples/examples_1.R func2: 
-        eci <- new(Class="ExposedClass",1:4)
+        eci <- new(Class="ExposedClass",times=1:4)
         exposedGeneric(eci,2)
       ')
       self$assertTrue(CompareTrimmedNonEmptyLines(res[[2]],refs))
@@ -102,18 +102,18 @@ ComponentTest<-R6Class("ComponentTest",
       #pe(quote(res))
       pp("res") 
       ref=as.character('
-        eci <- new(Class="ExposedClass",1:4)
+        eci <- new(Class="ExposedClass",times=1:4)
         exposedGeneric(eci,3)
 
         # examples from external files
         # inst/examples/example1.R func1: 
         # a comment in the example
-        eci <- new(Class="ExposedClass",1:4)
+        eci <- new(Class="ExposedClass",times=1:4)
         # another comment
         exposedGeneric(eci,1)
         
         # inst/examples/example1.R func2: 
-        eci <- new(Class="ExposedClass",1:4)
+        eci <- new(Class="ExposedClass",times=1:4)
         exposedGeneric(eci,2)
       ')
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))

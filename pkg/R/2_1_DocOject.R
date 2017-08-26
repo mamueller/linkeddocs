@@ -2,7 +2,7 @@
 # vim:set ff=unix expandtab ts=2 sw=2:
 
 # define a list like datatype and constructor that we can define methods for
-docObject<-setClass(Class="docObject",slots=c(name="character",l="list",functionObject="function"))
+docObject<-setClass(Class="docObject",slots=c(name="character",l="list",functionObject="function",src='character'))
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_argument_lines",

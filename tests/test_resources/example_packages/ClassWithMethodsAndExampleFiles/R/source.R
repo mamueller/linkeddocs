@@ -45,10 +45,8 @@ setGeneric(
 ### a signature will not be visible
 setClass(# an Exposed  class
    Class="ExposedClass",
-   representation=representation(
-        times="numeric"
+   slots=c(times="numeric")
    )
-)
 #------------------------------------------------
 # the next method should not appear in the help 
 # because the generic function is not exported
@@ -71,7 +69,7 @@ setMethod(
    definition=function#short title
    ### short description
    ##examples<<
-   ## eci <- new(Class="ExposedClass",1:4)
+   ## eci <- new(Class="ExposedClass",times=1:4)
    ## exposedGeneric(eci,3)
    
    ##exampleFunctionsFromFiles<< 
