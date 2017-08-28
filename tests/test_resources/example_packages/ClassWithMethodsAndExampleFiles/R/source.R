@@ -8,7 +8,6 @@ simpleFunc <- function(# a title
   )
   {
   ##<< aditional description
-  z <- x1^2 
   z
   ### the result
   }

@@ -8,7 +8,7 @@ extract_function_body_with_comments<- function(func){
  # remove the wrapping code
  require(stringr)
  l <- length(codeText)
- codeText[[1]] <- str_replace(codeText[[1]],'^function\\(.*\\)\\{','')
+ codeText[[1]] <- str_replace(codeText[[1]],'.*function\\(.*\\)\\{','')
 
  codeText[[l]] <- str_replace(codeText[[l]],'\\}','')
  return(as.character(lapply(codeText,str_trim)))

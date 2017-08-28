@@ -15,7 +15,7 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleExtractionFromComments=function(){
+    test.methodExampleExtractionFromComments=function(){
         res <- self$evalWithExamplePackageLoaded(
         'ClassWithMethods'
         ,
@@ -36,7 +36,7 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleFromFunction=function(){
+    test.extract_function_body_with_comments=function(){
         # we only look at one external example function
         res <- self$evalWithExamplePackageLoaded(
         'ClassWithMethodsAndExampleFiles'
@@ -44,8 +44,7 @@ ComponentTest<-R6Class("ComponentTest",
         quote({
           path <- file.path('pkg','inst','examples','examples_1.R')
           source(path,keep.source=TRUE)
-          ref <- paste(as.character(path),'func1',collapse=" ")
-					extract_function_body_with_comments(func1)
+					#extract_function_body_with_comments(func1)
         })
       )
       #pe(quote(res))
@@ -59,7 +58,7 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleFunctionFromFile=function(){
+    test.example_lines_from_file=function(){
         res <- self$evalWithExamplePackageLoaded(
         'ClassWithMethodsAndExampleFiles'
         ,
@@ -86,37 +85,76 @@ ComponentTest<-R6Class("ComponentTest",
     }
     ,
     #----------------
-    test.exampleFunctionFromFiles=function(SKIP){
-        res <- self$evalWithExamplePackageLoaded(
-        'ClassWithMethodsAndExampleFiles'
-        ,
-        quote({
-          meths <- findMethods(exposedGeneric)
-          targetSig <- signature("ExposedClass","numeric")
-          sig=meths[[1]]@defined
-          meth <- getMethod(exposedGeneric,targetSig)
-          do <- get_docObject(meth) 
-          exlines <- Rd_example_lines(do)
-        })
+    test.example_references=function(){
+      require(stringr)
+      # check that the comments refering to external examples are 
+      # correctly recognized
+      ref1='inst/examples/ex1.R func1'
+      ref2='inst/examples/ef2.R func'
+      codeText<-unlist(str_split(sprintf( '
+      f1=function(x){
+        ##exampleFunctionsFromFiles<< 
+        ##%s
+        ##%s
+        x^2
+      }
+      '
+      ,ref1,ref2) ,'\n'))
+      res <- example_references(codeText)
+      pp('res')
+      self$assertEqual(res,c(ref1,ref2))
+    }
+    ,
+    #----------------
+    test.external_example_lines_for_function=function(){
+      # We create an source code that defines a 
+      # function and an external file containing
+      # the example referenced in the function
+      # 
+      # From the newly created function we create a functionDocObject
+      # which will be used to find the examplefile and extract the 
+      # example code from it.
+      require(stringr)
+      path<- 'examples_1.R'  
+      exFuncName  <- 'exFunc1'
+      exampleCode <-'
+        x<-2
+        f1(x)
+      '
+      
+      exampleWrapperCode<- sprintf(
+        '%s <-function(){
+          %s
+        }',
+        exFuncName,
+        exampleCode
       )
-      #pe(quote(res))
-      pp("res") 
-      ref=as.character('
-        eci <- new(Class="ExposedClass",times=1:4)
-        exposedGeneric(eci,3)
 
-        # examples from external files
-        # inst/examples/example1.R func1: 
-        # a comment in the example
-        eci <- new(Class="ExposedClass",times=1:4)
-        # another comment
-        exposedGeneric(eci,1)
-        
-        # inst/examples/example1.R func2: 
-        eci <- new(Class="ExposedClass",times=1:4)
-        exposedGeneric(eci,2)
-      ')
-      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+      write(exampleWrapperCode,path)
+
+      codeText<-sprintf('
+      f1=function(x){
+        ##exampleFunctionsFromFiles<< 
+        ## %s %s
+        x^2
+      }
+      ',path,exFuncName)
+      srcFn <- 'source.R'
+      write(codeText,srcFn)
+     
+      # source code and find example
+      res <- eval(parse(text=sprintf('
+          source(\'%s\',keep.source=TRUE)
+          codeText <- as.character(utils::getSrcref(f1),useSource=T)
+          do <-  functionDocObject(name=\'f1\',l=extract.xxx.chunks(codeText),functionObject=f1,src=codeText)
+          external_example_lines(do)
+          ',
+          srcFn)
+      ))
+      pp('res')
+
+
+
     }
   )
 )

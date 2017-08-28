@@ -67,25 +67,41 @@ setMethod(
   }
 )
 #-------------------------------------------------------------------------
+example_references <- function(codeText){
+    l <- extract.xxx.chunks(codeText)
+    key <- 'exampleFunctionsFromFiles'
+    if(is.element(key,names(l))){
+      refs <- unlist(str_split(l[key],'\n'))
+    }else{
+      refs <- NULL
+    }
+    refs
+}
+#-------------------------------------------------------------------------
+external_example_lines <- function(obj){
+    codeText <- obj@src
+    pp('codeText')
+    refs <- example_references(codeText)
+    pp("refs")
+    return(unlist(lapply(refs,example_lines_from_file)))
+}
+
+#-------------------------------------------------------------------------
 setMethod(
   f="Rd_example_lines",
   signature=signature(obj="docObject"),
   definition=function(obj){
     codeText <- obj@src
     l <- extract.xxx.chunks(codeText)
-    pp('l')
     # first add the examples that are in the comments
     exlines <- l['examples']
     # then look for examples in external files
+    refs <- example_references(codeText)
+    if(!is.null(refs)){
     exlines <- append(exlines,"# examples from external files")
-    key <- 'exampleFunctionsFromFiles'
-    if(is.element(key,names(l))){
-      refs <- l[key]
-      pp('refs')
-      exlines <- c(exlines,unlist(lapply(refs,example_lines_from_file))) 
+    exlines <- c(exlines,external_example_lines(refs)) 
     }
     exlines <- unlist(exlines)
-    pp('exlines')
     return(exlines)
   }
 )
