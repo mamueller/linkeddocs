@@ -4,7 +4,7 @@
 setMethod(
   f="write_Rd_file",
   signature=signature(obj="classRepresentation"),
-  def=function(obj,fn,exampleDir=NULL,exampleTrunk=NULL,code){
+  def=function(obj,fn,code){
     clName <-obj@className[[1]]
     # since  srcref does not work for classdefinitions yet we have to find the appropriate piece of code ourselves
     expressions <-  exprs <- parse(text=code,keep.source=TRUE)

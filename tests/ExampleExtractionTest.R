@@ -3,7 +3,7 @@
 require(linkeddocs)
 require(R6Unit)
 source("ExamplePkgTest.R")
-ComponentTest<-R6Class("ComponentTest",
+ExampleExtractionTest<-R6Class("ExampleExtractionTest",
 	inherit=ExamplePkgTest,
   public=list(
     #----------------
@@ -24,7 +24,7 @@ ComponentTest<-R6Class("ComponentTest",
           targetSig <- signature("ExposedClass","numeric")
           sig=meths[[1]]@defined
           meth <- getMethod(exposedGeneric,targetSig)
-          do <- get_docObject(meth) 
+          do <- get_docObject(meth,'pkg') 
           l <- do@l
         })
       )
@@ -44,10 +44,10 @@ ComponentTest<-R6Class("ComponentTest",
         quote({
           path <- file.path('pkg','inst','examples','examples_1.R')
           source(path,keep.source=TRUE)
-					#extract_function_body_with_comments(func1)
+					extract_function_body_with_comments(func1)
         })
       )
-      #pe(quote(res))
+      pe(quote(res))
       ref=as.character('
         # a comment in the example
         eci <- new(Class="ExposedClass",times=1:4)
@@ -64,8 +64,8 @@ ComponentTest<-R6Class("ComponentTest",
         ,
         quote({
           path <- file.path('inst','examples','examples_1.R')
-          r <- example_lines_from_file(paste(as.character(path),'func1',collapse=" "))
-          s <- example_lines_from_file(paste(as.character(path),'func2',collapse=" "))
+          r <- example_lines_from_file(paste(as.character(path),'func1',collapse=" "),'pkg')
+          s <- example_lines_from_file(paste(as.character(path),'func2',collapse=" "),'pkg')
           list(r,s)
         })
       )
@@ -115,7 +115,12 @@ ComponentTest<-R6Class("ComponentTest",
       # which will be used to find the examplefile and extract the 
       # example code from it.
       require(stringr)
-      path<- 'examples_1.R'  
+      pkgDir <- 'bla'
+      lapply(c('R','inst'),function(subDir){ dir.create(file.path(pkgDir,subDir),recursive=TRUE)})
+
+      relPath<- 'inst/examples_1.R' 
+      path<- file.path(pkgDir,relPath)  
+      pp('path')
       exFuncName  <- 'exFunc1'
       exampleCode <-'
         x<-2
@@ -138,15 +143,15 @@ ComponentTest<-R6Class("ComponentTest",
         ## %s %s
         x^2
       }
-      ',path,exFuncName)
-      srcFn <- 'source.R'
+      ',relPath,exFuncName)
+      srcFn <- sprintf('%s/R/source.R',pkgDir)
       write(codeText,srcFn)
      
       # source code and find example
       res <- eval(parse(text=sprintf('
           source(\'%s\',keep.source=TRUE)
           codeText <- as.character(utils::getSrcref(f1),useSource=T)
-          do <-  functionDocObject(name=\'f1\',l=extract.xxx.chunks(codeText),functionObject=f1,src=codeText)
+          do <-  functionDocObject(name=\'f1\',l=extract.xxx.chunks(codeText),functionObject=f1,src=codeText,pkgDir=\'bla\')
           external_example_lines(do)
           ',
           srcFn)

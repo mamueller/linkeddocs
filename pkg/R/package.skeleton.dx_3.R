@@ -68,7 +68,7 @@ package.skeleton.dx_3<-function(pkgDir){
       #Nme <-fixPackageFileNames(paste(genName,"-method_",toString(i),sep=""))
       Nme <- uniqueMethodFileNameTrunk(m) 
       p=file.path(manPath,paste(Nme,".Rd",sep=""))
-      write_Rd_file(m,p)
+      write_Rd_file(m,p,pkgDir=pkgDir)
       i <- i+1
     }
     # not all the generics our package defines mehtods for are also defined by the 
@@ -137,7 +137,7 @@ package.skeleton.dx_3<-function(pkgDir){
       # as soon as the old version is not needed any more
       if(is.null(tit_list[['title']])){tit_list <- funcName}
       l[['title']] <- tit_list
-      fdo=functionDocObject(name=funcName,l=l,functionObject=obj,src=codeText)
+      fdo=functionDocObject(name=funcName,l=l,functionObject=obj,src=codeText,pkgDir=pkgDir)
       write_Rd_file(fdo,fn)
     }
   )

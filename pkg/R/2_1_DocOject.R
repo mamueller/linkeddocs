@@ -2,7 +2,16 @@
 # vim:set ff=unix expandtab ts=2 sw=2:
 
 # define a list like datatype and constructor that we can define methods for
-docObject<-setClass(Class="docObject",slots=c(name="character",l="list",functionObject="function",src='character'))
+docObject<-setClass(
+  Class="docObject",
+  slots=c(
+    name="character",
+    l="list",
+    functionObject="function",
+    src='character',
+    pkgDir='character'
+  )
+)
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_argument_lines",
@@ -83,7 +92,7 @@ external_example_lines <- function(obj){
     pp('codeText')
     refs <- example_references(codeText)
     pp("refs")
-    return(unlist(lapply(refs,example_lines_from_file)))
+    return(unlist(lapply(refs,example_lines_from_file,obj@pkgDir)))
 }
 
 #-------------------------------------------------------------------------

@@ -17,7 +17,7 @@ setGeneric(
 setGeneric(
   name="write_Rd_file",
   def=function
-  (obj,fn,fff,exampleDir,exampleTrunk,code){
+  (obj,fn,fff,code,pkgDir){
     standardGeneric("write_Rd_file")
   }
 )
@@ -56,7 +56,8 @@ setGeneric(
   name='get_docObject',
   def=function
   (
-  obj
+  obj,
+  pkgDir
   ){
     standardGeneric('get_docObject')
   }
