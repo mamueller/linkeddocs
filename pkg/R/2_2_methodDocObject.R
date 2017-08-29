@@ -1,6 +1,6 @@
 #
 # vim:set ff=unix expandtab ts=2 sw=2:
-methodDocObject<-setClass(Class="methodDocObject",contains="docObject",slots=c(genName="character",sig="character"))
+methodDocObject<-setClass(Class="methodDocObject",contains="docObject",slots=c(methDef='MethodDefinition'))
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_usage_lines",
@@ -15,9 +15,9 @@ setMethod(
     # 2.) the signature which might be longer than the arglist
     #     since the method might define "missing" args
 
-  	d       <-  obj@l
-  	genName <-  obj@genName
-  	sig     <-  obj@sig
+  	d       <-  get_xxx_chunks(obj)
+  	genName <-  obj@methDef@generic
+  	sig     <-  obj@methDef@defined
     sigStr<-paste0(as.vector(sig),collapse=",")
     S4String<-paste0("\\S4method{",genName,"}{",sigStr,"}(",argStr,")",sep="")
     return(S4String)
@@ -25,11 +25,39 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
+  f='get_xxx_chunks',
+  signature=signature(obj="methodDocObject"),
+  definition=function(obj){
+    md <- obj@methDef
+    srcRef <- utils::getSrcref(md)
+    codeText <- as.character(srcRef,useSource=T)
+    code <- readLines(getSrcFilename(md,full.names=TRUE))
+    pos <- utils::getSrcLocation(srcRef)
+    leadingComments <- ''
+    pos <- pos-1
+    line <- code[pos]
+    while(grepl('^\\s*###',line) && pos >1){
+      #codeText<- c(line,codeText)
+      leadingComments<- c(line,leadingComments)
+      pos <- pos-1
+      line <- code[pos]
+    }
+    leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
+    leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
+    l <- extract.xxx.chunks(codeText)
+    pl <- prefixed.lines(codeText)
+    pl[['description']] <- append(leadingDesc,pl[['description']])
+    l[['description']] <- append(pl[['description']],l[['description']])
+    return(l)
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
   f="Rd_argument_lines",
   signature=signature(obj="methodDocObject"),
   definition=function(obj){
-    d   <-obj@l
-  	sig <-obj@sig
+    d   <-get_xxx_chunks(obj)
+  	sig <-obj@methDef@defined
     functionObject=obj@functionObject
     nd=names(d)
     # fixme:mm
@@ -74,7 +102,7 @@ setMethod(
       obj,
       fn
     ){
-    d=obj@l
+    d <- get_xxx_chunks(obj)
     #the list d is nested e.g. for argumetns
     #we now flatten it so that it only has a 
     # character vector for each section
@@ -87,7 +115,7 @@ setMethod(
     #fixme:
     # workaround for [[<- sice for unexplainable reasons the cran checks complain about the usage
     # lien although the very similar usage line for [[ works
-    if (obj@genName != "[[<-"){
+    if (obj@methDef@generic!= "[[<-"){
 	     flat[["usage"]]  <-Rd_usage_lines(obj)
     }
 

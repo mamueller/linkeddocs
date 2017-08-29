@@ -2,16 +2,6 @@
 ## vim:set ff=unix expandtab ts=2 sw=2:
 #-------------------------------------------------------------------------
 setMethod(
-  f="exampleFileName",
-  signature=signature(obj="MethodDefinition"),
-  def=function(obj,id){
-    Nme <- uniqueMethodFileNameTrunk(obj) 
-    return(paste('example',Nme,sep='.'))
-  }
-)
-
-#-------------------------------------------------------------------------
-setMethod(
   f="get_docObject",
   signature=signature(obj="MethodDefinition",pkgDir='character'),
   def=function(obj,pkgDir){
@@ -49,11 +39,12 @@ setMethod(
 	  #flat[["usage"]]  <-Rd_usage_lines(obj)
     #print(flat)
     mdo=methodDocObject(
-      l=l,
+      #l=l,
+      l=list(),#fixme: mm The field is an empty list because I want to get rid of it 
+      #but cant until it is obsolete in the parent class
       name=N,
-      genName=genName,
-      sig=sig,
       src=codeText,
+      methDef=obj,
       functionObject=fff,
       pkgDir=pkgDir
     ) 

@@ -43,16 +43,6 @@ setGeneric(
   }
 )
 setGeneric(
-  name="exampleFileName",
-  def=function
-  (
-  obj,
-  id
-  ){
-    standardGeneric("exampleFileName")
-  }
-) 
-setGeneric(
   name='get_docObject',
   def=function
   (
@@ -60,6 +50,15 @@ setGeneric(
   pkgDir
   ){
     standardGeneric('get_docObject')
+  }
+)
+setGeneric(
+  name='get_xxx_chunks',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('get_xxx_chunks')
   }
 )
  

@@ -17,7 +17,7 @@ setMethod(
   f="Rd_argument_lines",
   signature=signature(obj="docObject"),
   definition=function(obj){
-    d=obj@l
+    d=get_xxx_chunks(obj)
     functionObject=obj@functionObject
     nd=names(d)
     # fixme:mm
@@ -51,7 +51,7 @@ setMethod(
   f="documented_args",
   signature=signature(obj="docObject"),
   definition=function(obj){
-    d   <-  obj@l
+    d   <-  get_xxx_chunks(obj)
     nd  <-  names(d)
     #fixme mm:
     # see the other fixme
@@ -123,7 +123,7 @@ setMethod(
       obj,
       fn
     ){
-    d=obj@l
+    d=get_xxx_chunks(obj)
     #the list d is nested e.g. for argumetns
     #we now flatten it so that it only has a 
     # character vector for each section
@@ -148,5 +148,18 @@ setMethod(
       }
     }
     writeFlattenedListToRd(flat,fn)
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
+  f='get_xxx_chunks',
+  signature=signature(obj="docObject"),
+  definition=function(obj){
+  ### fixme:mm
+  ### this function should eventually make the @l slot obsolete
+  ### which is already done in subclasses that overload the method
+  ### At the moment it is just a wrapper for the @l slot access
+  ### that makes the overloading possible
+  return(obj@l)
   }
 )

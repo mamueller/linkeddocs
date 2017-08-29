@@ -25,7 +25,7 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
           sig=meths[[1]]@defined
           meth <- getMethod(exposedGeneric,targetSig)
           do <- get_docObject(meth,'pkg') 
-          l <- do@l
+          l <- get_xxx_chunks(do)
         })
       )
       ref=as.character('
