@@ -10,7 +10,7 @@ setMethod(
     # we need to prepare two things:
     # 1.) the arguments which we get in the same way as for normal
     #     function
-    argStr=arglistStr(obj@functionObject)
+    argStr=arglistStr(get_functionObject(obj))
     
     # 2.) the signature which might be longer than the arglist
     #     since the method might define "missing" args
@@ -25,12 +25,53 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
-  f='get_xxx_chunks',
+  f='get_functionObject',
+  signature=signature(obj="methodDocObject"),
+  definition=function(obj){
+    #md <- obj@methDef
+    #srcRef <- utils::getSrcref(md)
+    #codeText <- as.character(srcRef,useSource=T)
+    codeText <- get_code(obj)
+    expr <- parse(text=codeText)
+    nsEnv <- environment(slot(obj@methDef,name='.Data'))
+    fff <- eval(expr,nsEnv)
+    return(fff)
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
+  f='get_code',
   signature=signature(obj="methodDocObject"),
   definition=function(obj){
     md <- obj@methDef
     srcRef <- utils::getSrcref(md)
     codeText <- as.character(srcRef,useSource=T)
+    
+    # fixme: mm We could already include the leading comments here if we adapted the
+    # old extract.xxx.chunks function appropriately
+    #code <- readLines(getSrcFilename(md,full.names=TRUE))
+    #pos <- utils::getSrcLocation(srcRef)
+    #leadingComments <- ''
+    #pos <- pos-1
+    #line <- code[pos]
+    #while(grepl('^\\s*###',line) && pos >1){
+    #  #codeText<- c(line,codeText)
+    #  leadingComments<- c(line,leadingComments)
+    #  pos <- pos-1
+    #  line <- code[pos]
+    #}
+    #return(c(leadingComments,codeText))
+    return(codeText)
+    }
+)
+#-------------------------------------------------------------------------
+setMethod(
+  f='get_xxx_chunks',
+  signature=signature(obj="methodDocObject"),
+  definition=function(obj){
+    md <- obj@methDef
+    srcRef <- utils::getSrcref(md)
+    codeText <- get_code(obj)
     code <- readLines(getSrcFilename(md,full.names=TRUE))
     pos <- utils::getSrcLocation(srcRef)
     leadingComments <- ''
@@ -58,7 +99,7 @@ setMethod(
   definition=function(obj){
     d   <-get_xxx_chunks(obj)
   	sig <-obj@methDef@defined
-    functionObject=obj@functionObject
+    functionObject <- get_functionObject(obj)
     nd=names(d)
     # fixme:mm
     # the list d contains the documentation  of the argument "a" 

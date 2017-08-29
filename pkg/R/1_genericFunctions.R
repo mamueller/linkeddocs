@@ -62,3 +62,21 @@ setGeneric(
   }
 )
  
+setGeneric(
+  name='get_functionObject',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('get_functionObject')
+  }
+)
+setGeneric(
+  name='get_code',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('get_code')
+  }
+)
