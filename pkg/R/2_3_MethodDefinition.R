@@ -23,7 +23,8 @@ setMethod(
       l=list(),#fixme: mm The field is an empty list because I want to get rid of it 
       #but cant until it is obsolete in the parent class
       name=N,
-      src=codeText,
+      #src=codeText, 
+      src='', #fixme: mm The field is an empty list because I want to get rid of it 
       methDef=obj,
       #functionObject=fff,
       functionObject=function(){}, #fixme:mm before I can get rid of the field in the 
@@ -34,11 +35,11 @@ setMethod(
     }
 )    
 #-------------------------------------------------------------------------
-# possible fixme mm:
-# We would  not need this method here if we did not call it directly elsewhere for MethodDefinitions
-# In the future, code could actually always create the doc objects and then call the write_Rd_file method of them.
-# This is just a convienient delegation
 setMethod(
+  # possible fixme mm:
+  # We would  not need this method here if we did not call it directly elsewhere for MethodDefinitions
+  # In the future, code could actually always create the doc objects and then call the write_Rd_file method of them.
+  # This is just a convienient delegation
   f="write_Rd_file",
   signature=signature(obj="MethodDefinition"),
   def=function(obj,fn,pkgDir){

@@ -31,6 +31,9 @@ g<-function( # This is the title
       ,
       somethingElse ##<< another object
     ){
+        ##exampleFunctionsFromFiles<< 
+        ##inst/examples/examples_1.R  func1
+        ##inst/examples/examples_1.R  func2
         standardGeneric("exposedGeneric")
     }
 

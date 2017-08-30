@@ -77,7 +77,7 @@ package.skeleton.dx_3<-function(pkgDir){
     if (GenHasSrc(genName,pkgDir,pkgEnv)){
       #pe(quote(class(getGeneric(genName))))  
       write_Rd_file(
-        getGeneric(genName),
+        get_docObject(getGeneric(genName),pkgDir) ,
         file.path(manPath,paste(fixPackageFileNames(genName),".Rd",sep=""))
       )
     }
@@ -110,34 +110,15 @@ package.skeleton.dx_3<-function(pkgDir){
     function(funcName) {
       obj<-get(funcName)
       fn <- file.path(manPath, paste(list0[[funcName]],".Rd",sep=""))
-      srcRef <- utils::getSrcref(obj)
-      codeText <- as.character(srcRef,useSource=T)
-      code <- readLines(getSrcFilename(obj,full.names=TRUE))
-      pos <- utils::getSrcLocation(srcRef)
-      leadingComments <- ''
-      pos <- pos-1
-      line <- code[pos]
-      while(grepl('^\\s*###',line) && pos >1){
-        #codeText<- c(line,codeText)
-        leadingComments<- c(line,leadingComments)
-        pos <- pos-1
-        line <- code[pos]
-      }
-      leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
-      leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
-      l <- extract.xxx.chunks(codeText)
-      pl <- prefixed.lines(codeText)
-      pl[['description']] <- append(leadingDesc,pl[['description']])
-      #l[['description']] <- append(pl[['description']],l[['description']])
-      l <- combine(l,pl)
-      tit_list <- title.from.firstline(codeText)
-      #fixme mm:
-      # at the moment title.from.firstline(codeText) returns a list
-      # which is unnecessary, it should be changed to a character vector or NULL
-      # as soon as the old version is not needed any more
-      if(is.null(tit_list[['title']])){tit_list <- funcName}
-      l[['title']] <- tit_list
-      fdo=functionDocObject(name=funcName,l=l,functionObject=obj,src=codeText,pkgDir=pkgDir)
+      fdo=functionDocObject(
+        name=funcName,
+        #l=l,
+        l=list(),#fixme: mm The field is an empty list because I want to get rid of it 
+        functionObject=obj,
+        #src=codeText,
+        src='', #fixme: mm The field is an empty list because I want to get rid of it 
+        pkgDir=pkgDir
+      )
       write_Rd_file(fdo,fn)
     }
   )

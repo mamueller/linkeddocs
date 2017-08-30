@@ -18,7 +18,7 @@ setMethod(
   signature=signature(obj="docObject"),
   definition=function(obj){
     d=get_xxx_chunks(obj)
-    functionObject=obj@functionObject
+    functionObject=get_functionObject(obj)
     nd=names(d)
     # fixme:mm
     # the list d contains the documentation  of the argument "a" 
@@ -162,4 +162,27 @@ setMethod(
   ### that makes the overloading possible
   return(obj@l)
   }
+)
+#-------------------------------------------------------------------------
+setMethod(
+  ## to be overloaded in subclasses
+  f='get_functionObject',
+  signature=signature(obj="docObject"),
+  definition=function(obj){
+  return(obj@functionObject)
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
+  f='get_code',
+  signature=signature(obj="docObject"),
+  definition=function(obj){
+      fobj <- get_functionObject(obj)
+      srcRef <- utils::getSrcref(fobj)
+      codeText <- as.character(srcRef,useSource=T)
+    
+    # fixme: mm We could already include the leading comments here if we adapted the
+    # old extract.xxx.chunks function appropriately
+    return(codeText)
+    }
 )

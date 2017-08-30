@@ -49,18 +49,6 @@ setMethod(
     
     # fixme: mm We could already include the leading comments here if we adapted the
     # old extract.xxx.chunks function appropriately
-    #code <- readLines(getSrcFilename(md,full.names=TRUE))
-    #pos <- utils::getSrcLocation(srcRef)
-    #leadingComments <- ''
-    #pos <- pos-1
-    #line <- code[pos]
-    #while(grepl('^\\s*###',line) && pos >1){
-    #  #codeText<- c(line,codeText)
-    #  leadingComments<- c(line,leadingComments)
-    #  pos <- pos-1
-    #  line <- code[pos]
-    #}
-    #return(c(leadingComments,codeText))
     return(codeText)
     }
 )
@@ -69,20 +57,14 @@ setMethod(
   f='get_xxx_chunks',
   signature=signature(obj="methodDocObject"),
   definition=function(obj){
+    codeText <- get_code(obj)
+
     md <- obj@methDef
     srcRef <- utils::getSrcref(md)
-    codeText <- get_code(obj)
-    code <- readLines(getSrcFilename(md,full.names=TRUE))
-    pos <- utils::getSrcLocation(srcRef)
-    leadingComments <- ''
-    pos <- pos-1
-    line <- code[pos]
-    while(grepl('^\\s*###',line) && pos >1){
-      #codeText<- c(line,codeText)
-      leadingComments<- c(line,leadingComments)
-      pos <- pos-1
-      line <- code[pos]
-    }
+    leadingComments<- leadingComments(
+      getSrcFilename(md,full.names=TRUE),
+      pos <- utils::getSrcLocation(srcRef)
+    )
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
     l <- extract.xxx.chunks(codeText)

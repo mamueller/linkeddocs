@@ -17,3 +17,8 @@
   The default behaviour should be to always only document the exported functions classes or methods
   If one wants to document a function temporarily one can always add it to the Namespace
   and remove it from there before releasing the package.
+
+-08-30-2017
+ create tests for the example extraction for all type of documentable objects
+ At the moment only methods and normal functions are tested
+ classes and generics are not
