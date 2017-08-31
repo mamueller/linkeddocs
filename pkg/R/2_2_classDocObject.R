@@ -1,0 +1,25 @@
+#
+# vim:set ff=unix expandtab ts=2 sw=2:
+classDocObject<-setClass(Class="classDocObject",contains="docObject",slots=c(clrep='ClassRepresentation'))
+#-------------------------------------------------------------------------
+setMethod(
+  f="Rd_usage_lines",
+  signature=signature(obj="classDocObject"),
+  definition=function(obj){
+    return(usageString)
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
+  f='get_xxx_chunks',
+  signature=signature(obj="classDocObject"),
+  definition=function(obj){
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
+  f="Rd_method_lines",
+  signature=signature(obj="classDocObject"),
+  definition=function(obj){
+  }
+)
