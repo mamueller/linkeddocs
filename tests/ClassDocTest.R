@@ -14,21 +14,22 @@ ClassDocTest<-R6Class("ClassDocTest",
         ,
         quote({
           pkgDir <- 'pkg'
-          pkgR<-normalizePath(file.path(pkgDir,'R'))
-          codeFiles <- list.files(pkgR,full.names=TRUE)
-          code<- ''
-          for (fn in codeFiles){code <- append(code,readLines(fn))}
-          #
           cl <- getClass('ExposedClass')
           cdo <- get_docObject(cl,pkgDir)
-          #res <- list()
-          #res['cdo'] <- cdo
-          cdo
+          res <- get_xxx_chunks(cdo)
+          res
         })
       )
-      pp('res')
-      stop()
-      #self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
+      pe(quote(res))
+      ref_title<- 'an Exposed  class'
+      ref_description<-c(
+        "Since this class is exported in the Namespace file you can inherit from it",
+        "but nethertheless the method for \"hiddenGeneric\" with this class as",
+        "a signature will not be visible",
+        "a signature will not be visible"
+      )
+      self$assertTrue(CompareTrimmedNonEmptyLines(res[['title']],ref_title))
+      self$assertTrue(CompareTrimmedNonEmptyLines(res[['description']],ref_description))
     }
   )
 )

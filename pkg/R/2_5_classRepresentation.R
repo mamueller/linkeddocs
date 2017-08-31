@@ -6,55 +6,6 @@ setMethod(
   signature=signature(obj="classRepresentation",pkgDir='character'),
   def=function(obj,pkgDir){
     clName <-obj@className[[1]]
-    ## since  srcref does not work for classdefinitions yet we have to find the appropriate piece of code ourselves
-    #expressions <-  exprs <- parse(text=code,keep.source=TRUE)
-    #chunks <- attr(exprs,'srcref')
-	  #f=function(expr){
-	  #  isTRUE(as.character(expr)[[1]]=='setClass' && expr[['Class']]==clName)
-	  #}
-    #indices <- which(sapply(expressions,f))
-    #if (length(indices)<1){
-    #  stop(sprintf('multiple definition of class %s',ClassName))
-    #}
-    #srcRef <- chunks[[indices[[1]]]] # this is of class 'srcref'
-    ##find first line
-    #codeText <- as.character(srcRef,useSource=T)
-    #leadingComments <- leadingComments(getSrcFilename(srcRef),getSrcLocation(srcRef))
-    #leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
-    #leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
-    #
-    #l <- extract.xxx.chunks(codeText)
-    #desc <- append(leadingDesc,l[['description']])
-    #if ( length(desc) < 1 ){ 
-    #    desc <- 'no Description'
-    #}
-    #tit_list <- title.from.firstline(codeText)
-    ##fixme mm:
-    ## at the moment title.from.firstline(codeText) returns a list
-    ## which is unnecessary, it should be changed to a character vector or NULL
-    ## as soon as the old version is not needed any more
-  	#if ( is.null(tit_list[['title']]) ){
-  	#  tit_list <- list(title=paste(clName,"S4 class"))
-  	#}
-    #l[["title"]]<-tit_list
-    #on <- sprintf("%s-class",clName)
-    #l[['description']] <- desc
-    #l[["name"]] <-on
-    #l[["alias"]] <- on
-    #l[["docType"]] <- "class"
-    #l[["section{Methods}"]] <- Rd_method_lines(obj)
-
-    #cl <- Rd_subclass_lines(obj)
-    #if (!(is.null(cl))){ 
-    #  l[["section{Subclasses}"]] <- cl
-    #}
-    #
-    #cl <- Rd_constructor_lines(obj)
-    #if (!is.null(cl)){ 
-    #  l[["section{Constructors found by naming convention}"]] <- cl
-    #}
-    #
-  	#name <-attr(obj,'generic')[[1]]
     cdo <- classDocObject(
       name=clName,
       functionObject=function(){}, ### fixme mm: this slot should be removed from the parent class
