@@ -3,17 +3,10 @@
 require(linkeddocs)
 require(R6Unit)
 source("ExamplePkgTest.R")
+source("ComponentsTest.R")
 ExampleExtractionTest<-R6Class("ExampleExtractionTest",
-	inherit=ExamplePkgTest,
+	inherit=ComponentsTest,
   public=list(
-    #----------------
-    evalWithExamplePackageLoaded=function(targetPkgName,expr){
-      # copy the files 
-      self$cp_package_files(targetPkgName)
-      devtools::install('pkg',keep_source=TRUE)
-      evalWithPackageLoaded(targetPkgName,expr)
-    }
-    ,
     #----------------
     test.methodExampleExtractionFromComments=function(){
         res <- self$evalWithExamplePackageLoaded(
@@ -151,7 +144,7 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
       res <- eval(parse(text=sprintf('
           source(\'%s\',keep.source=TRUE)
           codeText <- as.character(utils::getSrcref(f1),useSource=T)
-          do <-  functionDocObject(name=\'f1\',l=extract.xxx.chunks(codeText),functionObject=f1,src=codeText,pkgDir=\'bla\')
+          do <-  functionDocObject(name=\'f1\',functionObject=f1,pkgDir=\'bla\')
           external_example_lines(do)
           ',
           srcFn)

@@ -6,9 +6,7 @@ docObject<-setClass(
   Class="docObject",
   slots=c(
     name="character",
-    l="list",
     functionObject="function",
-    src='character',
     pkgDir='character'
   )
 )
@@ -88,7 +86,7 @@ example_references <- function(codeText){
 }
 #-------------------------------------------------------------------------
 external_example_lines <- function(obj){
-    codeText <- obj@src
+    codeText <- get_code(obj)
     pp('codeText')
     refs <- example_references(codeText)
     pp("refs")
@@ -100,7 +98,7 @@ setMethod(
   f="Rd_example_lines",
   signature=signature(obj="docObject"),
   definition=function(obj){
-    codeText <- obj@src
+    codeText <- get_code(obj)
     l <- extract.xxx.chunks(codeText)
     # first add the examples that are in the comments
     exlines <- l['examples']

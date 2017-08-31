@@ -8,7 +8,6 @@ setMethod(
     fdo=genericFunctionDocObject(
       name=obj@generic[[1]],
       #l=l,
-      l=list(),#fixme: mm The field is an empty list because I want to get rid of it 
       functionObject=obj
     )
     return(fdo)

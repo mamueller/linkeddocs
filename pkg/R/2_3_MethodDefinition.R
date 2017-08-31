@@ -20,11 +20,9 @@ setMethod(
     #print(flat)
     mdo=methodDocObject(
       #l=l,
-      l=list(),#fixme: mm The field is an empty list because I want to get rid of it 
       #but cant until it is obsolete in the parent class
       name=N,
       #src=codeText, 
-      src='', #fixme: mm The field is an empty list because I want to get rid of it 
       methDef=obj,
       #functionObject=fff,
       functionObject=function(){}, #fixme:mm before I can get rid of the field in the 

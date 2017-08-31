@@ -113,10 +113,8 @@ package.skeleton.dx_3<-function(pkgDir){
       fdo=functionDocObject(
         name=funcName,
         #l=l,
-        l=list(),#fixme: mm The field is an empty list because I want to get rid of it 
         functionObject=obj,
         #src=codeText,
-        src='', #fixme: mm The field is an empty list because I want to get rid of it 
         pkgDir=pkgDir
       )
       write_Rd_file(fdo,fn)
