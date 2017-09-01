@@ -132,49 +132,57 @@ setMethod(
    }
 )
 #-------------------------------------------------------------------------
-Rd_subclass_lines<-function(obj){
-  l <- NULL
-  #pkg <- attr(obj,"package")
-  scs <- obj@subclasses
-  if (length(scs)>0){
-    l<-'\\describe{'
-    for(scn in names(scs)){
-      l<- c(l,sprintf('\t\\code{\\link{%s-class}}\\cr',scn))
+setMethod(
+  f="Rd_subclass_lines",
+  signature=signature(obj="classRepresentation"),
+  def=function(obj){
+    l <- NULL
+    #pkg <- attr(obj,"package")
+    scs <- obj@subclasses
+    if (length(scs)>0){
+      l<-'\\describe{'
+      for(scn in names(scs)){
+        l<- c(l,sprintf('\t\\code{\\link{%s-class}}\\cr',scn))
+      }
+      l<- c(l, "}")
     }
-    l<- c(l, "}")
+    return(l)
   }
-  return(l)
-}
+)
 #-------------------------------------------------------------------------
-Rd_constructor_lines<-function(obj){
-  l <- NULL
-  clName <-obj@className[[1]]
-	fqpkgName <- sprintf('package:%s',obj@package)
-  if (obj@virtual){
-    # this is a convention 
-    constructorName <- sprintf('%sSubClassInstance',clName)
-    possibleConstructor<- tryCatch(
-      getFunction(constructorName,where=as.environment(fqpkgName))
-      ,
-      error=function(e){e}
-    )
-    if (! inherits(possibleConstructor,'simpleError')){
-      l <- c('Since the class is virtual it can not be instanciated directly, but a function:')
-      l<-c(l, as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
-      l <- c(l,'has been found, that produces instances of subclasses.
-             Please also look at constructors of non virtual subclasses ')
+setMethod(
+  f="Rd_constructor_lines",
+  signature=signature(obj="classRepresentation"),
+  def=function(obj){
+    l <- NULL
+    clName <-obj@className[[1]]
+  	fqpkgName <- sprintf('package:%s',obj@package)
+    if (obj@virtual){
+      # this is a convention 
+      constructorName <- sprintf('%sSubClassInstance',clName)
+      possibleConstructor<- tryCatch(
+        getFunction(constructorName,where=as.environment(fqpkgName))
+        ,
+        error=function(e){e}
+      )
+      if (! inherits(possibleConstructor,'simpleError')){
+        l <- c('Since the class is virtual it can not be instanciated directly, but a function:')
+        l<-c(l, as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
+        l <- c(l,'has been found, that produces instances of subclasses.
+               Please also look at constructors of non virtual subclasses ')
+      }
+    }else{
+      constructorName <- clName
+      possibleConstructor<- tryCatch(
+        getFunction(constructorName,where=as.environment(fqpkgName))
+        ,
+        error=function(e){e}
+      )
+      if (! inherits(possibleConstructor,'simpleError')){
+        l <- c(as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
+        l <- c(l,' Please also look at constructors of non virtual subclasses ')
+      }
     }
-  }else{
-    constructorName <- clName
-    possibleConstructor<- tryCatch(
-      getFunction(constructorName,where=as.environment(fqpkgName))
-      ,
-      error=function(e){e}
-    )
-    if (! inherits(possibleConstructor,'simpleError')){
-      l <- c(as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
-      l <- c(l,' Please also look at constructors of non virtual subclasses ')
-    }
+    return(l)
   }
-  return(l)
-}
+)

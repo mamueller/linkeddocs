@@ -8,7 +8,7 @@ ClassDocTest<-R6Class("ClassDocTest",
 	inherit=ComponentsTest,
   public=list(
     #----------------
-    test.ClassDoc=function(){
+    test.ClassDocXXX=function(){
       res<- self$evalWithExamplePackageLoaded(
         'ClassWithMethods'
         ,
@@ -20,16 +20,109 @@ ClassDocTest<-R6Class("ClassDocTest",
           res
         })
       )
-      pe(quote(res))
       ref_title<- 'an Exposed  class'
       ref_description<-c(
         "Since this class is exported in the Namespace file you can inherit from it",
         "but nethertheless the method for \"hiddenGeneric\" with this class as",
-        "a signature will not be visible",
         "a signature will not be visible"
       )
       self$assertTrue(CompareTrimmedNonEmptyLines(res[['title']],ref_title))
       self$assertTrue(CompareTrimmedNonEmptyLines(res[['description']],ref_description))
+    }
+    ,
+    
+    #----------------
+    test.ClassDocRd_method_lines=function(){
+      res<- self$evalWithExamplePackageLoaded(
+        'ClassWithMethods'
+        ,
+        quote({
+          pkgDir <- 'pkg'
+          cl <- getClass('ExposedClass')
+          cdo <- get_docObject(cl,pkgDir)
+          res <- Rd_method_lines(cdo)
+          res
+        })
+      )
+      pp('res')
+      ref<-c(
+        "  \\describe{",
+        "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",
+        "    \\item{exposedGeneric}{\\code{signature(object = \"ExposedClass\", somethingElse = \"numeric\")}: ... } \\code{\\link{exposedGeneric,ExposedClass,numeric-method}}",
+        "\t }"
+      ) 
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+    }
+    ,
+    
+    #----------------
+    test.ClassDocRd_constructor_lines=function(SKIP){
+      res<- self$evalWithExamplePackageLoaded(
+        'ClassWithMethods'
+        ,
+        quote({
+          pkgDir <- 'pkg'
+          cl <- getClass('ExposedClass')
+          cdo <- get_docObject(cl,pkgDir)
+          res <- Rd_constructor_lines(cdo)
+          #res <- Rd_constructor_lines(cl) #old implementation
+          res
+        })
+      )
+      pp('res')
+      ref<-c(
+        "  \\describe{",
+        "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",
+        "    \\item{exposedGeneric}{\\code{signature(object = \"ExposedClass\", somethingElse = \"numeric\")}: ... } \\code{\\link{exposedGeneric,ExposedClass,numeric-method}}",
+        "\t }"
+      ) 
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+    }
+    ,
+    #----------------
+    test.ClassDocRd_subclass_lines=function(SKIP){
+      res<- self$evalWithExamplePackageLoaded(
+        'ClassWithMethods'
+        ,
+        quote({
+          pkgDir <- 'pkg'
+          cl <- getClass('ExposedClass')
+          cdo <- get_docObject(cl,pkgDir)
+          res <- Rd_subclass_lines(cdo)
+          res
+        })
+      )
+      pp('res')
+      ref<-c(
+        "  \\describe{",
+        "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",
+        "    \\item{exposedGeneric}{\\code{signature(object = \"ExposedClass\", somethingElse = \"numeric\")}: ... } \\code{\\link{exposedGeneric,ExposedClass,numeric-method}}",
+        "\t }"
+      ) 
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+    }
+    ,
+    #----------------
+    test.ClassDoc_write_Rd_file=function(SKIP){
+      res<- self$evalWithExamplePackageLoaded(
+        'ClassWithMethods'
+        ,
+        quote({
+          pkgDir <- 'pkg'
+          cl <- getClass('ExposedClass')
+          cdo <- get_docObject(cl,pkgDir)
+          res <- write_Rd_file(obj=cdo,fn='test.Rd')
+          res
+        })
+      )
+      pp('res')
+      ref<-c(
+        "  \\describe{",
+        "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",
+        "    \\item{exposedGeneric}{\\code{signature(object = \"ExposedClass\", somethingElse = \"numeric\")}: ... } \\code{\\link{exposedGeneric,ExposedClass,numeric-method}}",
+        "\t }"
+      ) 
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
   )
 )

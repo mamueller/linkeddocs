@@ -80,3 +80,30 @@ setGeneric(
     standardGeneric('get_code')
   }
 )
+setGeneric(
+  name='Rd_constructor_lines',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('Rd_constructor_lines')
+  }
+)
+setGeneric(
+  name='Rd_method_lines',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('Rd_method_lines')
+  }
+)
+setGeneric(
+  name='Rd_subclass_lines',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('Rd_subclass_lines')
+  }
+)
