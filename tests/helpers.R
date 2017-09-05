@@ -1,6 +1,6 @@
 
 ## vim:set ff=unix expandtab ts=2 sw=2:
-library(R6Unit,quiet=TRUE)
+require(R6Unit,quiet=TRUE)
 mmsg=function(){"################## mm ####################"}
 #------------------------------------------------------------------------------
 writeDescriptionFile<-function(Depends=NULL,pkgName="ExamplePackage",pkgDir="."){
@@ -117,3 +117,17 @@ CompareTrimmedNonEmptyLines=function
       return(.widthCutter(newtxt,pos))
     }
   }
+#------------------------------------------------------------------------------
+tryTwice <- function(qe){
+  print('first Evaluation')
+  res <- tryCatch(
+  	eval(qe),
+	error=function(e){e}
+  )
+  pp('res')
+  if(inherits(res,'simpleError')){
+  	print('second Evaluation')
+  	res <- eval(qe)
+  }
+  return(res)
+}
