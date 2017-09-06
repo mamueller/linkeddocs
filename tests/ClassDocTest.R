@@ -103,26 +103,25 @@ ClassDocTest<-R6Class("ClassDocTest",
     }
     ,
     #----------------
-    test.ClassDoc_write_Rd_file=function(SKIP){
+    test.ClassDoc_write_Rd_file=function(){
+      # we only check that the function can be called an produces 
+      # a .Rd file in the man folder
+      # the contents of the file are better checked 
+      # in parts by smaller tests
+      
+      expr<- quote({
+        pkgDir <- "pkg"
+        cl <- getClass('ExposedClass')
+        cdo <- get_docObject(cl,pkgDir)
+        res <- write_Rd_file(obj=cdo,fn='test.Rd') 
+      })
       res<- self$evalWithExamplePackageLoaded(
-        'ClassWithMethods'
-        ,
-        quote({
-          pkgDir <- 'pkg'
-          cl <- getClass('ExposedClass')
-          cdo <- get_docObject(cl,pkgDir)
-          res <- write_Rd_file(obj=cdo,fn='test.Rd')
-          res
-        })
+        'ClassWithMethods',
+         expr
       )
-      pp('res')
-      ref<-c(
-        "  \\describe{",
-        "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",
-        "    \\item{exposedGeneric}{\\code{signature(object = \"ExposedClass\", somethingElse = \"numeric\")}: ... } \\code{\\link{exposedGeneric,ExposedClass,numeric-method}}",
-        "\t }"
-      ) 
-      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+      self$assertTrue(
+        file.exists('test.Rd') 
+      )
     }
   )
 )

@@ -89,7 +89,8 @@ package.skeleton.dx_3<-function(pkgDir){
   for (eCName in exportedClassNames){
       filename <- file.path(manPath,sprintf("%s-class.Rd",eCName))
       # We have to find the part of the source code since R doen not provide a srcref for class definitions
-      write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
+      #write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
+      write_Rd_file(obj=get_docObject(getClass(eCName),pkgDir=pkgDir),fn=filename)
   }
 
   #### document non generic functions

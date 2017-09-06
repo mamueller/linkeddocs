@@ -119,13 +119,12 @@ CompareTrimmedNonEmptyLines=function
   }
 #------------------------------------------------------------------------------
 tryTwice <- function(qe){
-  print('first Evaluation')
   res <- tryCatch(
   	eval(qe),
 	error=function(e){e}
   )
-  pp('res')
   if(inherits(res,'simpleError')){
+    Sys.sleep(2)
   	print('second Evaluation')
   	res <- eval(qe)
   }

@@ -70,21 +70,6 @@ setMethod(
     l[['description']] <- desc
     return(l)
 
-   # on <- sprintf("%s-class",clName)
-   # l[["name"]] <-on
-   # l[["alias"]] <- on
-   # l[["docType"]] <- "class"
-   # l[["section{Methods}"]] <- Rd_method_lines(clrep)
-
-   # cl <- Rd_subclass_lines(clrep)
-   # if (!(is.null(cl))){ 
-   #   l[["section{Subclasses}"]] <- cl
-   # }
-   # 
-   # cl <- Rd_constructor_lines(clrep)
-   # if (!is.null(cl)){ 
-   #   l[["section{Constructors found by naming convention}"]] <- cl
-   # }
   }
 )
 #-------------------------------------------------------------------------
@@ -147,7 +132,6 @@ setMethod(
 
   clrep <- obj@clrep 
   l <- NULL
-    l <- 'blub'
   clName <-clrep@className[[1]]
 	fqpkgName <- sprintf('package:%s',clrep@package)
   if (clrep@virtual){
@@ -203,5 +187,25 @@ setMethod(
   f="write_Rd_file",
   signature=signature(obj="classDocObject",fn='character'),
   def=function(obj,fn){
-  }
+    clName <-obj@clrep@className[[1]]
+    l <- get_xxx_chunks(obj)
+      on <- sprintf("%s-class",clName)
+      l[["name"]] <-on
+      l[["alias"]] <- on
+      l[["docType"]] <- "class"
+      l[["section{Methods}"]] <- Rd_method_lines(obj)
+      
+      cl <- Rd_subclass_lines(obj)
+      if (!(is.null(cl))){ 
+        l[["section{Subclasses}"]] <- cl
+      }
+      
+      cl <- Rd_constructor_lines(obj)
+      if (!is.null(cl)){ 
+        l[["section{Constructors found by naming convention}"]] <- cl
+      }
+      
+    	name <-attr(obj,'generic')[[1]]
+      writeFlattenedListToRd(l,fn)
+    }
 )
