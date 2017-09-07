@@ -1,9 +1,6 @@
-#
-# vim:set ff=unix expandtab ts=2 sw=2:
-##########################################################################
-extract.docs.file <- structure(function
+
+extract.docs.file <- function
 ### Apply all parsers relevant to extract info from just 1 code file.
-### a wrapper for \code\link{extract.docs.file}}
 (f,
 ### File name of R code to read and parse.
  parsers=NULL,
@@ -16,9 +13,13 @@ inlinedocs.exampleTrunk="example.",
  ...
 ### Other arguments to pass to Parser Functions.
  ){
-  extract.docs.lines(readLines(f),parsers,inlinedocs.exampleDir,inlinedocs.exampleTrunk)
-},ex=function(){
-  f <- system.file("silly","R","silly.R",package="inlinedocs")
-  extract.docs.file(f)
-})
-
+  if(is.null(parsers))parsers <- nondesc.parsers
+  apply.parsers(
+	readLines(f),
+	parsers,
+	verbose=FALSE,
+	inlinedocs.exampleDir,
+	inlinedocs.exampleTrunk,
+	...
+	)[["docs"]]
+}
