@@ -86,11 +86,13 @@ example_references <- function(codeText){
 }
 #-------------------------------------------------------------------------
 external_example_lines <- function(obj){
-    codeText <- get_code(obj)
-    pp('codeText')
-    refs <- example_references(codeText)
-    pp("refs")
-    return(unlist(lapply(refs,example_lines_from_file,obj@pkgDir)))
+  res <- NULL
+  codeText <- get_code(obj)
+  refs <- example_references(codeText)
+  if(!is.null(refs)){
+    res <- unlist(lapply(refs,example_lines_from_file,obj@pkgDir))
+  }
+  return(res)
 }
 
 #-------------------------------------------------------------------------
@@ -103,10 +105,10 @@ setMethod(
     # first add the examples that are in the comments
     exlines <- l['examples']
     # then look for examples in external files
-    refs <- example_references(codeText)
-    if(!is.null(refs)){
+    ext_exs<- external_example_lines(obj)
+    if(!is.null(ext_exs)){
     exlines <- append(exlines,"# examples from external files")
-    exlines <- c(exlines,external_example_lines(refs)) 
+    exlines <- c(exlines,ext_exs) 
     }
     exlines <- unlist(exlines)
     return(exlines)
