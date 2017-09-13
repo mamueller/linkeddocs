@@ -43,7 +43,8 @@ PkgTest_3<-R6Class("PkgTest_3",
       
       #l<-list(errors=c("bla","blub"),warnings=c("foo"),notes=c("bar","foo"))
       #l<-check(pkgDir,document=FALSE,quiet=FALSE)
-      l<-check(pkgDir,document=FALSE,quiet=TRUE,cran=TRUE,check_dir='.')
+      #l<-check(pkgDir,document=FALSE,quiet=TRUE,cran=TRUE,check_dir='.')
+      l<-check(pkgDir,document=FALSE,quiet=FALSE,cran=TRUE,check_dir='.')
       self$assertCranResultOk(l)
     }
   )
