@@ -25,7 +25,7 @@ extract.xxx.chunks <- function # Extract documentation from a function
 	   "<<\\s*(\\S.*?)\\s*$",
    		sep="##") # paste avoids embedded trigger fooling the system
 
-  skeleton.fields <- RdTargetSections()
+  skeleton.fields <- xxx.chunkNames()
   #skeleton.fields <- c("alias","details","keyword","references","author", "note","seealso","value","title","description", "describe","end","examples")
   ##details<< Additionally, consecutive sections of \code{##} comment
   ## lines beginning with \code{##}\emph{xxx}\code{<<} (where
