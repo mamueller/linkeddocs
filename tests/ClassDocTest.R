@@ -56,6 +56,27 @@ ClassDocTest<-R6Class("ClassDocTest",
     ,
     
     #----------------
+    test.ClassDocRd_constructor_lines_for_virtual_class=function(){
+      res<- self$evalWithExamplePackageLoaded(
+        'VirtualClass'
+        ,
+        quote({
+          pkgDir <- 'pkg'
+          cl <- getClass('ExposedVirtualClass')
+          cdo <- get_docObject(cl,pkgDir)
+          res <- Rd_constructor_lines(cdo)
+          #res <- Rd_constructor_lines(cl) #old implementation
+          res
+        })
+      )
+      pp('res')
+      ref="The class is abstract ( \\code{contains \"VIRTUAL\"}).\n Look at non virtual subclasses and their constructors!\n"
+      #stop('want to see the log')
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+    }
+    ,
+    
+    #----------------
     test.ClassDocRd_constructor_lines=function(SKIP){
       res<- self$evalWithExamplePackageLoaded(
         'ClassWithMethods'

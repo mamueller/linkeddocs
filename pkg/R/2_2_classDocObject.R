@@ -135,18 +135,20 @@ setMethod(
   clName <-clrep@className[[1]]
 	fqpkgName <- sprintf('package:%s',clrep@package)
   if (clrep@virtual){
+    l <- c('The class is abstract ( \\code{contains "VIRTUAL"}).
+           It can therefore not be instanciated directly.
+           Look at non virtual subclasses and their constructors!\n') 
     # this is a convention 
-    constructorName <- sprintf('%sSubClassInstance',clName)
+    constructorName <- sprintf('General%s',clName)
     possibleConstructor<- tryCatch(
       getFunction(constructorName,where=as.environment(fqpkgName))
       ,
       error=function(e){e}
     )
     if (! inherits(possibleConstructor,'simpleError')){
-      l <- c('Since the class is virtual it can not be instanciated directly, but a function:')
+      l <- c(l, 'There is also an \\href{https://en.wikipedia.org/wiki/Abstract_factory_pattern}{abstract factory} that produces instances of different subclasses depending on the input:\n')
       l<-c(l, as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
-      l <- c(l,'has been found, that produces instances of subclasses.
-             Please also look at constructors of non virtual subclasses ')
+    }else{
     }
   }else{
     constructorName <- clName
@@ -202,7 +204,7 @@ setMethod(
       
       cl <- Rd_constructor_lines(obj)
       if (!is.null(cl)){ 
-        l[["section{Constructors found by naming convention}"]] <- cl
+        l[["section{Constructors}"]] <- cl
       }
       
     	name <-attr(obj,'generic')[[1]]

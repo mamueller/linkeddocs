@@ -45,6 +45,11 @@ PackageTests_3<-R6Class("PackageTests_3",
     ,
     #--------------------------------
     test.ClassWithMethodsAndExampleFiles=function(){
+      self$checkExamplePkg("VirtualClass")
+		}
+    ,
+    #--------------------------------
+    test.VirtualClass=function(){
       self$checkExamplePkg("ClassWithMethodsAndExampleFiles")
 		}
     #,
