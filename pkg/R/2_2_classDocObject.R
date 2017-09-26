@@ -126,6 +126,14 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
+  f="Rd_superclass_lines",
+  signature=signature(obj="classDocObject"),
+  def=function(obj){
+    return("not yet implemented")
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
   f="Rd_constructor_lines",
   signature=signature(obj="classDocObject"),
   def=function(obj){

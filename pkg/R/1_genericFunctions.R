@@ -107,3 +107,12 @@ setGeneric(
     standardGeneric('Rd_subclass_lines')
   }
 )
+setGeneric(
+  name='Rd_superclass_lines',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('Rd_superclass_lines')
+  }
+)
