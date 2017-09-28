@@ -43,7 +43,7 @@ setGeneric(
 ### Since this class is exported in the Namespace file you can inherit from it
 ### but nethertheless the method for "hiddenGeneric" with this class as
 ### a signature will not be visible
-setClass(# an Exposed  class
+ExposedClass <- setClass(# an Exposed  class
    Class="ExposedClass",
    slots=c(times="numeric")
 )

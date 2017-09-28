@@ -1,2 +1,2 @@
 import(methods)
-exportClasses(ExposedClass,ExposedVirtualClass)
+exportClasses(RealClass,VirtualParentClass,VirtualParentParentClass)

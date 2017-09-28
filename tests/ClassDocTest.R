@@ -56,48 +56,46 @@ ClassDocTest<-R6Class("ClassDocTest",
     ,
     
     #----------------
-    test.ClassDocRd_super_class_lines=function(SKIP){
+    test.ClassDocRd_superclass_lines=function(){
       res<- self$evalWithExamplePackageLoaded(
         'VirtualClass'
         ,
         quote({
           pkgDir <- 'pkg'
-          cl <- getClass('ExposedVirtualClass')
+          cl <- getClass('VirtualParentClass')
           cdo <- get_docObject(cl,pkgDir)
           res <- Rd_superclass_lines(cdo)
           res
         })
       )
       pp('res')
-      ref=""
-      stop('want to see the log')
+      ref="\\code{\\link{VirtualParentParentClass-class}}\\cr"
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
     ,
     
     #----------------
-    test.ClassDocRd_constructor_lines_for_virtual_class=function(SKIP){
+    test.ClassDocRd_constructor_lines_for_virtual_class=function(){
       res<- self$evalWithExamplePackageLoaded(
         'VirtualClass'
         ,
         quote({
           pkgDir <- 'pkg'
-          cl <- getClass('ExposedVirtualClass')
+          cl <- getClass('VirtualParentParentClass')
           cdo <- get_docObject(cl,pkgDir)
           res <- Rd_constructor_lines(cdo)
-          #res <- Rd_constructor_lines(cl) #old implementation
           res
         })
       )
       pp('res')
-      ref="The class is abstract ( \\code{contains \"VIRTUAL\"}).\n Look at non virtual subclasses and their constructors!\n"
+      ref="The class is abstract ( \\code{contains \"VIRTUAL\"}).\n           It can therefore not be instanciated directly.\n           Look at non virtual subclasses and their constructors!\n"
       #stop('want to see the log')
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
     ,
     
     #----------------
-    test.ClassDocRd_constructor_lines=function(SKIP){
+    test.ClassDocRd_constructor_lines=function(){
       res<- self$evalWithExamplePackageLoaded(
         'ClassWithMethods'
         ,
@@ -106,17 +104,12 @@ ClassDocTest<-R6Class("ClassDocTest",
           cl <- getClass('ExposedClass')
           cdo <- get_docObject(cl,pkgDir)
           res <- Rd_constructor_lines(cdo)
-          #res <- Rd_constructor_lines(cl) #old implementation
           res
         })
       )
       pp('res')
-      ref<-c(
-        "  \\describe{",
-        "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",
-        "    \\item{exposedGeneric}{\\code{signature(object = \"ExposedClass\", somethingElse = \"numeric\")}: ... } \\code{\\link{exposedGeneric,ExposedClass,numeric-method}}",
-        "\t }"
-      ) 
+      ref<-c("\t\\code{\\link{ExposedClass}}\\cr",
+      " Please also look at constructors of non virtual subclasses ") 
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
     ,

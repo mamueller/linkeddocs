@@ -39,26 +39,19 @@ PackageTests_3<-R6Class("PackageTests_3",
 	  }
     ,
     #--------------------------------
-    test.ClassWithMethods=function(){
+    test.ClassWithMethods=function(SKIP){
       self$checkExamplePkg("ClassWithMethods")
 		}
     ,
     #--------------------------------
     test.ClassWithMethodsAndExampleFiles=function(){
-      self$checkExamplePkg("VirtualClass")
+      self$checkExamplePkg("ClassWithMethodsAndExampleFiles")
 		}
     ,
     #--------------------------------
     test.VirtualClass=function(){
-      self$checkExamplePkg("ClassWithMethodsAndExampleFiles")
+      self$checkExamplePkg("VirtualClass")
 		}
-    #,
-    ##--------------------------------
-    #test.NameSpaceParsing=function(){
-    #  self$checkExamplePkg("HiddenMethod")
-    #  require("inlinedocs")
-    #  inlinedocs:::pkgInfoFromInstall()
-		#}
 	)
 )
 

@@ -102,20 +102,48 @@ package.skeleton.dx_3<-function(pkgDir){
       funcs[[fn]]<-f
       }
   }
-  nonGenericNames<-setdiff(names(funcs),exportedGenNames)
-  list0 <- fixPackageFileNames(nonGenericNames)
-  names(list0) <- nonGenericNames
-  nonGenerics<-funcs[nonGenericNames]
+  # foo <- setClass(Class=bar ... statements create a function fooBar that 
+  # acts as a constructor for class 'bar'
+  # we have to treat those functions with special care
+  boollist <-lapply(funcs,function(func){inherits(func,'classGeneratorFunction')})
+  pp('boollist')
+  if(any(boollist)){
+    autoConstructors<-funcs[boollist]
+    autoConstructorNames  <- names(autoConstructors)
+    sapply(
+      names(autoConstructors),
+      function(funcName){
+        func <- get(funcName)
+        obj <- func@.Data
+        fn <- file.path(manPath, paste(funcName,".Rd",sep=""))
+        fdo=autoConstructorDocObject(
+          name=funcName,
+          functionObject=obj,
+          pkgDir=pkgDir
+        )
+        write_Rd_file(fdo,fn)
+      }
+    )
+
+  }else{
+    autoConstructorNames <- NULL
+  }
+  namesOfNormalFuncs<-setdiff(
+    names(funcs),
+    union(exportedGenNames,autoConstructorNames)
+  )
+  list0 <- fixPackageFileNames(namesOfNormalFuncs)
+  names(list0) <- namesOfNormalFuncs
+  nonGenerics<-funcs[namesOfNormalFuncs]
   sapply(
-    nonGenericNames, 
+    namesOfNormalFuncs, 
     function(funcName) {
       obj<-get(funcName)
+      pp('obj')
       fn <- file.path(manPath, paste(list0[[funcName]],".Rd",sep=""))
       fdo=functionDocObject(
         name=funcName,
-        #l=l,
         functionObject=obj,
-        #src=codeText,
         pkgDir=pkgDir
       )
       write_Rd_file(fdo,fn)

@@ -16,19 +16,30 @@ setMethod(
     clrep <- obj@clrep
     pkgDir <- obj@pkgDir
     clName  <- obj@name
+
     pkgR<-normalizePath(file.path(pkgDir,'R'))
     codeFiles <- list.files(pkgR,full.names=TRUE)
     code<- ''
     for (fn in codeFiles){code <- append(code,readLines(fn))}
     # since  srcref does not work for classdefinitions yet we have to find the appropriate piece of code ourselves
-    expressions <-  exprs <- parse(text=code,keep.source=TRUE)
+    exprs <- parse(text=code,keep.source=TRUE)
     chunks <- attr(exprs,'srcref')
+    e <- new.env(parent=globalenv())
 	  f=function(expr){
-	    isTRUE(as.character(expr)[[1]]=='setClass' && expr[['Class']]==clName)
+      if (any(grepl(expr,pattern='.*setClass.*')){
+        res <- eval(expr,envir=e)
+        if(inherits(res,'classGeneratorFunction')){
+          if(res@className==clName){
+             return(TRUE)
+          }
+        }
+      }
+      return(FALSE)
 	  }
-    indices <- which(sapply(expressions,f))
+    indices <- which(sapply(exprs,f))
+    pp('indices')
     if (length(indices)<1){
-      stop(sprintf('multiple definition of class %s',ClassName))
+      stop(sprintf('multiple definition of class %s',clName))
     }
     srcRef <- chunks[[indices[[1]]]] # this is of class 'srcref'
     #find first line
@@ -129,7 +140,22 @@ setMethod(
   f="Rd_superclass_lines",
   signature=signature(obj="classDocObject"),
   def=function(obj){
-    return("not yet implemented")
+    clrep <- obj@clrep
+	  pkgName <- attr(attr(clrep,'className'),'package')
+    fqPkgName <- sprintf("package:%s",pkgName)
+    pkgEnv <- as.environment(fqPkgName) 
+    exportedClassNames<-getClasses(pkgEnv)
+    clnames<- getAllSuperClasses(clrep)
+    return(
+      unlist(
+        lapply(
+          intersect(clnames,exportedClassNames),
+          function(clname){
+            sprintf('\\code{\\link{%s-class}}\\cr',clname)
+          }
+        )
+      )
+    )
   }
 )
 #-------------------------------------------------------------------------
@@ -156,9 +182,9 @@ setMethod(
     if (! inherits(possibleConstructor,'simpleError')){
       l <- c(l, 'There is also an \\href{https://en.wikipedia.org/wiki/Abstract_factory_pattern}{abstract factory} that produces instances of different subclasses depending on the input:\n')
       l<-c(l, as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
-    }else{
-    }
+  }
   }else{
+    # this is also a convention: look for a constructor named as the class
     constructorName <- clName
     possibleConstructor<- tryCatch(
       getFunction(constructorName,where=as.environment(fqpkgName))
@@ -208,6 +234,10 @@ setMethod(
       cl <- Rd_subclass_lines(obj)
       if (!(is.null(cl))){ 
         l[["section{Subclasses}"]] <- cl
+      }
+      cl <- Rd_superclass_lines(obj)
+      if (!(is.null(cl))){ 
+        l[["section{Exported superclasses}"]] <- cl
       }
       
       cl <- Rd_constructor_lines(obj)
