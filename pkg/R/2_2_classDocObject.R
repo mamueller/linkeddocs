@@ -26,7 +26,7 @@ setMethod(
     chunks <- attr(exprs,'srcref')
     e <- new.env(parent=globalenv())
 	  f=function(expr){
-      if (any(grepl(expr,pattern='.*setClass.*')){
+      if (any(grepl(expr,pattern='.*setClass.*'))){
         res <- eval(expr,envir=e)
         if(inherits(res,'classGeneratorFunction')){
           if(res@className==clName){
