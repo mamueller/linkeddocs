@@ -27,13 +27,17 @@ setMethod(
     e <- new.env(parent=globalenv())
 	  f=function(expr){
       if (any(grepl(expr,pattern='.*setClass.*'))){
-        res <- eval(expr,envir=e)
-        if(inherits(res,'classGeneratorFunction')){
-          if(res@className==clName){
-             return(TRUE)
-          }
-        }
+       if (any(grepl(expr,pattern=sprintf('.*%s.*',clName)))){
+          return(TRUE)
+       }
       }
+      #  res <- eval(expr,envir=e)
+      #  if(inherits(res,'classGeneratorFunction')){
+      #    if(res@className==clName){
+      #       return(TRUE)
+      #    }
+      #  }
+      #}
       return(FALSE)
 	  }
     indices <- which(sapply(exprs,f))
