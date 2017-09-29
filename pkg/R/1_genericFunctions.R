@@ -47,7 +47,8 @@ setGeneric(
   def=function
   (
   obj,
-  pkgDir
+  pkgDir,
+  source_env 
   ){
     standardGeneric('get_docObject')
   }

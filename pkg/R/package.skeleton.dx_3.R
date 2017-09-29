@@ -4,12 +4,29 @@ package.skeleton.dx_3<-function(pkgDir){
 
   require(tools)
   require(digest)
+  require(devtools)
+  # before we let 'require' load the package we source it 
+  # since we need some srcreferences that R does 
+  # not provide 
+  # This will make ALL classes and functions 
+  # available not only those that are exported
+  # we will later rely on the package loading 
+  # mechanisms and the "package:pkgName" namespace
+  # to determine what is actually visible
+  #source_env <- devtools:::create_ns_env(pkgDir)
+  source_env <- new.env()
+  #pp('source_env')
   privatePackageLib<-file.path(pkgDir,'..','tmp','lib')
   pkgR<-normalizePath(file.path(pkgDir,'R'))
   codeFiles <- list.files(pkgR,full.names=TRUE)
-  code<- ''
-  for (fn in codeFiles){code <- append(code,readLines(fn))}
-
+  exprs <- c()
+  #for (fn in codeFiles){
+  #  exprs <- c(exprs,parse(fn,keep.source=TRUE))
+  #}
+  #for (expr in exprs){
+  #  eval(expr,envir=source_env)
+  #}
+  
   manPath <- file.path(pkgDir,'man')
   if (!file.exists(manPath)){
     dir.create(recursive=TRUE,manPath)
@@ -38,9 +55,6 @@ package.skeleton.dx_3<-function(pkgDir){
     unlink(privatePackageLib,recursive=TRUE,force=TRUE)
     })
   
-  #devtools::install(pkgDir,keep_source=TRUE)
-	#library(pkgName,character.only=TRUE,quietly=TRUE)
-  #all<-devtools::load_all(pkgDir,export_all=FALSE)
 
   # Every package has two environments 
   # 1.) the package environment is where its (exported) function are bound to
@@ -49,6 +63,7 @@ package.skeleton.dx_3<-function(pkgDir){
   # where the functions find their values.
   # http://adv-r.had.co.nz/Environments.html#function-envs
   pkgNsEnv <- asNamespace(pkgName) #
+  
   
 	exportedGens<-getGenerics(fqPkgName) #includes ?internal_generic like  [ [[ $ ..
   #pp('exportedGens')
@@ -86,11 +101,14 @@ package.skeleton.dx_3<-function(pkgDir){
   
   #### document S4 classes
   exportedClassNames<-getClasses(pkgEnv)
+  pp('exportedClassNames')
   for (eCName in exportedClassNames){
       filename <- file.path(manPath,sprintf("%s-class.Rd",eCName))
       # We have to find the part of the source code since R doen not provide a srcref for class definitions
       #write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
-      write_Rd_file(obj=get_docObject(getClass(eCName),pkgDir=pkgDir),fn=filename)
+      obj <- get_docObject(getClass(eCName),pkgDir=pkgDir,source_env=source_env)
+      pp('obj')
+      write_Rd_file(obj,fn=filename)
   }
 
   #### document non generic functions
@@ -105,7 +123,7 @@ package.skeleton.dx_3<-function(pkgDir){
   # foo <- setClass(Class=bar ... statements create a function fooBar that 
   # acts as a constructor for class 'bar'
   # we have to treat those functions with special care
-  boollist <-lapply(funcs,function(func){inherits(func,'classGeneratorFunction')})
+  boollist <-unlist(lapply(funcs,function(func){inherits(func,'classGeneratorFunction')}))
   pp('boollist')
   if(any(boollist)){
     autoConstructors<-funcs[boollist]

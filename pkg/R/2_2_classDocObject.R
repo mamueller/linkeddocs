@@ -1,6 +1,6 @@
 #
 # vim:set ff=unix expandtab ts=2 sw=2:
-classDocObject<-setClass(Class="classDocObject",contains="docObject",slots=c(clrep='classRepresentation'))
+classDocObject<-setClass(Class="classDocObject",contains="docObject",slots=c(clrep='classRepresentation',source_env='environment'))
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_usage_lines",
@@ -14,8 +14,13 @@ setMethod(
   signature=signature(obj="classDocObject"),
   definition=function(obj){
     clrep <- obj@clrep
+	  pkgName <- attr(attr(clrep,'className'),'package')
     pkgDir <- obj@pkgDir
     clName  <- obj@name
+    source_env <- obj@source_env
+    #try to get the srcref info from the src_env
+    so <- source_env[[clName]]
+    pp('so')
 
     pkgR<-normalizePath(file.path(pkgDir,'R'))
     codeFiles <- list.files(pkgR,full.names=TRUE)
@@ -24,20 +29,12 @@ setMethod(
     # since  srcref does not work for classdefinitions yet we have to find the appropriate piece of code ourselves
     exprs <- parse(text=code,keep.source=TRUE)
     chunks <- attr(exprs,'srcref')
-    e <- new.env(parent=globalenv())
 	  f=function(expr){
       if (any(grepl(expr,pattern='.*setClass.*'))){
        if (any(grepl(expr,pattern=sprintf('.*%s.*',clName)))){
           return(TRUE)
        }
       }
-      #  res <- eval(expr,envir=e)
-      #  if(inherits(res,'classGeneratorFunction')){
-      #    if(res@className==clName){
-      #       return(TRUE)
-      #    }
-      #  }
-      #}
       return(FALSE)
 	  }
     indices <- which(sapply(exprs,f))

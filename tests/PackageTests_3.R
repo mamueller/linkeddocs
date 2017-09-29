@@ -39,13 +39,18 @@ PackageTests_3<-R6Class("PackageTests_3",
 	  }
     ,
     #--------------------------------
-    test.ClassWithMethods=function(SKIP){
+    test.ClassWithMethods=function(){
       self$checkExamplePkg("ClassWithMethods")
 		}
     ,
     #--------------------------------
     test.ClassWithMethodsAndExampleFiles=function(){
       self$checkExamplePkg("ClassWithMethodsAndExampleFiles")
+		}
+    ,
+    #--------------------------------
+    test.AutoConstructor=function(){
+      self$checkExamplePkg("AutoConstructor")
 		}
     ,
     #--------------------------------

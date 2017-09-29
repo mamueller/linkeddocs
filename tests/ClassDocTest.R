@@ -15,7 +15,8 @@ ClassDocTest<-R6Class("ClassDocTest",
         quote({
           pkgDir <- 'pkg'
           cl <- getClass('ExposedClass')
-          cdo <- get_docObject(cl,pkgDir)
+          e=new.env()
+          cdo <- get_docObject(cl,pkgDir,e)
           res <- get_xxx_chunks(cdo)
           res
         })
@@ -39,7 +40,8 @@ ClassDocTest<-R6Class("ClassDocTest",
         quote({
           pkgDir <- 'pkg'
           cl <- getClass('ExposedClass')
-          cdo <- get_docObject(cl,pkgDir)
+          e=new.env()
+          cdo <- get_docObject(cl,pkgDir,e)
           res <- Rd_method_lines(cdo)
           res
         })
@@ -63,7 +65,8 @@ ClassDocTest<-R6Class("ClassDocTest",
         quote({
           pkgDir <- 'pkg'
           cl <- getClass('VirtualParentClass')
-          cdo <- get_docObject(cl,pkgDir)
+          e=new.env()
+          cdo <- get_docObject(cl,pkgDir,e)
           res <- Rd_superclass_lines(cdo)
           res
         })
@@ -82,7 +85,8 @@ ClassDocTest<-R6Class("ClassDocTest",
         quote({
           pkgDir <- 'pkg'
           cl <- getClass('VirtualParentParentClass')
-          cdo <- get_docObject(cl,pkgDir)
+          e=new.env()
+    			cdo <- get_docObject(cl,pkgDir,e)
           res <- Rd_constructor_lines(cdo)
           res
         })
@@ -93,22 +97,22 @@ ClassDocTest<-R6Class("ClassDocTest",
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
     ,
-    
     #----------------
-    test.ClassDocRd_constructor_lines=function(){
+    test.ClassDocRd_AutoConstructor_lines=function(){
       res<- self$evalWithExamplePackageLoaded(
-        'ClassWithMethods'
+        'AutoConstructor'
         ,
         quote({
           pkgDir <- 'pkg'
-          cl <- getClass('ExposedClass')
-          cdo <- get_docObject(cl,pkgDir)
+          cl <- getClass('RealClass')
+          e=new.env()
+        	cdo <- get_docObject(cl,pkgDir,e)
           res <- Rd_constructor_lines(cdo)
           res
         })
       )
       pp('res')
-      ref<-c("\t\\code{\\link{ExposedClass}}\\cr",
+      ref<-c("\t\\code{\\link{RealClass}}\\cr",
       " Please also look at constructors of non virtual subclasses ") 
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
@@ -121,7 +125,8 @@ ClassDocTest<-R6Class("ClassDocTest",
         quote({
           pkgDir <- 'pkg'
           cl <- getClass('ExposedClass')
-          cdo <- get_docObject(cl,pkgDir)
+          e=new.env()
+    			cdo <- get_docObject(cl,pkgDir,e)
           res <- Rd_subclass_lines(cdo)
           res
         })
@@ -146,7 +151,8 @@ ClassDocTest<-R6Class("ClassDocTest",
       expr<- quote({
         pkgDir <- "pkg"
         cl <- getClass('ExposedClass')
-        cdo <- get_docObject(cl,pkgDir)
+        e=new.env()
+        cdo <- get_docObject(cl,pkgDir,e)
         res <- write_Rd_file(obj=cdo,fn='test.Rd') 
       })
       res<- self$evalWithExamplePackageLoaded(

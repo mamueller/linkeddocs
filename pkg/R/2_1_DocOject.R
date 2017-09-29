@@ -16,7 +16,7 @@ setMethod(
   signature=signature(obj="docObject"),
   definition=function(obj){
     d=get_xxx_chunks(obj)
-    functionObject=get_functionObject(obj)
+    functionObject <- get_functionObject(obj)
     nd=names(d)
     # fixme:mm
     # the list d contains the documentation  of the argument "a" 
