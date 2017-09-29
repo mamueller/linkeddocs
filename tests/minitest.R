@@ -5,22 +5,32 @@ require('methods')
 require('linkeddocs')
 pkgName <- 'PrivateAndPublic'
 pkgDir <- sprintf('IoTestResults_tmp/PackageTests_3.test.%s/pkg',pkgName)
-linkeddocs::package.skeleton.dx_3(pkgDir)
+if (devtools:::is_loaded(pkgDir)){unload(pkgDir)}
+source_env <- devtools:::create_ns_env(pkgDir)
+#linkeddocs::package.skeleton.dx_3(pkgDir)
 #dnse <-  devtools::load_all(pkgDir)
 ##env=dnse$env
 ##print(getClasses(where=env))
-#pkgR<-normalizePath(file.path(pkgDir,'R'))
-#codeFiles <- list.files(pkgR,full.names=TRUE)
-#exprs <- c()
-#
-#for (fn in codeFiles){
-#  exprs <- c(exprs,parse(fn,keep.source=TRUE))
-#}
-#
-#source_env <- new.env()
-#for (expr in exprs){
-#  eval(expr,envir=source_env)
-#}
+pkgR<-normalizePath(file.path(pkgDir,'R'))
+codeFiles <- list.files(pkgR,full.names=TRUE)
+results <- list()
+j=1
+for (fn in codeFiles){
+  lines <- readLines(fn)
+  sf <- srcfile(fn)
+  exprs <- parse(text=lines,srcfile=sf,keep.source=TRUE)
+  #print(sprintf('getParseData=%s',getParseData(exprs)))
+  n <- length(exprs)
+  for (i in seq_len(n)){
+    expr <- exprs[[i]]
+    res <- eval(expr,source_env)
+    results[[j]] <- list()
+    results[[j]][['res']] <- res
+    results[[j]][['srcRef']] <- getParseData(expr)
+    j=j+1
+  }
+}
+#results
 #devtools::install(pkgDir)
 #
 #denv<- devtools:::create_ns_env(pkgDir)

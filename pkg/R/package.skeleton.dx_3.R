@@ -20,13 +20,21 @@ package.skeleton.dx_3<-function(pkgDir){
   pkgR<-normalizePath(file.path(pkgDir,'R'))
   codeFiles <- list.files(pkgR,full.names=TRUE)
   #exprs <- c()
+  results <- list()
+  j=1
   for (fn in codeFiles){
-    #source(fn,keep.source=TRUE)
     lines <- readLines(fn)
-    exprs <- parse(text=lines,srcfile=fn,keep.source=TRUE)
+    sf <- srcfile(fn)
+    exprs <- parse(text=lines,srcfile=sf,keep.source=TRUE)
+    #print(sprintf('getParseData=%s',getParseData(exprs)))
     n <- length(exprs)
     for (i in seq_len(n)){
-      eval(exprs[i],source_env)
+      expr <- exprs[[i]]
+      res <- eval(expr,source_env)
+      results[[j]] <- list()
+      results[[j]][['res']] <- res
+      results[[j]][['srcRef']] <- getParseData(expr)
+      j=j+1
     }
   }
   pe(quote(getClasses(source_env)))
