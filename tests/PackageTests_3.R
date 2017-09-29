@@ -57,6 +57,11 @@ PackageTests_3<-R6Class("PackageTests_3",
     test.VirtualClass=function(){
       self$checkExamplePkg("VirtualClass")
 		}
+    ,
+    #--------------------------------
+    test.PrivateAndPublic=function(){
+      self$checkExamplePkg("PrivateAndPublic")
+		}
 	)
 )
 

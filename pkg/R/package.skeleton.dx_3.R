@@ -13,20 +13,31 @@ package.skeleton.dx_3<-function(pkgDir){
   # we will later rely on the package loading 
   # mechanisms and the "package:pkgName" namespace
   # to determine what is actually visible
-  #source_env <- devtools:::create_ns_env(pkgDir)
-  source_env <- new.env()
+  pe(quote(devtools:::is_loaded(pkgDir)))
+  source_env <- devtools:::create_ns_env(pkgDir)
   #pp('source_env')
   privatePackageLib<-file.path(pkgDir,'..','tmp','lib')
   pkgR<-normalizePath(file.path(pkgDir,'R'))
   codeFiles <- list.files(pkgR,full.names=TRUE)
-  exprs <- c()
-  #for (fn in codeFiles){
-  #  exprs <- c(exprs,parse(fn,keep.source=TRUE))
-  #}
+  #exprs <- c()
+  for (fn in codeFiles){
+    #source(fn,keep.source=TRUE)
+    lines <- readLines(fn)
+    exprs <- parse(text=lines,srcfile=fn,keep.source=TRUE)
+    n <- length(exprs)
+    for (i in seq_len(n)){
+      eval(exprs[i],source_env)
+    }
+  }
+  pe(quote(getClasses(source_env)))
+  unload(pkgDir)
+  pe(quote(getClasses(source_env)))
+  #stop('#mmm#')
+  #pp('exprs')
   #for (expr in exprs){
+  #  pp('expr')
   #  eval(expr,envir=source_env)
   #}
-  
   manPath <- file.path(pkgDir,'man')
   if (!file.exists(manPath)){
     dir.create(recursive=TRUE,manPath)
