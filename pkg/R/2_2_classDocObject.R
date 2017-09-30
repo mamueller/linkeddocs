@@ -19,7 +19,7 @@ setMethod(
     clName  <- obj@name
     source_env <- obj@source_env
     #try to get the srcref info from the src_env
-    so <- source_env[[clName]]
+    so <- getClass(clName,where=source_env)
     pp('so')
 
     pkgR<-normalizePath(file.path(pkgDir,'R'))

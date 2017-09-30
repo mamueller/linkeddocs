@@ -98,6 +98,30 @@ ClassDocTest<-R6Class("ClassDocTest",
     }
     ,
     #----------------
+    test.ClassDocRd_FindAutoConstructor=function(SKIP){
+      # statements like
+      # A  <- setC;ass('A',...) 
+      # should be found as well as
+      # setClass('A',...) 
+      # we don not want to use regexp to find the statements     # but rely on R to parse them and then find them
+      res<- self$evalWithExamplePackageLoaded(
+        'AutoConstructor'
+        ,
+        quote({
+          pkgDir <- 'pkg'
+          cl <- getClass('RealClass')
+          e=new.env()
+        	cdo <- get_docObject(cl,pkgDir,e)
+          res <- get_xxx_chunks(cdo)
+          res
+        })
+      )
+      pp('res')
+      ref<-c(" ### setClass returns generator a function")
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+    }
+    ,
+    #----------------
     test.ClassDocRd_AutoConstructor_lines=function(){
       res<- self$evalWithExamplePackageLoaded(
         'AutoConstructor'

@@ -4,48 +4,8 @@ package.skeleton.dx_3<-function(pkgDir){
 
   require(tools)
   require(digest)
-  require(devtools)
-  # before we let 'require' load the package we source it 
-  # since we need some srcreferences that R does 
-  # not provide 
-  # This will make ALL classes and functions 
-  # available not only those that are exported
-  # we will later rely on the package loading 
-  # mechanisms and the "package:pkgName" namespace
-  # to determine what is actually visible
-  pe(quote(devtools:::is_loaded(pkgDir)))
-  source_env <- devtools:::create_ns_env(pkgDir)
-  #pp('source_env')
   privatePackageLib<-file.path(pkgDir,'..','tmp','lib')
-  pkgR<-normalizePath(file.path(pkgDir,'R'))
-  codeFiles <- list.files(pkgR,full.names=TRUE)
-  #exprs <- c()
-  results <- list()
-  j=1
-  for (fn in codeFiles){
-    lines <- readLines(fn)
-    sf <- srcfile(fn)
-    exprs <- parse(text=lines,srcfile=sf,keep.source=TRUE)
-    #print(sprintf('getParseData=%s',getParseData(exprs)))
-    n <- length(exprs)
-    for (i in seq_len(n)){
-      expr <- exprs[[i]]
-      res <- eval(expr,source_env)
-      results[[j]] <- list()
-      results[[j]][['res']] <- res
-      results[[j]][['srcRef']] <- getParseData(expr)
-      j=j+1
-    }
-  }
-  pe(quote(getClasses(source_env)))
-  unload(pkgDir)
-  pe(quote(getClasses(source_env)))
-  #stop('#mmm#')
-  #pp('exprs')
-  #for (expr in exprs){
-  #  pp('expr')
-  #  eval(expr,envir=source_env)
-  #}
+  source_env <- nsEnvInfo(pkgDir)[['env']]
   manPath <- file.path(pkgDir,'man')
   if (!file.exists(manPath)){
     dir.create(recursive=TRUE,manPath)
@@ -67,7 +27,7 @@ package.skeleton.dx_3<-function(pkgDir){
   fqPkgName <- sprintf("package:%s",pkgName)
 	#install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source",quiet=TRUE)
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source")
-	library(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
+	require(pkgName,lib.loc=privatePackageLib,character.only=TRUE,quietly=TRUE)
   on.exit({
     .libPaths(oldLibs) 
     detach(fqPkgName,unload=TRUE,character.only=TRUE) 
@@ -79,7 +39,7 @@ package.skeleton.dx_3<-function(pkgDir){
   # 1.) the package environment is where its (exported) function are bound to
   pkgEnv <- as.environment(fqPkgName) 
   # 2.) the package Namespace environment which encloses its functions  and defines 
-  # where the functions find their values.
+  # where the functions find other function that are not exported values.
   # http://adv-r.had.co.nz/Environments.html#function-envs
   pkgNsEnv <- asNamespace(pkgName) #
   
