@@ -3,7 +3,7 @@
 #-------------------------------------------------------------------------
 setMethod(
   f="get_docObject",
-  signature=signature(obj="MethodDefinition",pkgDir='character',source_env='missing'),
+  signature=signature(obj="MethodDefinition",pkgDir='character',srcref='missing'),
   def=function(obj,pkgDir){
     
     genName <- obj@generic

@@ -4,6 +4,7 @@ leadingComments <- function(fileName,pos){
   code <- readLines(fileName)
   leadingComments <- ''
   line <- code[pos-1]
+  pos <- pos-1
   while(grepl('^\\s*###',line) && pos >1){
       leadingComments<- c(line,leadingComments)
       pos <- pos-1

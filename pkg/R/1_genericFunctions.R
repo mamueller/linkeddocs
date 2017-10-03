@@ -48,7 +48,7 @@ setGeneric(
   (
   obj,
   pkgDir,
-  source_env 
+  srcref
   ){
     standardGeneric('get_docObject')
   }

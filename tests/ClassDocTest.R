@@ -9,43 +9,43 @@ ClassDocTest<-R6Class("ClassDocTest",
   public=list(
     #----------------
     test.ClassDocXXX=function(){
-      res<- self$evalWithExamplePackageLoaded(
-        'ClassWithMethods'
-        ,
-        quote({
-          pkgDir <- 'pkg'
-          cl <- getClass('ExposedClass')
-          e=new.env()
-          cdo <- get_docObject(cl,pkgDir,e)
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'ExposedClass'
+          sr <-  findClassSrcRef(results,clname)
+          cl <- getClass(clname)
+          cdo <- get_docObject(cl,pkgDir,sr)
           res <- get_xxx_chunks(cdo)
           res
-        })
-      )
+      }
+      self$loadAndInstall("ClassWithMethods")
+      
+      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+
       ref_title<- 'an Exposed  class'
-      ref_description<-c(
-        "Since this class is exported in the Namespace file you can inherit from it",
-        "but nethertheless the method for \"hiddenGeneric\" with this class as",
-        "a signature will not be visible"
-      )
       self$assertTrue(CompareTrimmedNonEmptyLines(res[['title']],ref_title))
+
+      ref_description<-c(
+        "Since this class is exported in the Namespace file you can inherit from it", "but nethertheless the method for \"hiddenGeneric\" with this class as", "a signature will not be visible"
+      )
       self$assertTrue(CompareTrimmedNonEmptyLines(res[['description']],ref_description))
     }
     ,
     
     #----------------
-    test.ClassDocRd_method_lines=function(){
-      res<- self$evalWithExamplePackageLoaded(
-        'ClassWithMethods'
-        ,
-        quote({
-          pkgDir <- 'pkg'
-          cl <- getClass('ExposedClass')
-          e=new.env()
-          cdo <- get_docObject(cl,pkgDir,e)
+    test.Rd_method_lines=function(){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'ExposedClass'
+          sr <-  findClassSrcRef(results,clname)
+          cl <- getClass(clname)
+          cdo <- get_docObject(cl,pkgDir,sr)
           res <- Rd_method_lines(cdo)
           res
-        })
-      )
+      }
+      
+      self$loadAndInstall("ClassWithMethods")
+      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
       pp('res')
       ref<-c(
         "  \\describe{",
@@ -58,19 +58,18 @@ ClassDocTest<-R6Class("ClassDocTest",
     ,
     
     #----------------
-    test.ClassDocRd_superclass_lines=function(){
-      res<- self$evalWithExamplePackageLoaded(
-        'VirtualClass'
-        ,
-        quote({
-          pkgDir <- 'pkg'
-          cl <- getClass('VirtualParentClass')
-          e=new.env()
-          cdo <- get_docObject(cl,pkgDir,e)
+    test.superclass_lines=function(){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'VirtualParentClass'
+          sr <-  findClassSrcRef(results,clname)
+          cl <- getClass(clname)
+          cdo <- get_docObject(cl,pkgDir,sr)
           res <- Rd_superclass_lines(cdo)
           res
-        })
-      )
+      }
+      self$loadAndInstall("VirtualClass")
+      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
       pp('res')
       ref="\\code{\\link{VirtualParentParentClass-class}}\\cr"
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
@@ -78,19 +77,18 @@ ClassDocTest<-R6Class("ClassDocTest",
     ,
     
     #----------------
-    test.ClassDocRd_constructor_lines_for_virtual_class=function(){
-      res<- self$evalWithExamplePackageLoaded(
-        'VirtualClass'
-        ,
-        quote({
-          pkgDir <- 'pkg'
-          cl <- getClass('VirtualParentParentClass')
-          e=new.env()
-    			cdo <- get_docObject(cl,pkgDir,e)
+    test.Rd_constructor_lines_for_virtual_class=function(){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'VirtualParentParentClass'
+          sr <-  findClassSrcRef(results,clname)
+          cl <- getClass(clname)
+          cdo <- get_docObject(cl,pkgDir,sr)
           res <- Rd_constructor_lines(cdo)
           res
-        })
-      )
+      }
+      self$loadAndInstall("VirtualClass")
+      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
       pp('res')
       ref="The class is abstract ( \\code{contains \"VIRTUAL\"}).\n           It can therefore not be instanciated directly.\n           Look at non virtual subclasses and their constructors!\n"
       #stop('want to see the log')
@@ -98,43 +96,38 @@ ClassDocTest<-R6Class("ClassDocTest",
     }
     ,
     #----------------
-    test.ClassDocRd_FindAutoConstructor=function(SKIP){
+    test.FindAutoConstructor=function(){
       # statements like
       # A  <- setC;ass('A',...) 
       # should be found as well as
       # setClass('A',...) 
       # we don not want to use regexp to find the statements     # but rely on R to parse them and then find them
-      res<- self$evalWithExamplePackageLoaded(
-        'AutoConstructor'
-        ,
-        quote({
-          pkgDir <- 'pkg'
-          cl <- getClass('RealClass')
-          e=new.env()
-        	cdo <- get_docObject(cl,pkgDir,e)
-          res <- get_xxx_chunks(cdo)
-          res
-        })
-      )
-      pp('res')
-      ref<-c(" ### setClass returns generator a function")
-      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'RealClass'
+          sr <-  findClassSrcRef(results,clname)
+          sr
+      }
+      self$loadAndInstall("AutoConstructor")
+      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+
+      self$assertTrue(getSrcLocation(res)==3)
+      self$assertTrue(getSrcFilename(res)=='source.R')
     }
     ,
     #----------------
-    test.ClassDocRd_AutoConstructor_lines=function(){
-      res<- self$evalWithExamplePackageLoaded(
-        'AutoConstructor'
-        ,
-        quote({
-          pkgDir <- 'pkg'
-          cl <- getClass('RealClass')
-          e=new.env()
-        	cdo <- get_docObject(cl,pkgDir,e)
+    test.AutoConstructor_lines=function(){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'RealClass'
+          sr <-  findClassSrcRef(results,clname)
+          cl <- getClass(clname)
+          cdo <- get_docObject(cl,pkgDir,sr)
           res <- Rd_constructor_lines(cdo)
           res
-        })
-      )
+      }
+      self$loadAndInstall("AutoConstructor")
+      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
       pp('res')
       ref<-c("\t\\code{\\link{RealClass}}\\cr",
       " Please also look at constructors of non virtual subclasses ") 
@@ -142,19 +135,18 @@ ClassDocTest<-R6Class("ClassDocTest",
     }
     ,
     #----------------
-    test.ClassDocRd_subclass_lines=function(SKIP){
-      res<- self$evalWithExamplePackageLoaded(
-        'ClassWithMethods'
-        ,
-        quote({
-          pkgDir <- 'pkg'
-          cl <- getClass('ExposedClass')
-          e=new.env()
-    			cdo <- get_docObject(cl,pkgDir,e)
+    test.subclass_lines=function(SKIP){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'ExposedClass'
+          sr <-  findClassSrcRef(results,clname)
+          cl <- getClass(clname)
+          cdo <- get_docObject(cl,pkgDir,sr)
           res <- Rd_subclass_lines(cdo)
           res
-        })
-      )
+      }
+      self$loadAndInstall("ClassWithMethods")
+      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
       pp('res')
       ref<-c(
         "  \\describe{",
@@ -166,23 +158,21 @@ ClassDocTest<-R6Class("ClassDocTest",
     }
     ,
     #----------------
-    test.ClassDoc_write_Rd_file=function(){
+    test.write_Rd_file=function(){
       # we only check that the function can be called an produces 
       # a .Rd file in the man folder
       # the contents of the file are better checked 
       # in parts by smaller tests
-      
-      expr<- quote({
-        pkgDir <- "pkg"
-        cl <- getClass('ExposedClass')
-        e=new.env()
-        cdo <- get_docObject(cl,pkgDir,e)
-        res <- write_Rd_file(obj=cdo,fn='test.Rd') 
-      })
-      res<- self$evalWithExamplePackageLoaded(
-        'ClassWithMethods',
-         expr
-      )
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'ExposedClass'
+          sr <-  findClassSrcRef(results,clname)
+          cl <- getClass(clname)
+          cdo <- get_docObject(cl,pkgDir,sr)
+          res <- write_Rd_file(obj=cdo,fn='test.Rd') 
+      }
+      self$loadAndInstall("ClassWithMethods")
+      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
       self$assertTrue(
         file.exists('test.Rd') 
       )

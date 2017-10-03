@@ -5,7 +5,7 @@ package.skeleton.dx_3<-function(pkgDir){
   require(tools)
   require(digest)
   privatePackageLib<-file.path(pkgDir,'..','tmp','lib')
-  source_env <- nsEnvInfo(pkgDir)[['env']]
+  results <- objectsAndSrcRefs(pkgDir)
   manPath <- file.path(pkgDir,'man')
   if (!file.exists(manPath)){
     dir.create(recursive=TRUE,manPath)
@@ -77,18 +77,18 @@ package.skeleton.dx_3<-function(pkgDir){
     }
 	}
 
-  
-  #### document S4 classes
-  exportedClassNames<-getClasses(pkgEnv)
-  pp('exportedClassNames')
-  for (eCName in exportedClassNames){
-      filename <- file.path(manPath,sprintf("%s-class.Rd",eCName))
-      # We have to find the part of the source code since R doen not provide a srcref for class definitions
-      #write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
-      obj <- get_docObject(getClass(eCName),pkgDir=pkgDir,source_env=source_env)
-      pp('obj')
-      write_Rd_file(obj,fn=filename)
-  }
+  documentS4Classes(pkgEnv,results,pkgDir,manPath) 
+  ##### document S4 classes
+  #exportedClassNames<-getClasses(pkgEnv)
+  #pp('exportedClassNames')
+  #for (eCName in exportedClassNames){
+  #    filename <- file.path(manPath,sprintf("%s-class.Rd",eCName))
+  #    # We have to find the part of the source code since R doen not provide a srcref for class definitions
+  #    #write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
+  #    obj <- get_docObject(getClass(eCName),pkgDir=pkgDir,source_env=source_env)
+  #    pp('obj')
+  #    write_Rd_file(obj,fn=filename)
+  #}
 
   #### document non generic functions
   objectNames<-ls(pkgEnv)

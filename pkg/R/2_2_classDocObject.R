@@ -1,6 +1,6 @@
 #
 # vim:set ff=unix expandtab ts=2 sw=2:
-classDocObject<-setClass(Class="classDocObject",contains="docObject",slots=c(clrep='classRepresentation',source_env='environment'))
+classDocObject<-setClass(Class="classDocObject",contains="docObject",slots=c(clrep='classRepresentation',srcref="srcref"))
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_usage_lines",
@@ -17,53 +17,22 @@ setMethod(
 	  pkgName <- attr(attr(clrep,'className'),'package')
     pkgDir <- obj@pkgDir
     clName  <- obj@name
-    source_env <- obj@source_env
+    srcref<- obj@srcref
+
+    srcRef <- srcref
     #try to get the srcref info from the src_env
-    so <- getClass(clName,where=source_env)
-    pp('so')
 
     pkgR<-normalizePath(file.path(pkgDir,'R'))
-    codeFiles <- list.files(pkgR,full.names=TRUE)
-    code<- ''
-    for (fn in codeFiles){code <- append(code,readLines(fn))}
-    # since  srcref does not work for classdefinitions yet we have to find the appropriate piece of code ourselves
-    exprs <- parse(text=code,keep.source=TRUE)
-    chunks <- attr(exprs,'srcref')
-	  f=function(expr){
-      if (any(grepl(expr,pattern='.*setClass.*'))){
-       if (any(grepl(expr,pattern=sprintf('.*%s.*',clName)))){
-          return(TRUE)
-       }
-      }
-      return(FALSE)
-	  }
-    indices <- which(sapply(exprs,f))
-    pp('indices')
-    if (length(indices)<1){
-      stop(sprintf('multiple definition of class %s',clName))
-    }
-    srcRef <- chunks[[indices[[1]]]] # this is of class 'srcref'
-    #find first line
     codeText <- as.character(srcRef,useSource=T)
     l <- extract.xxx.chunks(codeText)
 
-    pos <- utils::getSrcLocation(srcRef)
-    # fixme mm the following lines could be avoided if we
-    # could use the leadingComments function
-    # We would have to source the srccode files separatly
+    pos <- getSrcLocation(srcRef)
+    fn <- file.path(pkgR,getSrcFilename(srcRef))
+    pp('fn')
 
-    leadingComments <- ''
-    pos <- pos-1
-    line <- code[pos]
-    while(grepl('^\\s*###',line) && pos >1){
-      pos <- pos-1
-      leadingComments<- c(line,leadingComments)
-      line <- code[pos]
-    }
-    
-
-    leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
+    leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments(fn,pos))
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
+    pp('leadingDesc')
     
     
     desc <- append(leadingDesc,l[['description']])

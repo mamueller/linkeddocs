@@ -13,5 +13,11 @@ ComponentsTest<-R6Class("ComponentsTest",
       tryTwice(quote(devtools::install('pkg',keep_source=TRUE)))
       evalWithPackageLoaded(targetPkgName,expr)
     }
+    ,
+    loadAndInstall=function(targetPkgName){
+      # copy the files 
+      self$cp_package_files(targetPkgName)
+      tryTwice(quote(devtools::install('pkg',keep_source=TRUE)))
+    }
   )
 )

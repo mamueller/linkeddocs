@@ -3,15 +3,15 @@
 #-------------------------------------------------------------------------
 setMethod(
   f="get_docObject",
-  signature=signature(obj="classRepresentation",pkgDir='character',source_env='environment'),
-  def=function(obj,pkgDir,source_env){
+  signature=signature(obj="classRepresentation",pkgDir='character',srcref='srcref'),
+  def=function(obj,pkgDir,srcref){
     clName <-obj@className[[1]]
     cdo <- classDocObject(
       name=clName,
       functionObject=function(){}, ### fixme mm: this slot should be removed from the parent class
       pkgDir=pkgDir,
       clrep=obj,
-      source_env=source_env 
+      srcref=srcref
       )
     }
 )
