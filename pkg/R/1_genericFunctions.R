@@ -117,3 +117,12 @@ setGeneric(
     standardGeneric('Rd_superclass_lines')
   }
 )
+setGeneric(
+  name='defaultRdFileName',
+  def=function
+  (
+  obj
+  ){
+    standardGeneric('defaultRdFileName')
+  }
+)

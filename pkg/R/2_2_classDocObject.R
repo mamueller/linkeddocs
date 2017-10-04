@@ -219,3 +219,11 @@ setMethod(
       writeFlattenedListToRd(l,fn)
     }
 )
+#-------------------------------------------------------------------------
+setMethod(
+  f="defaultRdFileName",
+  signature=signature(obj="classDocObject"),
+  def=function(obj){
+      sprintf("%s-class.Rd",obj@name)
+  }
+)

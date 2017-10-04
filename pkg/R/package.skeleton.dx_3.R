@@ -76,19 +76,8 @@ package.skeleton.dx_3<-function(pkgDir){
       )
     }
 	}
-
-  documentS4Classes(pkgEnv,results,pkgDir,manPath) 
-  ##### document S4 classes
-  #exportedClassNames<-getClasses(pkgEnv)
-  #pp('exportedClassNames')
-  #for (eCName in exportedClassNames){
-  #    filename <- file.path(manPath,sprintf("%s-class.Rd",eCName))
-  #    # We have to find the part of the source code since R doen not provide a srcref for class definitions
-  #    #write_Rd_file(obj=getClass(eCName),fn=filename,code=code)
-  #    obj <- get_docObject(getClass(eCName),pkgDir=pkgDir,source_env=source_env)
-  #    pp('obj')
-  #    write_Rd_file(obj,fn=filename)
-  #}
+  docObjects <- c()
+  docObjects <- c(docObjects,documentS4Classes(pkgEnv,results,pkgDir,manPath))
 
   #### document non generic functions
   objectNames<-ls(pkgEnv)
@@ -148,6 +137,20 @@ package.skeleton.dx_3<-function(pkgDir){
   )
   #### warn about objects that are not documented yet 
   remaining_objects<-setdiff(objectNames,names(funcs))
+
+  #### write Rd files for docObjects
+  defaultFileNames <- lapply(
+    docObjects,
+    function(obj){defaultRdFileName(obj)}
+  )
+
+  uniqueNames <- fixPackageFileNames(defaultFileNames)
+  for (i in seq_along(defaultFileNames)){
+    obj <- docObjects[[i]]
+    path <- file.path(manPath,sprintf('%s.Rd',uniqueNames[[i]]))
+    write_Rd_file(obj,fn=path)
+  }
+
 
   #### copy the manMan Files back
   manManPath <- file.path(manPath,'manMan')
