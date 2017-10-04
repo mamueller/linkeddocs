@@ -1,9 +1,23 @@
 
 # vim:set ff=unix expandtab ts=2 sw=2:
-# The purpose of this function is to find
-# a way to load the package to document into
-# two separate environments
-callWithPackageEnv <- function(pkgDir,taskFunc,...){
+# The purpose of this function is to call worker functions
+# that need variables of the package to be documented
+# in an environment where this information is present
+# It avoids necessaty that every worker function reinitializes those
+# variables 
+callWithPackageVars <- function(
+    pkgDir,     ### The directory of the package to be loaded 
+    taskFunc,   ### A function that will be called with the package loaded
+                ### and any of the variable in argument varNames
+    varNames,   ### The first arguments of the function call
+                ### that will be intitialized from this functions local
+                ### variables and must be available here.
+    ...         ### other arguments the worker function might need
+                ### These are initialized from the environment of 
+                ### the caller (this is the usual case of any normal  
+                ### function call)
+  )
+  {
   privatePackageLib<-file.path(pkgDir,'..','tmp','lib')
   results <- objectsAndSrcRefs(pkgDir)
   manPath <- file.path(pkgDir,'man')
