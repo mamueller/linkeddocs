@@ -224,6 +224,6 @@ setMethod(
   f="defaultRdFileName",
   signature=signature(obj="classDocObject"),
   def=function(obj){
-      sprintf("%s-class.Rd",obj@name)
+      sprintf("%s-class",obj@name)
   }
 )

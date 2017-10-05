@@ -19,30 +19,10 @@ package.skeleton.dx_3<-function(pkgDir){
     # because we have to document it if it is exported
   	GensWithDocMethods<-exportedGenNames[unlist(sapply(exportedGenNames,GenHasAnyMethodWithSrc,pkgDir))]
   
-  	
-  	for (genName in GensWithDocMethods){
-  		meths<- findMethods(genName,where=pkgEnv)
-      i <- 1
-      for (m in meths){
-        #Nme <-fixPackageFileNames(paste(genName,"-method_",toString(i),sep=""))
-        Nme <- uniqueMethodFileNameTrunk(m) 
-        p=file.path(manPath,paste(Nme,".Rd",sep=""))
-        write_Rd_file(m,p,pkgDir=pkgDir)
-        i <- i+1
-      }
-      # not all the generics our package defines mehtods for are also defined by the 
-      # package. Some like [, [[, $ have been there before.
-      # Only the generics in the package need their own Rd file
-      if (GenHasSrc(genName,pkgDir,pkgEnv)){
-        #pe(quote(class(getGeneric(genName))))  
-        write_Rd_file(
-          get_docObject(getGeneric(genName),pkgDir) ,
-          file.path(manPath,paste(fixPackageFileNames(genName),".Rd",sep=""))
-        )
-      }
-  	}
     docObjects <- c()
-    docObjects <- c(docObjects,documentS4Classes(pkgEnv,results,pkgDir,manPath))
+  	
+    docObjects <- c(docObjects,documentS4GenericsAndMethods(pkgEnv,pkgDir,GensWithDocMethods))
+    docObjects <- c(docObjects,documentS4Classes(pkgEnv,results,pkgDir))
   
     #### document non generic functions
     objectNames<-ls(pkgEnv)

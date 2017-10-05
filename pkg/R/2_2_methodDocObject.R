@@ -155,3 +155,13 @@ setMethod(
   }
 )
 
+#-------------------------------------------------------------------------
+setMethod(
+  f="write_Rd_file",
+  signature=signature(obj="defaultRdFileName"),
+  def=function(
+      obj
+     ){
+        uniqueMethodFileNameTrunk(obj@methDef) 
+  }
+)
