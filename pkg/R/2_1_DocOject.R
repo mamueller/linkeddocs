@@ -186,3 +186,9 @@ setMethod(
     return(codeText)
     }
 )
+#-------------------------------------------------------------------------
+setMethod(
+  f="defaultRdFileName",
+  signature=signature(obj="docObject"),
+  definition=function(obj){obj@name}
+)

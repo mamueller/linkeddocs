@@ -21,7 +21,5 @@ findClassSrcRef<- function(results,clname){
 		sr<- srcRefs[[1]][['srcref']]
     firstLine <- getSrcLocation(sr)
     fileName<- getSrcFilename(sr)
-    pp('firstLine')
-    pp('fileName')
     sr   
 }

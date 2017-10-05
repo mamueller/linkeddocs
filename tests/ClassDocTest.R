@@ -20,7 +20,7 @@ ClassDocTest<-R6Class("ClassDocTest",
       }
       self$loadAndInstall("ClassWithMethods")
       
-      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
 
       ref_title<- 'an Exposed  class'
       self$assertTrue(CompareTrimmedNonEmptyLines(res[['title']],ref_title))
@@ -45,7 +45,7 @@ ClassDocTest<-R6Class("ClassDocTest",
       }
       
       self$loadAndInstall("ClassWithMethods")
-      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
       pp('res')
       ref<-c(
         "  \\describe{",
@@ -69,7 +69,7 @@ ClassDocTest<-R6Class("ClassDocTest",
           res
       }
       self$loadAndInstall("VirtualClass")
-      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
       pp('res')
       ref="\\code{\\link{VirtualParentParentClass-class}}\\cr"
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
@@ -88,7 +88,7 @@ ClassDocTest<-R6Class("ClassDocTest",
           res
       }
       self$loadAndInstall("VirtualClass")
-      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
       pp('res')
       ref="The class is abstract ( \\code{contains \"VIRTUAL\"}).\n           It can therefore not be instanciated directly.\n           Look at non virtual subclasses and their constructors!\n"
       #stop('want to see the log')
@@ -109,7 +109,7 @@ ClassDocTest<-R6Class("ClassDocTest",
           sr
       }
       self$loadAndInstall("AutoConstructor")
-      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
 
       self$assertTrue(getSrcLocation(res)==3)
       self$assertTrue(getSrcFilename(res)=='source.R')
@@ -127,7 +127,7 @@ ClassDocTest<-R6Class("ClassDocTest",
           res
       }
       self$loadAndInstall("AutoConstructor")
-      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
       pp('res')
       ref<-c("\t\\code{\\link{RealClass}}\\cr",
       " Please also look at constructors of non virtual subclasses ") 
@@ -146,7 +146,7 @@ ClassDocTest<-R6Class("ClassDocTest",
           res
       }
       self$loadAndInstall("ClassWithMethods")
-      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
       pp('res')
       ref<-c(
         "  \\describe{",
@@ -172,7 +172,7 @@ ClassDocTest<-R6Class("ClassDocTest",
           res <- write_Rd_file(obj=cdo,fn='test.Rd') 
       }
       self$loadAndInstall("ClassWithMethods")
-      res <- callWithPackageEnv(pkgDir,testfunc,pkgDir)
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
       self$assertTrue(
         file.exists('test.Rd') 
       )

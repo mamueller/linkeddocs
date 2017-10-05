@@ -4,6 +4,17 @@
 require(linkeddocs)
 require(R6Unit)
 source("ExamplePkgTest.R")
+CranResultOk=function(l){
+  ne<-length(l$errors)
+  nw<-length(l$warnings)
+  nn<-length(l$notes)
+  tn<-ne+nw+nn
+  cond<-(ne+nw+nn)==0
+  if(!cond){
+    print(l)
+  }
+  cond
+}
 PkgTest_3<-R6Class("PkgTest_3",
 	#inherit=InDirTest,
 	inherit=ExamplePkgTest,
@@ -12,24 +23,12 @@ PkgTest_3<-R6Class("PkgTest_3",
     ,
     #----------------
     assertCranResultOk=function(l,msg="devtools::check failed"){
-      ne<-length(l$errors)
-      nw<-length(l$warnings)
-      nn<-length(l$notes)
-      tn<-ne+nw+nn
-      cond<-(ne+nw+nn)>0
-      print(cond)
-      if(cond){
-        print(l)
-      }
-      self$assertEqual(ne,0)
-      self$assertEqual(nw,0)
-      self$assertEqual(nn,0)
+      self$assertTrue(CranResultOk(l))
     }
     ,
     #----------------
     checkExamplePkg=function(targetPkgName){
       whereAmI <- getwd()
-      pp('whereAmI')
       # copy the files 
       self$cp_package_files(targetPkgName)
 
@@ -38,14 +37,14 @@ PkgTest_3<-R6Class("PkgTest_3",
       package.skeleton.dx_3(pkgDir)
        
       # perform cran checks
-      #l<-check(pkgDir,document=FALSE,quiet=TRUE,cran=TRUE)
-      #l<-check(pkgDir,document=FALSE)
       
-      #l<-list(errors=c("bla","blub"),warnings=c("foo"),notes=c("bar","foo"))
-      #l<-check(pkgDir,document=FALSE,quiet=FALSE)
-      #l<-check(pkgDir,document=FALSE,quiet=TRUE,cran=TRUE,check_dir='.')
-      l<-check(pkgDir,document=FALSE,quiet=FALSE,cran=TRUE,check_dir='.')
-      self$assertCranResultOk(l)
+      # first run the checks quietly to keep the check out of the logfile
+      l<-check(pkgDir,document=FALSE,quiet=TRUE,cran=TRUE,check_dir='.')
+      # if there is a problem repeat with all the output
+      if (!(CranResultOk(l))){
+        l<-check(pkgDir,document=FALSE,quiet=FALSE,cran=TRUE,check_dir='.')
+      }
+      self$assertCranResultOk(l,msg="devtools::check failed")
     }
   )
 )

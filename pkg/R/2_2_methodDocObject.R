@@ -157,8 +157,8 @@ setMethod(
 
 #-------------------------------------------------------------------------
 setMethod(
-  f="write_Rd_file",
-  signature=signature(obj="defaultRdFileName"),
+  f="defaultRdFileName",
+  signature=signature(obj="methodDocObject"),
   def=function(
       obj
      ){
