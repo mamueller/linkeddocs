@@ -46,7 +46,6 @@ ClassDocTest<-R6Class("ClassDocTest",
       
       self$loadAndInstall("ClassWithMethods")
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
-      pp('res')
       ref<-c(
         "  \\describe{",
         "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",
@@ -70,7 +69,6 @@ ClassDocTest<-R6Class("ClassDocTest",
       }
       self$loadAndInstall("VirtualClass")
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
-      pp('res')
       ref="\\code{\\link{VirtualParentParentClass-class}}\\cr"
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
@@ -89,7 +87,6 @@ ClassDocTest<-R6Class("ClassDocTest",
       }
       self$loadAndInstall("VirtualClass")
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
-      pp('res')
       ref="The class is abstract ( \\code{contains \"VIRTUAL\"}).\n           It can therefore not be instanciated directly.\n           Look at non virtual subclasses and their constructors!\n"
       #stop('want to see the log')
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
@@ -128,7 +125,6 @@ ClassDocTest<-R6Class("ClassDocTest",
       }
       self$loadAndInstall("AutoConstructor")
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
-      pp('res')
       ref<-c("\t\\code{\\link{RealClass}}\\cr",
       " Please also look at constructors of non virtual subclasses ") 
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
@@ -147,7 +143,6 @@ ClassDocTest<-R6Class("ClassDocTest",
       }
       self$loadAndInstall("ClassWithMethods")
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
-      pp('res')
       ref<-c(
         "  \\describe{",
         "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",

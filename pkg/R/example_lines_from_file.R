@@ -9,10 +9,7 @@ example_lines_from_file <- function(
  name <-  unlist(str_split(ref,'\\s+'))[[2]]
  parts <- unlist(str_split(relPathStr,'/'))
  relPath <- paste(parts,collapse=.Platform$file.sep) # for some reason file.path does not work with the output of str_split
- pp('relPath')
  path <- file.path(pkgDir,relPath)
- pp('path')
- pe(quote(getwd()))
  # we now source the file and search for the functions that are added
  # to the current environment
  b <- environment()

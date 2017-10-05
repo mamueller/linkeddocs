@@ -40,7 +40,6 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
 					extract_function_body_with_comments(func1)
         })
       )
-      pe(quote(res))
       ref=as.character('
         # a comment in the example
         eci <- new(Class="ExposedClass",times=1:4)
@@ -94,7 +93,6 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
       '
       ,ref1,ref2) ,'\n'))
       res <- example_references(codeText)
-      pp('res')
       self$assertEqual(res,c(ref1,ref2))
     }
     ,
@@ -113,7 +111,6 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
 
       relPath<- 'inst/examples_1.R' 
       path<- file.path(pkgDir,relPath)  
-      pp('path')
       exFuncName  <- 'exFunc1'
       exampleCode <-'
         x<-2
@@ -149,7 +146,6 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
           ',
           srcFn)
       ))
-      pp('res')
 
 
 

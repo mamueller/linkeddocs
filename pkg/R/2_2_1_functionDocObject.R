@@ -25,7 +25,6 @@ setMethod(
         getSrcFilename(fobj,full.names=TRUE),
         pos <- utils::getSrcLocation(srcRef)
       )
-      #pp('lc3')
       leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
       leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
       l <- extract.xxx.chunks(codeText)

@@ -28,11 +28,9 @@ setMethod(
 
     pos <- getSrcLocation(srcRef)
     fn <- file.path(pkgR,getSrcFilename(srcRef))
-    pp('fn')
 
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments(fn,pos))
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
-    pp('leadingDesc')
     
     
     desc <- append(leadingDesc,l[['description']])
