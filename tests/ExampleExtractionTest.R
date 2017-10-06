@@ -212,7 +212,6 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
         workerFunc=f,
         varNamesFromPackageEnv=c("pkgDir","results")
       )
-      pp('res')
       ref <- '# inst/examples_1.R exFunc1:
       m <-M(5)
       print(M@t)' 

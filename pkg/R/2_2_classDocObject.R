@@ -197,7 +197,6 @@ setMethod(
       l[["alias"]] <- on
       l[["docType"]] <- "class"
       l[["section{Methods}"]] <- Rd_method_lines(obj)
-      
       cl <- Rd_subclass_lines(obj)
       if (!(is.null(cl))){ 
         l[["section{Subclasses}"]] <- cl
@@ -212,6 +211,7 @@ setMethod(
         l[["section{Constructors}"]] <- cl
       }
       
+	    l[["examples"]] <- Rd_example_lines(obj)
     	name <-attr(obj,'generic')[[1]]
       writeFlattenedListToRd(l,fn)
     }
