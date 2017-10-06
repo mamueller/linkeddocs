@@ -97,7 +97,7 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
     }
     ,
     #----------------
-    test.external_example_lines_for_function=function(){
+    test.external_example_lines_for_function=function(SKIP){
       # We create an source code that defines a 
       # function and an external file containing
       # the example referenced in the function
@@ -146,6 +146,7 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
           ',
           srcFn)
       ))
+      stop('The assertion is missing')
 
 
 
