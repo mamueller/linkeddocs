@@ -19,15 +19,14 @@ setMethod(
     clName  <- obj@name
     srcref<- obj@srcref
 
-    srcRef <- srcref
     #try to get the srcref info from the src_env
 
     pkgR<-normalizePath(file.path(pkgDir,'R'))
-    codeText <- as.character(srcRef,useSource=T)
+    codeText <- get_code(obj)
     l <- extract.xxx.chunks(codeText)
 
-    pos <- getSrcLocation(srcRef)
-    fn <- file.path(pkgR,getSrcFilename(srcRef))
+    pos <- getSrcLocation(srcref)
+    fn <- file.path(pkgR,getSrcFilename(srcref))
 
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments(fn,pos))
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
@@ -224,4 +223,16 @@ setMethod(
   def=function(obj){
       sprintf("%s-class",obj@name)
   }
+)
+#-------------------------------------------------------------------------
+setMethod(
+  f='get_code',
+  signature=signature(obj="classDocObject"),
+  definition=function(obj){
+      codeText <- as.character(obj@srcref,useSource=T)
+    
+    # fixme: mm We could already include the leading comments here if we adapted the
+    # old extract.xxx.chunks function appropriately
+    return(codeText)
+    }
 )
