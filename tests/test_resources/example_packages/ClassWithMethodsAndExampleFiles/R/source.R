@@ -49,6 +49,9 @@ setGeneric(
 setClass(# an Exposed  class
    Class="ExposedClass",
    slots=c(times="numeric")
+   ##exampleFunctionsFromFiles<< 
+   ##inst/examples/examples_1.R  func1
+   ##inst/examples/examples_1.R  func2
    )
 #------------------------------------------------
 # the next method should not appear in the help 
