@@ -97,7 +97,7 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
     }
     ,
     #----------------
-    test.external_example_lines_for_function=function(){
+    test.external_example_lines_for_function=function(SKIP){
       # We create an source code that defines a 
       # function and an external file containing
       # the example referenced in the function
@@ -146,9 +146,76 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
           ',
           srcFn)
       ))
+      stop('The assertion is missing')
 
 
 
+    }
+    ,
+    #----------------
+    test.external_example_lines_for_setClass=function(){
+      # We create an source code that defines a 
+      # function and an external file containing
+      # the example referenced in the function
+      # 
+      # From the newly created function we create a functionDocObject
+      # which will be used to find the examplefile and extract the 
+      # example code from it.
+      require(stringr)
+      pkgDir <- 'bla'
+      lapply(c('R','inst'),function(subDir){ dir.create(file.path(pkgDir,subDir),recursive=TRUE)})
+
+      relPath<- 'inst/examples_1.R' 
+      path<- file.path(pkgDir,relPath)  
+      exFuncName  <- 'exFunc1'
+      exampleCode <-'
+        m <-M(5)
+        print(M@t)
+      '
+      
+      exampleWrapperCode<- sprintf(
+        '%s <-function(){
+          %s
+        }',
+        exFuncName,
+        exampleCode
+      )
+
+      write(exampleWrapperCode,path)
+
+      codeText<-sprintf('
+      M=setClass("M",
+        slots=c(t=\'numeric\')
+        ##exampleFunctionsFromFiles<< 
+        ## %s %s
+      )
+      ',relPath,exFuncName)
+      write(codeText,sprintf('%s/R/source.R',pkgDir))
+     
+      NAMESPACE_text<-'
+      exportClasses(M)
+      '
+      write(NAMESPACE_text,sprintf('%s/NAMESPACE',pkgDir))
+
+      writeDescriptionFile(Depends="methods",pkgName="blaPkg",pkgDir=pkgDir)
+
+      # find example
+      f <- function(pkgDir,results){
+        clname <- "M"
+        sr <-  findClassSrcRef(results,clname) 
+        cdo <- get_docObject( getClass(clname),pkgDir,sr)
+        res <- external_example_lines(cdo)
+        return(res)
+      }
+      res <- callWithPackageVars(
+        pkgDir,
+        workerFunc=f,
+        varNamesFromPackageEnv=c("pkgDir","results")
+      )
+      ref <- '# inst/examples_1.R exFunc1:
+      m <-M(5)
+      print(M@t)' 
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
   )
 )

@@ -130,7 +130,6 @@ setMethod(
       l <- extract.xxx.chunks(codeText)
       pl <- prefixed.lines(codeText)
       pl[['description']] <- append(leadingDesc,pl[['description']])
-      #l[['description']] <- append(pl[['description']],l[['description']])
       l <- combine(l,pl)
       tit_list <- title.from.firstline(codeText)
       #fixme mm:
