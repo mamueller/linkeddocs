@@ -23,7 +23,7 @@ setMethod(
       srcRef <- utils::getSrcref(fobj)
       leadingComments<- leadingComments(
         getSrcFilename(fobj,full.names=TRUE),
-        pos <- utils::getSrcLocation(srcRef)
+        pos=getSrcLocation(srcRef)
       )
       leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
       leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]

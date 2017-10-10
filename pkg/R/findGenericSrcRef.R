@@ -6,9 +6,6 @@ findGenericSrcRef<- function(results,genName){
     # This is the reason why we have to look for the source reference ourselves.
 
 	  # M <- setClass("M"...
-    print('\n 1 ##################################################')
-    print('genName:')
-    print(genName)
 	  filterfunc <- function(entry){
 						retval <- FALSE
 						
@@ -23,12 +20,9 @@ findGenericSrcRef<- function(results,genName){
                 )
               )
             }
-            print
 						retval
 		}
 	  bv <- unlist(lapply(results,filterfunc))
-    print('bv')
-    print(bv)
     if (!any(bv)){
 	    return(NULL)	  
     }

@@ -126,3 +126,23 @@ setGeneric(
     standardGeneric('defaultRdFileName')
   }
 )
+setGeneric(
+  name='findSrcRef',
+  def=function
+  (
+  obj,
+  results 
+  ){
+    standardGeneric('findSrcRef')
+  }
+)
+setGeneric(
+  name='Rd_title_lines',
+  def=function
+  (
+  obj,
+  results 
+  ){
+    standardGeneric('Rd_title_lines')
+  }
+)

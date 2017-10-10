@@ -1,53 +1,11 @@
 #
 # vim:set ff=unix expandtab ts=2 sw=2:
-classDocObject<-setClass(Class="classDocObject",contains="docObject",slots=c(clrep='classRepresentation',srcref="srcref"))
+classDocObject<-setClass(Class="classDocObject",contains="docObjectWithSrc",slots=c(clrep='classRepresentation'))
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_usage_lines",
   signature=signature(obj="classDocObject"),
   definition=function(obj){
-  }
-)
-#-------------------------------------------------------------------------
-setMethod(
-  f='get_xxx_chunks',
-  signature=signature(obj="classDocObject"),
-  definition=function(obj){
-    clrep <- obj@clrep
-	  pkgName <- attr(attr(clrep,'className'),'package')
-    pkgDir <- obj@pkgDir
-    clName  <- obj@name
-    srcref<- obj@srcref
-
-    #try to get the srcref info from the src_env
-
-    pkgR<-normalizePath(file.path(pkgDir,'R'))
-    codeText <- get_code(obj)
-    l <- extract.xxx.chunks(codeText)
-
-    pos <- getSrcLocation(srcref)
-    fn <- file.path(pkgR,getSrcFilename(srcref))
-
-    leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments(fn,pos))
-    leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
-    
-    
-    desc <- append(leadingDesc,l[['description']])
-    if ( length(desc) < 1 ){ 
-        desc <- 'no Description'
-    }
-    tit_list <- title.from.firstline(codeText)
-    #fixme mm:
-    # at the moment title.from.firstline(codeText) returns a list
-    # which is unnecessary, it should be changed to a character vector or NULL
-    # as soon as the old version is not needed any more
-    if ( is.null(tit_list[['title']]) ){
-      tit_list <- list(title=paste(clName,"S4 class"))
-    }
-    l[["title"]]<-tit_list[['title']]
-    l[['description']] <- desc
-    return(l)
-
   }
 )
 #-------------------------------------------------------------------------
@@ -187,6 +145,25 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
+  f="Rd_title_lines",
+  signature=signature(obj="classDocObject"),
+  def=function(
+    obj
+    ){
+    codeText <- get_code(obj)
+    tit_list <- title.from.firstline(codeText)
+    #fixme mm:
+    # at the moment title.from.firstline(codeText) returns a list
+    # which is unnecessary, it should be changed to a character vector or NULL
+    # as soon as the old version is not needed any more
+    if ( is.null(tit_list[['title']]) ){
+      tit_list <- list(title=paste(obj@name,"S4 class"))
+    }
+    tit_list[['title']]
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
   f="write_Rd_file",
   signature=signature(obj="classDocObject",fn='character'),
   def=function(obj,fn){
@@ -205,7 +182,7 @@ setMethod(
     l[["alias"]] <- on
     l[["docType"]] <- "class"
     l[["section{Methods}"]] <- Rd_method_lines(obj)
-    l[["title"]]  <-obj@name
+    l[["title"]]  <-Rd_title_lines(obj)
     
     cl <- Rd_subclass_lines(obj)
     if (!(is.null(cl))){ 
@@ -232,16 +209,4 @@ setMethod(
   def=function(obj){
       sprintf("%s-class",obj@name)
   }
-)
-#-------------------------------------------------------------------------
-setMethod(
-  f='get_code',
-  signature=signature(obj="classDocObject"),
-  definition=function(obj){
-      codeText <- as.character(obj@srcref,useSource=T)
-    
-    # fixme: mm We could already include the leading comments here if we adapted the
-    # old extract.xxx.chunks function appropriately
-    return(codeText)
-    }
 )

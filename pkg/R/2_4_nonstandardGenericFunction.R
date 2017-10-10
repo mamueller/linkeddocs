@@ -3,13 +3,14 @@
 #-------------------------------------------------------------------------
 setMethod(
   f="get_docObject",
-  signature=signature(obj="nonstandardGenericFunction",pkgDir='character',srcref='missing'),
-  def=function(obj,pkgDir){
+  signature=signature(obj="nonstandardGenericFunction",pkgDir='character',srcref='srcref'),
+  def=function(obj,pkgDir,srcref){
     fdo=genericFunctionDocObject(
       name=obj@generic[[1]],
-      #l=l,
-      functionObject=obj
+      pkgDir=pkgDir,
+      functionObject=obj,
+      srcref=srcref 
     )
     return(fdo)
     }
- )
+)

@@ -1,6 +1,6 @@
 #
 # vim:set ff=unix expandtab ts=2 sw=2:
-genericFunctionDocObject<-setClass(Class="genericFunctionDocObject",contains="docObject")
+genericFunctionDocObject<-setClass(Class="genericFunctionDocObject",contains="docObjectWithSrc")
 #-------------------------------------------------------------------------
 #-------------------------------------------------------------------------
 setMethod(
@@ -51,6 +51,25 @@ setMethod(
 
 #-------------------------------------------------------------------------
 setMethod(
+  f="Rd_title_lines",
+  signature=signature(obj="genericFunctionDocObject"),
+  def=function(
+    obj
+    ){
+    codeText <- get_code(obj)
+    tit_list <- title.from.firstline(codeText)
+    #fixme mm:
+    # at the moment title.from.firstline(codeText) returns a list
+    # which is unnecessary, it should be changed to a character vector or NULL
+    # as soon as the old version is not needed any more
+    if ( is.null(tit_list[['title']]) ){
+      tit_list <- list(title=paste(obj@name,"S4 generic"))
+    }
+    tit_list[['title']]
+  }
+)
+#-------------------------------------------------------------------------
+setMethod(
   f="Rd_method_lines",
   signature=signature(obj="genericFunctionDocObject"),
   def=function(
@@ -81,63 +100,31 @@ setMethod(
       obj,
       fn
     ){
-    d=get_xxx_chunks(obj)
-    #the list d is nested e.g. for argumetns
-    #we now flatten it so that it only has a 
-    # character vector for each section
-    flat<-list()
-    flat[["name"]]  <- obj@name
-    flat[["alias"]] <- obj@name
-	  flat[["usage"]] <- Rd_usage_lines(obj)
+    l<-list()
+    d <- get_xxx_chunks(obj)
+    # add the parts from d that could be extracted 
+    target_secs<-c("description","references","note","value")
+    for (sec in target_secs){
+      if (is.element(sec,names(d))){
+        l[[sec]]<-d[[sec]]
+      }
+    }
+    l[["name"]]  <- obj@name
+    l[["alias"]] <- obj@name
+	  l[["usage"]] <- Rd_usage_lines(obj)
+    l[["title"]] <- Rd_title_lines(obj)
 
     # for generic functions it is possible 
     # that no arguments have been documented
     # in setGeneric
     # Of cause the methods will define arguments.
     args<-Rd_argument_lines(obj)
-    if (!is.null(args)){flat[["arguments"]]<-args} 
+    if (!is.null(args)){l[["arguments"]]<-args} 
 
     meths<-Rd_method_lines(obj)
-    if (!is.null(meths)){flat[["section{Methods}"]]<-meths} 
+    if (!is.null(meths)){l[["section{Methods}"]]<-meths} 
     # add the parts from d that could be extracted 
-    target_secs<-c("title","description","references","note","value")
-    for (sec in target_secs){
-      if (is.element(sec,names(d))){
-        flat[[sec]]<-d[[sec]]
-      }
-    }
-    writeFlattenedListToRd(flat,fn)
+    writeFlattenedListToRd(l,fn)
   }
 )
 
-#-------------------------------------------------------------------------
-setMethod(
-  f='get_xxx_chunks',
-  signature=signature(obj="genericFunctionDocObject"),
-  definition=function(obj){
-      
-      codeText <- get_code(obj)
-      
-      fobj <- get_functionObject(obj)
-      srcRef <- utils::getSrcref(fobj)
-      leadingComments<- leadingComments(
-        getSrcFilename(fobj,full.names=TRUE),
-        pos <- utils::getSrcLocation(srcRef)
-      )
-      leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
-      leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
-      l <- extract.xxx.chunks(codeText)
-      pl <- prefixed.lines(codeText)
-      pl[['description']] <- append(leadingDesc,pl[['description']])
-      l <- combine(l,pl)
-      tit_list <- title.from.firstline(codeText)
-      #fixme mm:
-      # at the moment title.from.firstline(codeText) returns a list
-      # which is unnecessary, it should be changed to a character vector or NULL
-      # as soon as the old version is not needed any more
-      if(is.null(tit_list[['title']])){tit_list <- obj@name}
-      l[['title']] <- tit_list
-      return(l)
-  }
-)
-    

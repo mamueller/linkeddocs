@@ -8,6 +8,27 @@ ClassDocTest<-R6Class("ClassDocTest",
 	inherit=ComponentsTest,
   public=list(
     #----------------
+    test.title=function(){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          clname <- 'ExposedClass'
+          sr <-  findClassSrcRef(results,clname)
+          cl <- getClass(clname)
+          cdo <- get_docObject(cl,pkgDir,sr)
+          res <- Rd_title_lines(cdo)
+          res
+      }
+      self$loadAndInstall("ClassWithMethods")
+      
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
+      pp('res')
+
+      ref_title<- 'an Exposed  class'
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref_title))
+
+    }
+    ,
+    #----------------
     test.ClassDocXXX=function(){
       pkgDir <- 'pkg'
       testfunc <- function(pkgEnv,results,pkgDir){
@@ -21,9 +42,8 @@ ClassDocTest<-R6Class("ClassDocTest",
       self$loadAndInstall("ClassWithMethods")
       
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
+      pp('res')
 
-      ref_title<- 'an Exposed  class'
-      self$assertTrue(CompareTrimmedNonEmptyLines(res[['title']],ref_title))
 
       ref_description<-c(
         "Since this class is exported in the Namespace file you can inherit from it", "but nethertheless the method for \"hiddenGeneric\" with this class as", "a signature will not be visible"

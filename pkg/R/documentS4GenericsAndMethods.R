@@ -17,7 +17,8 @@ documentS4GenericsAndMethods <- function(pkgEnv,results,pkgDir,GensWithDocMethod
     # package. Some like [, [[, $ have been there before.
     # Only the generics in the package need their own Rd file
     if (GenHasSrc(genName,results,pkgDir,pkgEnv)){
-      ndo <- get_docObject(getGeneric(genName),pkgDir) 
+      sr <-  findGenericSrcRef(results,genName) 
+      ndo <- get_docObject(getGeneric(genName),pkgDir,sr) 
       docObjects <- c(docObjects,ndo )
     }
   }

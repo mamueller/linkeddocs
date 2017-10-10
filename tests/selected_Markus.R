@@ -11,34 +11,60 @@ source("PackageTests_3.R")
 source("PrototypeTests.R")
 source("ExampleExtractionTest.R")
 source("ClassDocTest.R")
-#tr<-TestResults$new()
-#tc<-PackageTests$new("test.NameSpaceParsing")
-t2<-PackageTests_3$new("test.SoilR")
-#t2<-PackageTests_3$new("test.VirtualClass")
-#t2<-PackageTests_3$new("test.AutoConstructor")
-#t2<-ClassDocTest$new("test.Rd_constructor_lines_for_virtual_class")
-#t2<-ClassDocTest$new("test.AutoConstructor_lines")
-#t2<-ClassDocTest$new("test.ClassDocXXX")
-#t2<-ClassDocTest$new("test.Rd_method_lines")
-#t2<-ClassDocTest$new("test.superclass_lines")
-#t2<-ClassDocTest$new("test.FindAutoConstructor")
-#t2<-ClassDocTest$new("test.subclass_lines")
-#t2<-ClassDocTest$new("test.write_Rd_file")
-#t2<-PackageTests_3$new("test.ClassWithExamples")
-#t2<-ExampleExtractionTest$new("test.example_references")
-#t2<-ExampleExtractionTest$new("test.external_example_lines_for_setClass")
-#t2<-ExampleExtractionTest$new("test.external_example_lines_for_function")
-#t2<-ExampleExtractionTest$new("test.extract_function_body_with_comments")
-#tc<-PackageTests$new("test.abbriviatedSignature")
-#tc<-PackageTests$new("test.GenericWithDotDotDotArgumets")
-#tc <- PrototypeTests$new("test.package.skeleton.dx_3")
-#tc<-PrototypeTests$new("test.correctNameSpaceInfo")
-#t2 <- PackageTests_3$new('test.ClassWithMethods')
-#t2 <- PackageTests_3$new('test.AutoConstructor')
-# t2 <- PackageTests_3$new('test.PrivateAndPublic')
-#t1<-PackageTests$new("test.OverloadedIndexOperator")
-s<-TestSuite$new(list(t2))
-#s<-TestSuite$new(list(t1,t2)) 
+
+s<-TestSuite$new(list(
+	# TestResults$new()
+	# ,
+	# PackageTests$new("test.NameSpaceParsing")
+	# ,
+	# PackageTests_3$new("test.SoilR")
+	# ,
+	# PackageTests_3$new("test.VirtualClass")
+	# ,
+	# PackageTests_3$new("test.AutoConstructor")
+	# ,
+	# ClassDocTest$new("test.Rd_constructor_lines_for_virtual_class")
+	# ,
+	# ClassDocTest$new("test.AutoConstructor_lines")
+	# ,
+	 ClassDocTest$new("test.ClassDocXXX")
+	 ,
+	 ClassDocTest$new("test.title")
+	# ,
+	# ClassDocTest$new("test.Rd_method_lines")
+	# ,
+	# ClassDocTest$new("test.superclass_lines")
+	# ,
+	# ClassDocTest$new("test.FindAutoConstructor")
+	# ,
+	# ClassDocTest$new("test.subclass_lines")
+	# ,
+	# ClassDocTest$new("test.write_Rd_file")
+	# ,
+	# PackageTests_3$new("test.ClassWithExamples")
+	# ,
+	# ExampleExtractionTest$new("test.example_references")
+	# ,
+	# ExampleExtractionTest$new("test.external_example_lines_for_setClass")
+	# ,
+	# ExampleExtractionTest$new("test.external_example_lines_for_function")
+	# ,
+	# ExampleExtractionTest$new("test.extract_function_body_with_comments")
+	# ,
+	# PackageTests$new("test.abbriviatedSignature")
+	# ,
+	# PackageTests$new("test.GenericWithDotDotDotArgumets")
+	# ,
+	# PrototypeTests$new("test.package.skeleton.dx_3")
+	# ,
+	# PrototypeTests$new("test.correctNameSpaceInfo")
+	# ,
+	# PackageTests_3$new('test.ClassWithMethods')
+	# ,
+	# PackageTests_3$new('test.AutoConstructor')
+	# ,
+	# PackageTests_3$new('test.PrivateAndPublic')
+))
 print(s$test_names())
 s$parallel <- 1 
 tr <- s$run()
