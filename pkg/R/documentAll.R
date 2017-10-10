@@ -18,6 +18,7 @@ documentAll<- function(
   docObjects <- c(docObjects,
      documentS4Classes(pkgEnv, results, pkgDir)) 
 
+  #stop('mmmm')
 
   ################################### 
   #### document generic functions
@@ -34,7 +35,7 @@ documentAll<- function(
 	GensWithDocMethods<-exportedGenNames[unlist(sapply(exportedGenNames,GenHasAnyMethodWithSrc,pkgDir))]
 	
   docObjects <- c(docObjects,
-    documentS4GenericsAndMethods( pkgEnv, pkgDir, GensWithDocMethods))
+    documentS4GenericsAndMethods( pkgEnv,results, pkgDir, GensWithDocMethods))
   
 
   ################################### 
@@ -80,4 +81,5 @@ documentAll<- function(
   	  file.copy(file.path(manManPath,fn),manPath,recursive=TRUE,overwrite=TRUE)
     }
   }
+  docObjects
 }

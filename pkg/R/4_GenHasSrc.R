@@ -1,10 +1,10 @@
 # vim:set ff=unix expandtab ts=2 sw=2:
-GenHasSrc<-function(genName,pkgDir,env){
+GenHasSrc<-function(genName,results,pkgDir,env){
     gen<-getGeneric(genName,where=env)
-    srcDir<-getSrcDirectory(gen)
-    
-    if (length(srcDir)>0){
-      res<-pkgRPath(pkgDir)==srcDir
+    #srcRef <- getSrcref(gen) 
+    srcRef <- findGenericSrcRef(results,genName)
+    if(!is.null(srcRef)){
+      res<-pkgRPath(pkgDir)==getSrcDirectory(srcRef)
     }else{
       res<-FALSE
     }

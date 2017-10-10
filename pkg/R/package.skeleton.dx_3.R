@@ -3,7 +3,7 @@
 package.skeleton.dx_3<-function(pkgDir){
   ### call the worker in the environment where 
   ### the package is loaded
-  callWithPackageVars(
+  res <- callWithPackageVars(
     pkgDir,
     workerFunc=documentAll,
     varNamesFromPackageEnv=c(
@@ -14,4 +14,5 @@ package.skeleton.dx_3<-function(pkgDir){
       'fqPkgName'
     )
   )
+  #stop('\n ##################################\n 2 ')
 }

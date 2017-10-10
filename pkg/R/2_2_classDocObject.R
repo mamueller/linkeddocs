@@ -191,30 +191,39 @@ setMethod(
   signature=signature(obj="classDocObject",fn='character'),
   def=function(obj,fn){
     clName <-obj@clrep@className[[1]]
-    l <- get_xxx_chunks(obj)
-      on <- sprintf("%s-class",clName)
-      l[["name"]] <-on
-      l[["alias"]] <- on
-      l[["docType"]] <- "class"
-      l[["section{Methods}"]] <- Rd_method_lines(obj)
-      cl <- Rd_subclass_lines(obj)
-      if (!(is.null(cl))){ 
-        l[["section{Subclasses}"]] <- cl
+    on <- sprintf("%s-class",clName)
+    l <- list()
+    d <- get_xxx_chunks(obj)
+    # add the parts from d that could be extracted 
+    target_secs<-c("description","references","note","value")
+    for (sec in target_secs){
+      if (is.element(sec,names(d))){
+        l[[sec]]<-d[[sec]]
       }
-      cl <- Rd_superclass_lines(obj)
-      if (!(is.null(cl))){ 
-        l[["section{Exported superclasses}"]] <- cl
-      }
-      
-      cl <- Rd_constructor_lines(obj)
-      if (!is.null(cl)){ 
-        l[["section{Constructors}"]] <- cl
-      }
-      
-	    l[["examples"]] <- Rd_example_lines(obj)
-    	name <-attr(obj,'generic')[[1]]
-      writeFlattenedListToRd(l,fn)
     }
+    l[["name"]] <-on
+    l[["alias"]] <- on
+    l[["docType"]] <- "class"
+    l[["section{Methods}"]] <- Rd_method_lines(obj)
+    l[["title"]]  <-obj@name
+    
+    cl <- Rd_subclass_lines(obj)
+    if (!(is.null(cl))){ 
+      l[["section{Subclasses}"]] <- cl
+    }
+    cl <- Rd_superclass_lines(obj)
+    if (!(is.null(cl))){ 
+      l[["section{Exported superclasses}"]] <- cl
+    }
+    
+    cl <- Rd_constructor_lines(obj)
+    if (!is.null(cl)){ 
+      l[["section{Constructors}"]] <- cl
+    }
+	  cl <- Rd_example_lines(obj)
+    l[["section{Examples}"]] <- cl 
+    writeFlattenedListToRd(l,fn)
+  }
 )
 #-------------------------------------------------------------------------
 setMethod(

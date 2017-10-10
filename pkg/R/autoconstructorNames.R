@@ -5,7 +5,6 @@ autoConstructorNames <- function(funcs){
   # acts as a constructor for class 'bar'
   # we have to treat those functions with special care
   boollist <-unlist(lapply(funcs,function(func){inherits(func,'classGeneratorFunction')}))
-  pp('boollist')
   if(any(boollist)){
     autoConstructors<-funcs[boollist]
     autoConstructorNames  <- names(autoConstructors)

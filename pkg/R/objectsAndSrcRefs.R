@@ -5,23 +5,18 @@ objectsAndSrcRefs <-  function(pkgDir){
   pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
   # create but do not load the namespace
   source_env <- devtools::: makeNamespace(pkgName, 1.1)
-  #pe(quote(loadedNamespaces()))
-  #pp('source_env')
 
   pkgR<-normalizePath(file.path(pkgDir,'R'))
   codeFiles <- list.files(pkgR,full.names=TRUE)
-  #exprs <- c()
   results <- list()
   j=1
   for (fn in codeFiles){
-    print(fn)
     lines <- readLines(fn)
     sf <- srcfile(fn)
     exprs <- parse(text=lines,srcfile=sf,keep.source=TRUE)
     srcreflist <- attr(exprs,'srcref')
     n <- length(exprs)
     for (i in seq_len(n)){
-      print(j)
       expr <- exprs[[i]]
       res <- eval(expr,source_env)
       results[[j]] <- list()

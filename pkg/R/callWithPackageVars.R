@@ -40,7 +40,6 @@ callWithPackageVars <- function(
   oldLibs <- .libPaths()
   newp <- append(privatePackageLib,oldLibs)
   .libPaths(newp)
-  pe(quote(.libPaths()))
  #
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source")

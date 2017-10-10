@@ -17,7 +17,6 @@ setMethod(
     
     #flat<-list()
 	  #flat[["usage"]]  <-Rd_usage_lines(obj)
-    #print(flat)
     mdo=methodDocObject(
       #l=l,
       #but cant until it is obsolete in the parent class
