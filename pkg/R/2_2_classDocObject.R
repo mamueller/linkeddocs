@@ -172,7 +172,7 @@ setMethod(
     l <- list()
     d <- get_xxx_chunks(obj)
     # add the parts from d that could be extracted 
-    target_secs<-c("description","references","note","value")
+    target_secs<-c("description","references","note","value","details")
     for (sec in target_secs){
       if (is.element(sec,names(d))){
         l[[sec]]<-d[[sec]]
