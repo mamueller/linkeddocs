@@ -113,6 +113,7 @@ setMethod(
     l[["alias"]] <- obj@name
 	  l[["usage"]] <- Rd_usage_lines(obj)
     l[["title"]] <- Rd_title_lines(obj)
+    l[["examples"]] <- Rd_example_lines(obj)
 
     # for generic functions it is possible 
     # that no arguments have been documented

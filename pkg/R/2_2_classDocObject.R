@@ -198,7 +198,7 @@ setMethod(
       l[["section{Constructors}"]] <- cl
     }
 	  cl <- Rd_example_lines(obj)
-    l[["section{Examples}"]] <- cl 
+    l[["examples"]] <- cl 
     writeFlattenedListToRd(l,fn)
   }
 )

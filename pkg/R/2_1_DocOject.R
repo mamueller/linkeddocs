@@ -108,9 +108,9 @@ setMethod(
     ext_exs<- external_example_lines(obj)
     if(!is.null(ext_exs)){
       exlines <- append(exlines,"# examples from external files")
-      exlines <- c(exlines,'\\preformatted{')
+      #exlines <- c(exlines,'\\preformatted{')
       exlines <- c(exlines,ext_exs)
-      exlines <- c(exlines,'}')
+      #exlines <- c(exlines,'}')
     }
     exlines <- unlist(exlines)
     return(exlines)

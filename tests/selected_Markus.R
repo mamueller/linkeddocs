@@ -15,21 +15,13 @@ source("ClassDocTest.R")
 s<-TestSuite$new(list(
 	# TestResults$new()
 	# ,
-	# PackageTests$new("test.NameSpaceParsing")
-	# ,
-	# PackageTests_3$new("test.SoilR")
-	# ,
-	# PackageTests_3$new("test.VirtualClass")
-	# ,
-	# PackageTests_3$new("test.AutoConstructor")
-	# ,
 	# ClassDocTest$new("test.Rd_constructor_lines_for_virtual_class")
 	# ,
 	# ClassDocTest$new("test.AutoConstructor_lines")
 	# ,
-	 ClassDocTest$new("test.ClassDocXXX")
-	 ,
-	 ClassDocTest$new("test.title")
+	# ClassDocTest$new("test.ClassDocXXX")
+	# ,
+	# ClassDocTest$new("test.title")
 	# ,
 	# ClassDocTest$new("test.Rd_method_lines")
 	# ,
@@ -51,19 +43,25 @@ s<-TestSuite$new(list(
 	# ,
 	# ExampleExtractionTest$new("test.extract_function_body_with_comments")
 	# ,
-	# PackageTests$new("test.abbriviatedSignature")
-	# ,
-	# PackageTests$new("test.GenericWithDotDotDotArgumets")
-	# ,
 	# PrototypeTests$new("test.package.skeleton.dx_3")
 	# ,
 	# PrototypeTests$new("test.correctNameSpaceInfo")
+	# ,
+	 PackageTests_3$new('test.ClassWithMethodsAndExampleFiles')
 	# ,
 	# PackageTests_3$new('test.ClassWithMethods')
 	# ,
 	# PackageTests_3$new('test.AutoConstructor')
 	# ,
 	# PackageTests_3$new('test.PrivateAndPublic')
+	# ,
+	# PackageTests$new("test.NameSpaceParsing")
+	# ,
+	# PackageTests_3$new("test.SoilR")
+	# ,
+	# PackageTests_3$new("test.VirtualClass")
+	# ,
+	# PackageTests_3$new("test.AutoConstructor")
 ))
 print(s$test_names())
 s$parallel <- 1 
