@@ -10,6 +10,10 @@ example_lines_from_file <- function(
  parts <- unlist(str_split(relPathStr,'/'))
  relPath <- paste(parts,collapse=.Platform$file.sep) # for some reason file.path does not work with the output of str_split
  path <- file.path(pkgDir,relPath)
+ # make sure the file exists and is give an error otherwise.
+ if(!file.exists(path)){
+   stop(sprintf('The external example file: %s does not exist',path))
+ }
  # we now source the file and search for the functions that are added
  # to the current environment
  b <- environment()
