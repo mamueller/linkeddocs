@@ -47,7 +47,7 @@ s<-TestSuite$new(list(
 	# ,
 	# PrototypeTests$new("test.correctNameSpaceInfo")
 	# ,
-	 PackageTests_3$new('test.ClassWithMethodsAndExampleFiles')
+	# PackageTests_3$new('test.ClassWithMethodsAndExampleFiles')
 	# ,
 	# PackageTests_3$new('test.ClassWithMethods')
 	# ,
@@ -57,7 +57,7 @@ s<-TestSuite$new(list(
 	# ,
 	# PackageTests$new("test.NameSpaceParsing")
 	# ,
-	# PackageTests_3$new("test.SoilR")
+	 PackageTests_3$new("test.SoilR")
 	# ,
 	# PackageTests_3$new("test.VirtualClass")
 	# ,

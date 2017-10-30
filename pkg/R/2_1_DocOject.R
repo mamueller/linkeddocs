@@ -17,6 +17,10 @@ setMethod(
   definition=function(obj){
     d=get_xxx_chunks(obj)
     functionObject <- get_functionObject(obj)
+    function_args<-names(formals(functionObject))
+    if (length(function_args)==0){
+      return(NULL)
+    }
     nd=names(d)
     # fixme:mm
     # the list d contains the documentation  of the argument "a" 
@@ -30,7 +34,6 @@ setMethod(
     # not documented
     # we can check this by interrogation of the function
     documented_args<-documented_args(obj)
-    function_args<-names(formals(functionObject))
     checkWarnArgs(obj@name,function_args,documented_args)
     
     itemString<-"\n"
