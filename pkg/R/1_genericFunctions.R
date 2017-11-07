@@ -7,11 +7,19 @@ setGeneric(
     standardGeneric("Rd_argument_lines")
   }
 )
+
 setGeneric(
   name="Rd_usage_lines",
   def=function
   (obj){
     standardGeneric("Rd_usage_lines")
+  }
+)
+setGeneric(
+  name="Rd_lines",
+  def=function
+  (obj){
+    standardGeneric("Rd_lines")
   }
 )
 setGeneric(

@@ -119,11 +119,10 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
-  f="write_Rd_file",
-  signature=signature(obj="methodDocObject",fn="character"),
+  f="Rd_lines",
+  signature=signature(obj="methodDocObject"),
   def=function(
-      obj,
-      fn
+      obj
     ){
     d <- get_xxx_chunks(obj)
     #the list d is nested e.g. for argumetns
@@ -132,7 +131,16 @@ setMethod(
     flat<-list()
     flat[["docType"]]<-"methods"
     flat[["name"]]   <-obj@name
-    flat[["title"]]  <-obj@name
+    codeText <- get_code(obj)
+    #print(codeText)
+    title <- title.from.firstlineNew(codeText)
+    print('#######################################')
+    print(title)
+    flat[["title"]]  <- ifelse(
+                          test=is.null(title),
+                          yes=obj@name,
+                          no=sprintf('%s \n %s',obj@name,title)
+                        )
     flat[["alias"]]  <-obj@name
 
     #fixme:
@@ -151,7 +159,19 @@ setMethod(
         flat[[sec]]<-d[[sec]]
       }
     }
-    writeFlattenedListToRd(flat,fn)
+    return(flat)
+  }
+)
+
+#-------------------------------------------------------------------------
+setMethod(
+  f="write_Rd_file",
+  signature=signature(obj="methodDocObject",fn="character"),
+  def=function(
+      obj,
+      fn
+    ){
+    writeFlattenedListToRd(Rd_lines(obj),fn)
   }
 )
 

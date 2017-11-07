@@ -87,7 +87,7 @@ setMethod(
    f= "exposedGeneric",
    signature=c("character","numeric"),
    ### Preceding lines of comment:
-   definition=function#short title
+   definition=function #short title
    ### short description
    (
      object ##<< an object 
