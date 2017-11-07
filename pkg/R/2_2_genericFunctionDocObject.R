@@ -94,11 +94,10 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
-  f="write_Rd_file",
-  signature=signature(obj="genericFunctionDocObject",fn="character"),
+  f="Rd_lines",
+  signature=signature(obj="genericFunctionDocObject"),
   def=function(
-      obj,
-      fn
+      obj
     ){
     l<-list()
     d <- get_xxx_chunks(obj)
@@ -125,7 +124,7 @@ setMethod(
     meths<-Rd_method_lines(obj)
     if (!is.null(meths)){l[["section{Methods}"]]<-meths} 
     # add the parts from d that could be extracted 
-    writeFlattenedListToRd(l,fn)
+    return(l)
   }
 )
 

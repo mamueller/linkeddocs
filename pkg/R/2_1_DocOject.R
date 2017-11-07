@@ -122,11 +122,10 @@ setMethod(
 
 #-------------------------------------------------------------------------
 setMethod(
-  f="write_Rd_file",
-  signature=signature(obj="docObject",fn="character"),
+  f="Rd_lines",
+  signature=signature(obj="docObject"),
   def=function(
-      obj,
-      fn
+      obj
     ){
     d=get_xxx_chunks(obj)
     #the list d is nested e.g. for argumetns
@@ -145,16 +144,27 @@ setMethod(
     args<-Rd_argument_lines(obj)
     if (!is.null(args)){flat[["arguments"]]<-args} 
     # add the parts from d that could be extracted 
-    #target_secs<-c("title","description","details","references","note","seealso","value","examples")
     target_secs<-setdiff(RdTargetSections(),names(flat))
     for (sec in target_secs){
       if (is.element(sec,names(d))){
         flat[[sec]]<-d[[sec]]
       }
     }
-    writeFlattenedListToRd(flat,fn)
+    return(flat)
   }
 )
+#-------------------------------------------------------------------------
+setMethod(
+  f="write_Rd_file",
+  signature=signature(obj="docObject",fn="character"),
+  def=function(
+      obj,
+      fn
+    ){
+    writeFlattenedListToRd(Rd_lines(obj),fn)
+  }
+)
+
 #-------------------------------------------------------------------------
 setMethod(
   f='get_xxx_chunks',

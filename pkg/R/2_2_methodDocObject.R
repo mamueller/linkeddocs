@@ -134,8 +134,6 @@ setMethod(
     codeText <- get_code(obj)
     #print(codeText)
     title <- title.from.firstlineNew(codeText)
-    print('#######################################')
-    print(title)
     flat[["title"]]  <- ifelse(
                           test=is.null(title),
                           yes=obj@name,
@@ -160,18 +158,6 @@ setMethod(
       }
     }
     return(flat)
-  }
-)
-
-#-------------------------------------------------------------------------
-setMethod(
-  f="write_Rd_file",
-  signature=signature(obj="methodDocObject",fn="character"),
-  def=function(
-      obj,
-      fn
-    ){
-    writeFlattenedListToRd(Rd_lines(obj),fn)
   }
 )
 

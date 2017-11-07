@@ -28,19 +28,18 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
-  f="write_Rd_file",
-  signature=signature(obj="autoConstructorDocObject",fn="character"),
+  f="Rd_lines",
+  signature=signature(obj="autoConstructorDocObject"),
   def=function(
-      obj,
-      fn
+      obj
     ){
-    l <- list()
-    l[['name']] <- obj@name
-    l[['alias']] <- obj@name
-    l[['title']] <- obj@name
-    l[['usage']] <- Rd_usage_lines(obj)
-    l[['arguments']] <- Rd_argument_lines(obj)
-    l[['description']] <- 'This function was automatically created by \\code{setClass(})'
-    writeFlattenedListToRd(l,fn)
+    flat <- list()
+    flat[['name']] <- obj@name
+    flat[['alias']] <- obj@name
+    flat[['title']] <- obj@name
+    flat[['usage']] <- Rd_usage_lines(obj)
+    flat[['arguments']] <- Rd_argument_lines(obj)
+    flat[['description']] <- 'This function was automatically created by \\code{setClass(})'
+    return(flat)
   }
 )

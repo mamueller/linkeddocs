@@ -164,9 +164,9 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
-  f="write_Rd_file",
-  signature=signature(obj="classDocObject",fn='character'),
-  def=function(obj,fn){
+  f="Rd_lines",
+  signature=signature(obj="classDocObject"),
+  def=function(obj){
     clName <-obj@clrep@className[[1]]
     on <- sprintf("%s-class",clName)
     l <- list()
@@ -199,7 +199,7 @@ setMethod(
     }
 	  cl <- Rd_example_lines(obj)
     l[["examples"]] <- cl 
-    writeFlattenedListToRd(l,fn)
+    return(l)
   }
 )
 #-------------------------------------------------------------------------
