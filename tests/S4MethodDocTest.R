@@ -26,6 +26,29 @@ S4MethodDocTest<-R6Class("S4MethodDocTest",
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref_title))
 
     }
+    ,
+    #----------------
+    test.details=function(){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          genName <- 'exposedGeneric'
+          allMeths<- findMethods(genName)
+          targetSig <- signature("ExposedClass","numeric")
+          targetMeth <- allMeths[unlist(lapply(allMeths,function(md){md@target==targetSig}))][[1]]
+          mdo <- get_docObject(targetMeth,pkgDir=pkgDir)
+          #get_xxx_chunks(mdo)
+          Rd_lines(mdo)
+      }
+      self$loadAndInstall("ClassWithMethods")
+      
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))[['details']]
+      print('mm ######################################')
+      print(res)
+      #stop()
+      ref_title<- c('here come a few details','in two lines')
+      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref_title))
+
+    }
   )
 )
 ############################################ 

@@ -68,6 +68,8 @@ setMethod(
    ### Preceding lines of comment:
    definition=function#short title
    ### short description
+   ##details<< here come a few details
+   ##in two lines
    ##examples<<
    ## eci <- new(Class="ExposedClass",times=1:4)
    ## exposedGeneric(eci,3)

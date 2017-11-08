@@ -37,7 +37,7 @@ setMethod(
 	  bv <- unlist(lapply(results,ff))
 		srcRefs <- results[bv]
     if (length(srcRefs)>1){
-						stop(fprintf('Found more than one definition for Class %s in %s',clname,srcRefs))
+						stop(sprintf('Found more than one definition for Class %s in %s',clname,srcRefs))
 		}
 		sr<- srcRefs[[1]][['srcref']]
     firstLine <- getSrcLocation(sr)

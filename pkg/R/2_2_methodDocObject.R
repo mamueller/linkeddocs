@@ -151,7 +151,8 @@ setMethod(
 	  flat[["arguments"]]=Rd_argument_lines(obj)
 	  flat[["examples"]]=Rd_example_lines(obj)
     # add the parts from d that could be extracted 
-    target_secs<-c("description","references","note","value")
+    #target_secs<-c("description","references","note","value")
+    target_secs<-RdTargetSections()
     for (sec in target_secs){
       if (is.element(sec,names(d))){
         flat[[sec]]<-d[[sec]]

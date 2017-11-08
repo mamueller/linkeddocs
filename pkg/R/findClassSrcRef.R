@@ -16,7 +16,15 @@ findClassSrcRef<- function(results,clname){
 	  bv <- unlist(lapply(results,ff))
 		srcRefs <- results[bv]
     if (length(srcRefs)>1){
-						stop(fprintf('Found more than one definition for Class %s in %s',clname,srcRefs))
+      print(        
+        srcRefs
+      )
+			stop(
+        sprintf(
+          'Found more than one definition for Class %s ',
+          clname
+        )
+      )
 		}
 		sr<- srcRefs[[1]][['srcref']]
     firstLine <- getSrcLocation(sr)

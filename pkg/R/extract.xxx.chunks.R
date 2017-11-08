@@ -91,7 +91,6 @@ extract.xxx.chunks <- function # Extract documentation from a function
     }
   while ( k <= length(src) ){
     line <- src[k]
-    ##print(line)
     ##if(grepl("^$",line))browser()
     if ( grepl(extra.regexp,line,perl=TRUE) ){
       ## we have a new extra chunk - first get field name and any payload

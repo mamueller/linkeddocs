@@ -7,7 +7,7 @@ objectsAndSrcRefs <-  function(pkgDir){
   source_env <- devtools::: makeNamespace(pkgName, 1.1)
 
   pkgR<-normalizePath(file.path(pkgDir,'R'))
-  codeFiles <- list.files(pkgR,full.names=TRUE)
+  codeFiles <- roxygen2:::sort_c(list.files(pkgR,full.names=TRUE))
   results <- list()
   j=1
   for (fn in codeFiles){
