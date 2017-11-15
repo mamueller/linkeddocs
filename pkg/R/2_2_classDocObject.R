@@ -118,7 +118,14 @@ setMethod(
     )
     if (! inherits(possibleConstructor,'simpleError')){
       l <- c(as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
-      l <- c(l,' Please also look at constructors of non virtual subclasses ')
+
+    scs <- clrep@subclasses
+    if (length(scs)>0){
+      l <- c(l,' Please also look at constructors of non virtual subclasses: ')
+      #fixme (we could test if the function realy exists
+      l <- c(l,sprintf('%s.',paste(lapply(names(scs),function(name){sprintf('\\code{\\link{%s}}',name)}),collapse=', ')))
+
+    }
     }
   }
   return(l)
@@ -136,7 +143,7 @@ setMethod(
     if (length(scs)>0){
       l<-'\\describe{'
       for(scn in names(scs)){
-        l<- c(l,sprintf('\t\\code{\\link{%s-class}}\\cr',scn))
+        l<- c(l,sprintf('\t\\code{\\linkS4class{%s}}\\cr',scn))
       }
       l<- c(l, "}")
     }
