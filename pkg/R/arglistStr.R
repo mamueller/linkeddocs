@@ -6,16 +6,16 @@ arglistStr=function(functionObject){
   fa  <-formals(functionObject)
   argnames=names(fa)
   fun <- function(argname){
+      # default
+      s <- sprintf("%s=%s",argname,as.expression(fa[[argname]]))
       if(!is.null(fa[[argname]])){
-        if (fa[[argname]]!=""){
-              s <- as.expression(fa[[argname]])
-        }else{
-          s <- ' '
+        # the next condition can only be checked if the default value
+        # is not NULL
+        if (fa[[argname]]==""){
+          s <- argname
         }
-      }else{
-        s <- 'NULL'
       }
-      return( .widthCutter( sprintf("%s=%s",argname,s) , 89))
+      return( .widthCutter( s , 89))
   }
   arglistWithDefaults<-unlist(lapply(argnames,fun))
   arglistStr<-paste0(arglistWithDefaults,collapse=",\n")

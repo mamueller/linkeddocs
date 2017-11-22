@@ -62,6 +62,22 @@ setMethod(
 )
 #-------------------------------------------------------------------------
 setMethod(
+  f="Rd_superclass_method_lines",
+  signature=signature(obj="classDocObject"),
+  def=function(
+    obj
+    ){
+      clrep <- obj@clrep 
+      clName <-attr(clrep,'className')[[1]]
+	    pkgName <- attr(attr(clrep,'className'),'package')
+  	  fqPkgName <- sprintf("package:%s",pkgName)
+	    pkgEnv <- as.environment(fqPkgName)
+      return(NULL)
+    }
+)
+
+#-------------------------------------------------------------------------
+setMethod(
   f="Rd_superclass_lines",
   signature=signature(obj="classDocObject"),
   def=function(obj){
@@ -189,6 +205,12 @@ setMethod(
     l[["alias"]] <- on
     l[["docType"]] <- "class"
     l[["section{Methods}"]] <- Rd_method_lines(obj)
+    
+    cl <- Rd_superclass_method_lines(obj)
+    if (!(is.null(cl))){ 
+      l[["section{Methods inherited from superclasses}"]] <- cl
+    }
+
     l[["title"]]  <-Rd_title_lines(obj)
     
     cl <- Rd_subclass_lines(obj)
@@ -197,7 +219,7 @@ setMethod(
     }
     cl <- Rd_superclass_lines(obj)
     if (!(is.null(cl))){ 
-      l[["section{Exported superclasses}"]] <- cl
+      l[["section{Superclasses}"]] <- cl
     }
     
     cl <- Rd_constructor_lines(obj)
