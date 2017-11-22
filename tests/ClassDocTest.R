@@ -145,8 +145,8 @@ ClassDocTest<-R6Class("ClassDocTest",
       }
       self$loadAndInstall("AutoConstructor")
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
-      ref<-c("\t\\code{\\link{RealClass}}\\cr",
-      " Please also look at constructors of non virtual subclasses ") 
+      pp("res")
+      ref<-c("\t\\code{\\link{RealClass}}\\cr")
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
     }
     ,

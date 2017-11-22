@@ -127,21 +127,42 @@ setMethod(
   }else{
     # this is also a convention: look for a constructor named as the class
     constructorName <- clName
-    possibleConstructor<- tryCatch(
-      getFunction(constructorName,where=as.environment(fqpkgName))
-      ,
-      error=function(e){e}
-    )
-    if (! inherits(possibleConstructor,'simpleError')){
+    if(
+      existsFunction(
+        constructorName,
+        where=as.environment(fqpkgName)
+      )
+    ){
       l <- c(as.character(sprintf('\t\\code{\\link{%s}}\\cr',constructorName)))
-
+    }
     scs <- clrep@subclasses
     if (length(scs)>0){
       l <- c(l,' Please also look at constructors of non virtual subclasses: ')
       #fixme (we could test if the function realy exists
-      l <- c(l,sprintf('%s.',paste(lapply(names(scs),function(name){sprintf('\\code{\\link{%s}}',name)}),collapse=', ')))
-
-    }
+      l <- c(l,
+              sprintf('%s.',
+                paste(
+                  lapply(
+                    names(scs),
+                    function(constructorName){
+                      if(
+                        existsFunction(
+                          constructorName,
+                          where=as.environment(fqpkgName)
+                        )
+                      )
+                      {
+                         s <- sprintf('\\code{\\link{%s}}',constructorName)
+                      }else{
+                         s <- ''
+                      }
+                      return(s)
+                    }
+                  ),
+                  collapse=', '
+                )
+              )
+            )
     }
   }
   return(l)

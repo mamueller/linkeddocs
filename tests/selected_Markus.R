@@ -17,7 +17,7 @@ s<-TestSuite$new(list(
 	# ,
 	# ClassDocTest$new("test.Rd_constructor_lines_for_virtual_class")
 	# ,
-	# ClassDocTest$new("test.AutoConstructor_lines")
+	 ClassDocTest$new("test.AutoConstructor_lines")
 	# ,
 	# ClassDocTest$new("test.ClassDocXXX")
 	# ,
@@ -57,7 +57,7 @@ s<-TestSuite$new(list(
 	# ,
 	# PackageTests$new("test.NameSpaceParsing")
 	# ,
-	 PackageTests_3$new("test.SoilR")
+	# PackageTests_3$new("test.SoilR")
 	# ,
 	# PackageTests_3$new("test.VirtualClass")
 	# ,
