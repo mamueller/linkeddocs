@@ -72,6 +72,20 @@ setMethod(
 	    pkgName <- attr(attr(clrep,'className'),'package')
   	  fqPkgName <- sprintf("package:%s",pkgName)
 	    pkgEnv <- as.environment(fqPkgName)
+      exportedClassNames<-getClasses(pkgEnv)
+      clNames<- getAllSuperClasses(clrep)
+       
+      methnms <- intersect(
+        unlist(
+          lapply(
+            intersect(clNames,exportedClassNames),
+            function(clName){
+              genWithClass(clName,pkgEnv)
+            }
+          )
+        ),
+        getGenerics(where=pkgEnv)
+      )
       return(NULL)
     }
 )
