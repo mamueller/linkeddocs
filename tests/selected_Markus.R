@@ -17,13 +17,13 @@ s<-TestSuite$new(list(
 	# ,
 	# ClassDocTest$new("test.Rd_constructor_lines_for_virtual_class")
 	# ,
-	 ClassDocTest$new("test.AutoConstructor_lines")
+	# ClassDocTest$new("test.AutoConstructor_lines")
 	# ,
 	# ClassDocTest$new("test.ClassDocXXX")
 	# ,
 	# ClassDocTest$new("test.title")
 	# ,
-	# ClassDocTest$new("test.Rd_method_lines")
+	 ClassDocTest$new("test.Rd_method_lines")
 	# ,
 	# ClassDocTest$new("test.superclass_lines")
 	# ,

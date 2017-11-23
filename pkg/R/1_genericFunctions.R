@@ -44,6 +44,13 @@ setGeneric(
   }
 )
 setGeneric(
+  name="method_lines",
+  def=function
+  (obj){
+    standardGeneric("method_lines")
+  }
+)
+setGeneric(
   name="Rd_superclass_method_lines",
   def=function
   (obj){

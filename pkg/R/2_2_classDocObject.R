@@ -17,79 +17,19 @@ setMethod(
       ){
         clrep <- obj@clrep 
         clName <-attr(clrep,'className')[[1]]
-	      pkgName <- attr(attr(clrep,'className'),'package')
-  	    fqPkgName <- sprintf("package:%s",pkgName)
-	      pkgEnv <- as.environment(fqPkgName)
 
-        # we only link to methods we can see when the package is loaded with library
-        # this might include methods for generics that we didn't define like [, [[ $ 
-        # and the like but excludes methods for generics that we did not export
-        # which is what we want here
-        methnms <- intersect(genWithClass(clName,pkgEnv),getGenerics(where=pkgEnv))
-        nmeths=length(methnms)
-
-        if (nmeths > 0) {
-          .meths.body <- "  \\describe{"
-          for (i in 1L:nmeths) {
-              
-              .sig <- sigsList(methnms[i], where = pkgEnv)
-              for (j in seq_along(.sig)) {
-                  # find signatures containing the class we are documenting
-                  msigs=match(.sig[[j]], clName)
-                  if (!all(is.na(msigs))) {
-                     methn.i <- escape(methnms[i])
-                    # the signature list might still contain several ANY 
-                    # arguments and 
-                    # 
-                    #mm: we add a \link to the methods here
-                    cur <- paste(.sig[[j]], collapse = ",")
-                    target_alias=methodDocName(methn.i,.sig[[j]])
-                    .meths.body <- c(.meths.body, paste0("    \\item{", 
-                      methn.i, "}{\\code{signature", pastePar(.sig[[j]]), 
-                      "}: ... }"," \\code{\\link{",target_alias,"}}"))
-                    #.methAliases <- paste0(.methAliases, "\\alias{", 
-                    #  methn.i, ",", cur, "-method}\n")
-                  }
-              }
-          }
-          .meths.body <- c(.meths.body, "\t }")
+        ml <- method_lines(clrep)
+        if(length(ml)>0){
+          lines <- (c(sprintf('Exported methods directly defined for class %s:\n',clName),ml))
         }else{
-        .meths.body <- paste("No methods defined with class", 
-            clName, "in the signature.")
+          lines <- (c(sprintf('No exported methods directly defined for class %s:\n',clName),ml))
         }
-          
+        # add information about methods inherited from superclasses
+        slm <- Rd_superclass_method_lines(clrep)
+        lines <- c(lines,slm)
+        return(lines)
    }
 )
-#-------------------------------------------------------------------------
-setMethod(
-  f="Rd_superclass_method_lines",
-  signature=signature(obj="classDocObject"),
-  def=function(
-    obj
-    ){
-      clrep <- obj@clrep 
-      clName <-attr(clrep,'className')[[1]]
-	    pkgName <- attr(attr(clrep,'className'),'package')
-  	  fqPkgName <- sprintf("package:%s",pkgName)
-	    pkgEnv <- as.environment(fqPkgName)
-      exportedClassNames<-getClasses(pkgEnv)
-      clNames<- getAllSuperClasses(clrep)
-       
-      methnms <- intersect(
-        unlist(
-          lapply(
-            intersect(clNames,exportedClassNames),
-            function(clName){
-              genWithClass(clName,pkgEnv)
-            }
-          )
-        ),
-        getGenerics(where=pkgEnv)
-      )
-      return(NULL)
-    }
-)
-
 #-------------------------------------------------------------------------
 setMethod(
   f="Rd_superclass_lines",
@@ -241,10 +181,6 @@ setMethod(
     l[["docType"]] <- "class"
     l[["section{Methods}"]] <- Rd_method_lines(obj)
     
-    cl <- Rd_superclass_method_lines(obj)
-    if (!(is.null(cl))){ 
-      l[["section{Methods inherited from superclasses}"]] <- cl
-    }
 
     l[["title"]]  <-Rd_title_lines(obj)
     

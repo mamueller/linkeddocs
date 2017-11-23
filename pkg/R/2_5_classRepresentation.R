@@ -45,3 +45,100 @@ setMethod(
     sr   
   }
 )
+#-------------------------------------------------------------------------
+setMethod(
+  f="Rd_superclass_method_lines",
+  signature=signature(obj="classRepresentation"),
+  def=function(
+    obj
+    ){
+      clrep <- obj
+      clName <-attr(clrep,'className')[[1]]
+	    pkgName <- attr(attr(clrep,'className'),'package')
+  	  fqPkgName <- sprintf("package:%s",pkgName)
+	    pkgEnv <- as.environment(fqPkgName)
+      exportedClassNames<-getClasses(pkgEnv)
+      clNames<- getAllSuperClasses(clrep)
+       
+      methnms <- intersect(
+        unlist(
+          lapply(
+            intersect(clNames,exportedClassNames),
+            function(clName){
+              genWithClass(clName,pkgEnv)
+            }
+          )
+        ),
+        getGenerics(where=pkgEnv)
+      )
+      if(length(methnms)==0){
+        return(character(0))
+      }else{
+        lines <- c(
+          '\nMethods inherited from superclasses:\n',
+          as.character(
+            unlist(
+              lapply(
+                clNames,
+                function(clName){
+                  ml <- method_lines(getClass(clName,where=pkgEnv))
+                  if(length(ml)>0){
+                    return(c(sprintf('from class %s:\n',clName),ml))
+                  }else{
+                    return(character(0))
+                  }
+                }
+              )
+            )
+          )
+        )
+      }
+    }
+)
+
+#-------------------------------------------------------------------------
+setMethod(
+  f="method_lines",
+  signature=signature(obj="classRepresentation"),
+  def=function(clrep){
+      clName <-attr(clrep,'className')[[1]]
+	    pkgName <- attr(attr(clrep,'className'),'package')
+  	  fqPkgName <- sprintf("package:%s",pkgName)
+	    pkgEnv <- as.environment(fqPkgName)
+      exportedClassNames<-getClasses(pkgEnv)
+      clNames<- getAllSuperClasses(clrep)
+      methnms <- intersect(genWithClass(clName,pkgEnv),getGenerics(where=pkgEnv))
+      nmeths=length(methnms)
+
+      if (nmeths > 0) {
+        .meths.body <- "  \\describe{"
+        for (i in 1L:nmeths) {
+            
+            .sig <- sigsList(methnms[i], where = pkgEnv)
+            for (j in seq_along(.sig)) {
+                # find signatures containing the class we are documenting
+                msigs=match(.sig[[j]], clName)
+                if (!all(is.na(msigs))) {
+                   methn.i <- escape(methnms[i])
+                  # the signature list might still contain several ANY 
+                  # arguments and 
+                  # 
+                  #mm: we add a \link to the methods here
+                  cur <- paste(.sig[[j]], collapse = ",")
+                  target_alias=methodDocName(methn.i,.sig[[j]])
+                  .meths.body <- c(.meths.body, paste0("    \\item{", 
+                    methn.i, "}{\\code{signature", pastePar(.sig[[j]]), 
+                    "}: ... }"," \\code{\\link{",target_alias,"}}"))
+                  #.methAliases <- paste0(.methAliases, "\\alias{", 
+                  #  methn.i, ",", cur, "-method}\n")
+                }
+            }
+        }
+       
+        .meths.body <- c(.meths.body, "\t }")
+      }else{
+        .meths.body <- character(0)
+      }
+      return(.meths.body)
+  }
+)

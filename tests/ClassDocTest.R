@@ -66,7 +66,9 @@ ClassDocTest<-R6Class("ClassDocTest",
       
       self$loadAndInstall("ClassWithMethods")
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
+      pp("res")
       ref<-c(
+        " Exported methods directly defined for class ExposedClass:\n",
         "  \\describe{",
         "    \\item{[}{\\code{signature(x = \"ExposedClass\", i = \"character\", j = \"missing\", drop = \"missing\")}: ... } \\code{\\link{[,ExposedClass,character,missing,missing-method}}",
         "    \\item{exposedGeneric}{\\code{signature(object = \"ExposedClass\", somethingElse = \"numeric\")}: ... } \\code{\\link{exposedGeneric,ExposedClass,numeric-method}}",
