@@ -1,11 +1,14 @@
 require(devtools)
-install('~/roxygen')
+install('~/roxygen2')
 require('roxygen2')
 require('purrr')
-#install('~/debugHelpers/pkg')
+install('~/debugHelpers/pkg')
 require(debugHelpers)
-roxygenize('MethodSrcRef/pkg')             
+#roxygenize('MethodSrcRef/pkg')             
 
+  parsed <- lapply(files, parse_blocks, env = env, registry = registry,
+                   global_options = global_options, fileEncoding = desc$Encoding %||% "UTF-8")
+  blocks <- unlist(parsed, recursive = FALSE)
 #parsed <- parse('MethodSrcRef/pkg/R/source.R')
 #refs <- utils::getSrcref(parsed)
 #comment_refs <- roxygen2:::comments(refs)
