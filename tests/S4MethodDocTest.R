@@ -8,6 +8,25 @@ S4MethodDocTest<-R6Class("S4MethodDocTest",
 	inherit=ComponentsTest,
   public=list(
     #----------------
+    test.SetMethod_lines=function(SKIP){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          genName <- 'BoundFc'
+          sr <-  findMethodSrcRef(results,genName)
+          #cl <- getClass(genName)
+          #cdo <- get_docObject(cl,pkgDir,sr)
+          #res <- Rd_constructor_lines(cdo)
+          #res
+          sr
+      }
+      self$loadAndInstall("MethodSrcRef")
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
+      pp("res")
+      #ref<-c("\t\\code{\\link{RealClass}}\\cr")
+      #self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+    }
+    ,
+    #----------------
     test.title=function(){
       pkgDir <- 'pkg'
       testfunc <- function(pkgEnv,results,pkgDir){

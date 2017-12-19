@@ -61,10 +61,13 @@ setMethod(
 
     md <- obj@methDef
     srcRef <- utils::getSrcref(md)
-    leadingComments<- leadingComments(
-      getSrcFilename(md,full.names=TRUE),
-      pos <- utils::getSrcLocation(srcRef)
-    )
+    fn <- getSrcFilename(md,full.names=TRUE)
+    pos  <-  utils::getSrcLocation(srcRef)
+    pp('fn')
+    pp('pos')
+    pp('srcRef')
+    
+    leadingComments<- leadingComments( fn,pos)
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)
     leadingDesc <- leadingDesc[!grepl('^ *$',leadingDesc)]
     l <- extract.xxx.chunks(codeText)

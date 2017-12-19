@@ -64,6 +64,11 @@ PackageTests_3<-R6Class("PackageTests_3",
 		}
     ,
     #--------------------------------
+    test.MethodSrcRef=function(SKIP){
+      self$checkExamplePkg("MethodSrcRef")
+		}
+    ,
+    #--------------------------------
     test.PrivateAndPublic=function(){
       self$checkExamplePkg("PrivateAndPublic")
 		}

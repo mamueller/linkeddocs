@@ -11,6 +11,7 @@ source("PackageTests_3.R")
 source("PrototypeTests.R")
 source("ExampleExtractionTest.R")
 source("ClassDocTest.R")
+source("S4MethodDocTest.R")
 
 s<-TestSuite$new(list(
 	# TestResults$new()
@@ -23,7 +24,7 @@ s<-TestSuite$new(list(
 	# ,
 	# ClassDocTest$new("test.title")
 	# ,
-	 ClassDocTest$new("test.Rd_method_lines")
+	# ClassDocTest$new("test.Rd_method_lines")
 	# ,
 	# ClassDocTest$new("test.superclass_lines")
 	# ,
@@ -33,7 +34,7 @@ s<-TestSuite$new(list(
 	# ,
 	# ClassDocTest$new("test.write_Rd_file")
 	# ,
-	# PackageTests_3$new("test.ClassWithExamples")
+	# PackageTests_3$new("test.MethodSrcRef")
 	# ,
 	# ExampleExtractionTest$new("test.example_references")
 	# ,
@@ -62,6 +63,7 @@ s<-TestSuite$new(list(
 	# PackageTests_3$new("test.VirtualClass")
 	# ,
 	# PackageTests_3$new("test.AutoConstructor")
+	 S4MethodDocTest$new("test.SetMethod_lines")
 ))
 print(s$test_names())
 s$parallel <- 1 

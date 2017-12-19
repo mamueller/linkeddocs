@@ -1,0 +1,10 @@
+Package: MethodSrcRef 
+Title: EXAMPLES to TEST the POSSIBILITIES of NAMESPACES  
+Version: 0.1
+Date: 2017-12-18
+Author: Markus Mueller <mamueller@bgc-jena.mpg.de>
+Maintainer: Markus Mueller <mamueller@bgc-jena.mpg.de>
+Description: This package contains functions whose automatic documentation is tested.
+License: GPL-3
+Depends: methods
+RoxygenNote: 6.0.1.9000
