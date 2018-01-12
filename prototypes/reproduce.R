@@ -2,7 +2,7 @@
 # vim:set ff=unix expandtab ts=2 sw=2:
 # The example reproduces a failure of utils::getSrcref 
 # to find the source code of a method.
-
+require(methods)
 setGeneric(
 	 name="BoundFc",
 	 def=function ( format, ...){ standardGeneric("BoundFc") }
@@ -56,10 +56,14 @@ setMethod(
 meths <- findMethods('BoundFc')
 m1 <- meths[[1]]
 m2 <- meths[[2]]
-getSrcLocation(m1) #ok
-getSrcLocation(m2) # this one yields a list if one takes the uncommented definition and works ok if one uses the workaround
+print(getSrcLocation(m1)) #ok
+print(getSrcLocation(m2)) # this one yields a list if one takes the uncommented definition and works ok if one uses the workaround
 
 # at the root of the problem is methods::unRematchDefinition
 # which applied to m2 yields basically the workaround version
 getSrcref(unclass(unRematchDefinition(m2)))
 isRematched(m2)
+
+# remark:
+# Hadley Wickams package Roxygen gets finds the source correctly
+# It might provide a hint how to solve the problem.
