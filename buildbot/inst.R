@@ -1,6 +1,6 @@
 #!/usr/bin/Rscript
 
-fromCran <- c( 'devtools')
+fromCran <- c('devtools','deSolve')
 lapply(fromCran,install.packages,repos='https://cran.uni-muenster.de')
 
 fromGitHub <- c( 'R6Unit')
