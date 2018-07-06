@@ -58,12 +58,12 @@ s<-TestSuite$new(list(
 	# ,
 	# PackageTests$new("test.NameSpaceParsing")
 	# ,
-	# PackageTests_3$new("test.SoilR")
+	 PackageTests_3$new("test.SoilR")
 	# ,
 	# PackageTests_3$new("test.VirtualClass")
 	# ,
 	# PackageTests_3$new("test.AutoConstructor")
-	 S4MethodDocTest$new("test.SetMethod_lines")
+	# S4MethodDocTest$new("test.SetMethod_lines")
 ))
 print(s$test_names())
 s$parallel <- 1 
