@@ -4,5 +4,5 @@ before_install:
         - sudo apt-get install libssl-dev
         - sudo apt-get install libcurl4-openssl-dev
 install: Rscript travis/inst.R
-script:  Rscript tests/run_all_test.R
+script:  ./travis/run_all_test.sh
 
