@@ -15,7 +15,7 @@ This R-package is an inlinedocs fork, that aims at compatibility in terms of the
 
  * In contrast to `inlinedocs` which uses `package.skeleton' to produce Rd files, parses and extends them afterwards, `linkeddocs` produces all the Rd files from the code objects directly. 
   
- * In contrast to `inlinedocs` and `roxygen2` `linkeddocs` allows S4methods to have their own Rd files which are **linked** to boht classes and Generics. 
+ * In contrast to `inlinedocs` and `roxygen2` `linkeddocs` allows S4methods to have their own Rd files which are **linked** to both classes and Generics. 
  * It is also planned to link automatically to calling and called functions
  
 ## To install
