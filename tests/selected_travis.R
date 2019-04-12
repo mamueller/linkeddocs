@@ -56,9 +56,9 @@ s<-TestSuite$new(list(
 	# ,
 	# PackageTests_3$new('test.PrivateAndPublic')
 	# ,
-	# PackageTests$new("test.NameSpaceParsing")
+	 PackageTests$new("test.NameSpaceParsing")
 	# ,
-	 PackageTests_3$new("test.SoilR")
+	# PackageTests_3$new("test.SoilR")
 	# ,
 	# PackageTests_3$new("test.VirtualClass")
 	# ,
