@@ -22,7 +22,7 @@ s<-TestSuite$new(list(
 	# ,
 	# ClassDocTest$new("test.ClassDocXXX")
 	# ,
-	# ClassDocTest$new("test.title")
+	ClassDocTest$new("test.title")
 	# ,
 	# ClassDocTest$new("test.Rd_method_lines")
 	# ,
@@ -58,7 +58,7 @@ s<-TestSuite$new(list(
 	# ,
 	# PackageTests$new("test.NameSpaceParsing")
 	# ,
-	 PackageTests_3$new("test.SoilR")
+	# PackageTests_3$new("test.SoilR")
 	# ,
 	# PackageTests_3$new("test.VirtualClass")
 	# ,
