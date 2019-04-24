@@ -6,12 +6,12 @@ require(R6Unit)
 require(devtools,quiet=TRUE)
 #devtools::install('../..')
 require(linkeddocs)
-#s<-get_suitefromDiscoveredTestInstances(".","^r6unit.*.R")
+source("helpers.R")
 source("PackageTests_3.R")
-source("PrototypeTests.R")
+#source("PrototypeTests.R")
 source("ExampleExtractionTest.R")
+#source("S4MethodDocTest.R")
 source("ClassDocTest.R")
-source("S4MethodDocTest.R")
 
 s<-TestSuite$new(list(
 	# TestResults$new()
@@ -56,9 +56,9 @@ s<-TestSuite$new(list(
 	# ,
 	# PackageTests_3$new('test.PrivateAndPublic')
 	# ,
-	 PackageTests$new("test.NameSpaceParsing")
+	#  PackageTests$new("test.NameSpaceParsing")
 	# ,
-	# PackageTests_3$new("test.SoilR")
+	PackageTests_3$new("test.SoilR")
 	# ,
 	# PackageTests_3$new("test.VirtualClass")
 	# ,

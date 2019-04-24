@@ -12,6 +12,7 @@ ExamplePkgTest<-R6Class("ExamplePkgTest",
       pkgDir="pkg"
       cpDir(file.path(resourceDirName,targetPkgName),pkgDir)
 
+
       # if necessarry add a default DESCRIPTION file
       if (!file.exists(file.path(pkgDir,"DESCRIPTION"))){ 
         writeDescriptionFile(Depends="methods",pkgName=targetPkgName,pkgDir=pkgDir)

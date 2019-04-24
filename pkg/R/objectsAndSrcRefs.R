@@ -4,7 +4,8 @@ objectsAndSrcRefs <-  function(pkgDir){
   require(devtools)
   pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
   # create but do not load the namespace
-  source_env <- devtools::: makeNamespace(pkgName, 1.1)
+  #source_env <- devtools::: makeNamespace(pkgName, 1.1)
+  source_env <- pkgload:::makeNamespace(pkgName, 1.1)
 
   pkgR<-normalizePath(file.path(pkgDir,'R'))
   codeFiles <- roxygen2:::sort_c(list.files(pkgR,full.names=TRUE))
