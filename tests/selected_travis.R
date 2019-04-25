@@ -8,62 +8,47 @@ require(devtools,quiet=TRUE)
 require(linkeddocs)
 source("helpers.R")
 source("PackageTests_3.R")
-#source("PrototypeTests.R")
+source("PrototypeTests.R")
 source("ExampleExtractionTest.R")
-#source("S4MethodDocTest.R")
+source("S4MethodDocTest.R")
 source("ClassDocTest.R")
+source("FileHelpersTest.R")
 
 s<-TestSuite$new(list(
-	# TestResults$new()
-	# ,
-	# ClassDocTest$new("test.Rd_constructor_lines_for_virtual_class")
-	# ,
-	# ClassDocTest$new("test.AutoConstructor_lines")
-	# ,
-	# ClassDocTest$new("test.ClassDocXXX")
-	# ,
-	# ClassDocTest$new("test.title")
-	# ,
-	# ClassDocTest$new("test.Rd_method_lines")
-	# ,
-	# ClassDocTest$new("test.superclass_lines")
-	# ,
-	# ClassDocTest$new("test.FindAutoConstructor")
-	# ,
-	# ClassDocTest$new("test.subclass_lines")
-	# ,
-	# ClassDocTest$new("test.write_Rd_file")
-	# ,
-	# PackageTests_3$new("test.MethodSrcRef")
-	# ,
-	# ExampleExtractionTest$new("test.example_references")
-	# ,
-	# ExampleExtractionTest$new("test.external_example_lines_for_setClass")
-	# ,
-	# ExampleExtractionTest$new("test.external_example_lines_for_function")
-	# ,
-	# ExampleExtractionTest$new("test.extract_function_body_with_comments")
-	# ,
-	# PrototypeTests$new("test.package.skeleton.dx_3")
-	# ,
-	# PrototypeTests$new("test.correctNameSpaceInfo")
-	# ,
-	# PackageTests_3$new('test.ClassWithMethodsAndExampleFiles')
-	# ,
-	# PackageTests_3$new('test.ClassWithMethods')
-	# ,
-	# PackageTests_3$new('test.AutoConstructor')
-	# ,
-	# PackageTests_3$new('test.PrivateAndPublic')
-	# ,
-	#  PackageTests$new("test.NameSpaceParsing")
-	# ,
-	PackageTests_3$new("test.SoilR")
-	# ,
-	# PackageTests_3$new("test.VirtualClass")
-	# ,
-	# PackageTests_3$new("test.AutoConstructor")
-	# S4MethodDocTest$new("test.SetMethod_lines")
+	#   ClassDocTest$new("test.ClassDocXXX")
+	# , ClassDocTest$new("test.title")
+	# , ClassDocTest$new("test.Rd_method_lines")
+	# , ClassDocTest$new("test.superclass_lines")
+	# , ClassDocTest$new("test.FindAutoConstructor")
+	# , ClassDocTest$new("test.subclass_lines")
+	# , ClassDocTest$new("test.write_Rd_file")
+	# , PackageTests_3$new("test.Rd_constructor_lines_for_virtual_class")
+	 #, 
+   ExampleExtractionTest$new("test.methodExampleExtractionFromComments")
+	# , ExampleExtractionTest$new("test.extract_function_body_with_comment")
+	# , ExampleExtractionTest$new("test.lines_from_file")
+	# , ExampleExtractionTest$new("test.example_references")
+	# , ExampleExtractionTest$new("test.example_lines_for_function")
+	# , ExampleExtractionTest$new("test.example_lines_for_setClass")
+  # , FileHelpersTest$new("test.cpDir")                                    
+  # , FileHelpersTest$new("test.write_and_read")                           
+  # , PackageTests_3$new("test.SoilR")
+  # , PackageTests_3$new("test.abbriviatedSignature")
+  # , PackageTests_3$new("test.OverloadedIndexOperator")
+  # , PackageTests_3$new("test.noMethodRdFilesForHiddenMethods")
+  # , PackageTests_3$new("test.GenericWithDotDotDotArgumets")
+  # , PackageTests_3$new("test.OverloadedIndexedAssingment")
+  # , PackageTests_3$new("test.ClassWithMethods")
+  # , PackageTests_3$new("test.ClassWithExamples")
+  # , PackageTests_3$new("test.ClassWithMethodsAndExampleFiles")
+  # , PackageTests_3$new("test.AutoConstructor")
+  # , PackageTests_3$new("test.VirtualClass")
+  # , PackageTests_3$new("test.MethodSrcRef")
+  # , PackageTests_3$new("test.PrivateAndPublic")
+  # , PrototypeTests$new("test.package.skeleton.dx_3")                     
+  # , S4MethodDocTest$new("test.SetMethod_lines")                         
+  # , S4MethodDocTest$new("test.title")                                    
+  # , S4MethodDocTest$new("test.details")  
 ))
 print(s$test_names())
 s$parallel <- 1 
