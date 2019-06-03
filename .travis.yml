@@ -1,8 +1,17 @@
 language: r
-before_install:
-        - sudo apt-get update
-        - sudo apt-get install libssl-dev
-        - sudo apt-get install libcurl4-openssl-dev
-install: Rscript travis/inst.R
+#before_install:
+#        - sudo apt-get update
+#        - sudo apt-get install libssl-dev
+#        - sudo apt-get install libcurl4-openssl-dev
+#install: Rscript travis/inst.R
 script:  ./travis_run_all_test.sh
 
+notifications:
+  email:
+    recipients:
+      - mamueller.bgc-jena.mpg.de
+      - hmetzler.bgc-jena.mpg.de
+      - csierra.bgc-jena.mpg.de
+      - vceball.bgc-jena.mpg.de
+    on_success: change # default: change
+    on_failure: always # default: always
