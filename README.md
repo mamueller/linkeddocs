@@ -1,4 +1,3 @@
-[![Travis-CI Build Status](https://travis-ci.org/mamueller/linkeddocs.svg?branch=master)](https://travis-ci.org/mamueller/linkeddocs)
 ## linkeddocs
 This R-package is an inlinedocs fork, that aims at compatibility in terms of the syntax of the documentation creating comments but also on a complete reimplementation.
 

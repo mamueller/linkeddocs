@@ -4,7 +4,7 @@ require(R6Unit,quiet=TRUE)
 mmsg=function(){"################## mm ####################"}
 #------------------------------------------------------------------------------
 writeDescriptionFile<-function(Depends=NULL,pkgName="ExamplePackage",pkgDir="."){
-	desc <-paste("Package: ",pkgName," 
+	desc <-paste("Package:",pkgName," 
 Title: EXAMPLES to TEST the POSSIBILITIES of NAMESPACES  
 Version:0.1
 Date: ",Sys.Date(),"

@@ -1,9 +1,7 @@
 #!/usr/bin/Rscript 
 ## vim:set ff=unix expandtab ts=2 sw=2:
-require(R6Unit)
-require(devtools,quiet=TRUE)
 require(linkeddocs)
-source("helpers.R")
+require(R6Unit)
 source("ExamplePkgTest.R")
 source("ComponentsTest.R")
 ClassDocTest<-R6Class("ClassDocTest",

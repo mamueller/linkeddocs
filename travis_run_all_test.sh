@@ -1,5 +1,5 @@
 #!/bin/bash
-set -ev
+#set -ev
 libdir=$(pwd)/mylib
 mkdir -p $libdir
 export R_LIBS_USER=$libdir
