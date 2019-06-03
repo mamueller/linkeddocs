@@ -1,11 +1,12 @@
 #!/usr/bin/Rscript
 
-fromCran <- c('stringr','devtools','deSolve')
+fromCran <- c('stringr','devtools','remotes','pkgload','deSolve','expm')
 lapply(fromCran,install.packages,repos='https://cran.uni-muenster.de')
 
 fromGitHub <- c( 'R6Unit')
-require(devtools)
-lapply(fromGitHub,function(name){devtools::install_github(sprintf("mamueller/%s/pkg",name))})
+require(remotes)
+lapply(fromGitHub,function(name){remotes::install_github(sprintf("mamueller/%s/pkg",name))})
 
 # install the package itself from source  
+#devtools::install(file.path('/home/mm/R6Unit/pkg'))
 devtools::install(file.path('pkg'))

@@ -58,10 +58,10 @@ setMethod(
   signature=signature(obj="methodDocObject"),
   definition=function(obj){
     codeText <- get_code(obj)
-
     md <- obj@methDef
     srcRef <- utils::getSrcref(md)
-    fn <- getSrcFilename(md,full.names=TRUE)
+    #fn <- getSrcFilename(md,full.names=TRUE)
+    fn <- utils::getSrcFilename(md,full.names=TRUE)
     pos  <-  utils::getSrcLocation(srcRef)
     pp('fn')
     pp('pos')
