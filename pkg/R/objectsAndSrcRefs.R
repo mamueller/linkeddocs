@@ -25,7 +25,10 @@ objectsAndSrcRefs <-  function(pkgDir){
       expr <- exprs[[i]]
       print('################################### 3 #####################################')
       print(expr)
-      res <- eval(expr,source_env)
+      call=as.list(expr)
+      print(call)
+      call<-standardise_call(call,source_env)
+      #res <- eval(expr,source_env)
       results[[j]] <- list()
       results[[j]][['res']] <- res
       results[[j]][['srcref']] <-srcreflist[[i]]
