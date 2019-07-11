@@ -1,17 +1,17 @@
 #!/usr/bin/Rscript 
 # vim:set ff=unix expandtab ts=2 sw=2:
 
-#source("R6_prolog.R")
 require(R6Unit)
 require(devtools,quiet=TRUE)
 #devtools::install('../..')
 require(linkeddocs)
 #s<-get_suitefromDiscoveredTestInstances(".","^r6unit.*.R")
-source("PackageTests_3.R")
-source("PrototypeTests.R")
-source("ExampleExtractionTest.R")
+#source("MMTest.R")
 source("ClassDocTest.R")
-source("S4MethodDocTest.R")
+#source("PackageTests_3.R")
+#source("PrototypeTests.R")
+#source("ExampleExtractionTest.R")
+#source("S4MethodDocTest.R")
 
 s<-TestSuite$new(list(
 	# TestResults$new()
@@ -23,6 +23,7 @@ s<-TestSuite$new(list(
 	# ClassDocTest$new("test.ClassDocXXX")
 	# ,
 	ClassDocTest$new("test.title")
+	#MMTest$new("test.title")
 	# ,
 	# ClassDocTest$new("test.Rd_method_lines")
 	# ,
@@ -66,7 +67,7 @@ s<-TestSuite$new(list(
 	# S4MethodDocTest$new("test.SetMethod_lines")
 ))
 print(s$test_names())
-s$parallel <- 1 
+#s$parallel <- 1 
 tr <- s$run()
-tr$summary()
+cat(tr$summary())
 

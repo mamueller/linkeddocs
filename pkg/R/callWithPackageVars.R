@@ -4,7 +4,7 @@
 # that need variables of the package to be documented
 # in an environment where this information is present
 # and the package is loaded
-# It avoids necessaty that every worker function reinitializes those
+# It avoids the necessity that every worker function reinitializes those
 # variables 
 callWithPackageVars <- function(
     pkgDir,     ### The directory of the package to be loaded 
@@ -23,7 +23,6 @@ callWithPackageVars <- function(
   #################################################333
   ### fill the local environment with commonly used variables
   privatePackageLib<-file.path(pkgDir,'..','tmp','lib')
-  results <- objectsAndSrcRefs(pkgDir)
   manPath <- file.path(pkgDir,'man')
   if (!file.exists(manPath)){
     dir.create(recursive=TRUE,manPath)
@@ -43,26 +42,28 @@ callWithPackageVars <- function(
  #
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source")
-  require(pkgName,character.only=TRUE)
+  requireNamespace(pkgName,character.only=TRUE)
   fqPkgName <- sprintf("package:%s",pkgName)
-  pkgEnv <- as.environment(fqPkgName) 
+  #pkgEnv <- as.environment(fqPkgName) 
   on.exit({
     .libPaths(oldLibs) 
-    detach(fqPkgName,unload=TRUE,character.only=TRUE) 
+    print(search())
+    unloadNamespace(fqPkgName) 
     unlink(privatePackageLib,recursive=TRUE,force=TRUE)
     })
   
+  results <- objectsAndSrcRefs(pkgDir)
   ##############################################
   # create the function call
   # gather the values for varNamesFromPackageEnv from the local environment
 	e <- environment()
-	valuesProvidedByThisFuntions <- as.list(e)[varNamesFromPackageEnv]
+	valuesProvidedByThisFunction <- as.list(e)[varNamesFromPackageEnv]
  
   # transform the additional arguments into a list
   valuesProvidedByCaller <- list(...)
 
   # create the complete parameterlist for the function call
-	values <- c( valuesProvidedByThisFuntions, valuesProvidedByCaller) 
+	values <- c( valuesProvidedByThisFunction, valuesProvidedByCaller) 
 
   #create the actual call
 	funcCall <- as.call(append(list(workerFunc),values))

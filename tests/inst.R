@@ -4,6 +4,6 @@ if (!is.element('devtools',installed.packages())){
 }
 require(devtools)
 #devtools::install_github("tidyverse/dplyr")
-succ <- devtools::install('~/linkeddocs/pkg/')
+succ <- devtools::install('~/linkeddocs/pkg/',quick=TRUE)
 require(getopt)
 
