@@ -24,6 +24,7 @@ objectsAndSrcRefs <-  function(pkgDir){
       call <- calls[[i]]
       print('################################### 3 #####################################')
       print(call)
+      print(expr)
       print(is.call(call))
       call<-standardise_call(call,source_env)
       name <- as.character(call[[1]])

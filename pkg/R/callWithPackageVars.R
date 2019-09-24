@@ -42,7 +42,8 @@ callWithPackageVars <- function(
  #
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source")
-  requireNamespace(pkgName,character.only=TRUE)
+  #requireNamespace(pkgName,character.only=TRUE)
+  requireNamespace(pkgName)
   fqPkgName <- sprintf("package:%s",pkgName)
   #pkgEnv <- as.environment(fqPkgName) 
   on.exit({

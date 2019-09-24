@@ -2,9 +2,11 @@
 # vim:set ff=unix expandtab ts=2 sw=2:
 
 require(R6Unit)
-require(devtools,quiet=TRUE)
+#require(devtools,quiet=TRUE)
 #devtools::install('../..')
-require(linkeddocs)
+require("pkgload")
+#require(linkeddocs)
+pkgload::load_all('../pkg',export_all=FALSE)
 #s<-get_suitefromDiscoveredTestInstances(".","^r6unit.*.R")
 #source("MMTest.R")
 source("ClassDocTest.R")
