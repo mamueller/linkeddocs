@@ -11,7 +11,7 @@ ExamplePkgTest<-R6Class("ExamplePkgTest",
     cp_package_files=function(targetPkgName){
       resourceDirName<-file.path("..","..","test_resources","example_packages")
       pkgDir="pkg"
-      R6Unit::cpDir(file.path(resourceDirName,targetPkgName),pkgDir)
+      cpDir(file.path(resourceDirName,targetPkgName),pkgDir)
 
 
       # if necessarry add a default DESCRIPTION file

@@ -54,6 +54,7 @@ callWithPackageVars <- function(
     })
   
   results <- objectsAndSrcRefs(pkgDir)
+
   ##############################################
   # create the function call
   # gather the values for varNamesFromPackageEnv from the local environment

@@ -12,9 +12,21 @@ Author:  Markus Mueller <mamueller@bgc-jena.mpg.de>
 Maintainer: Markus Mueller <mamueller@bgc-jena.mpg.de>
 Description: This package contains functions whose automatic documentation is tested.
 License: GPL-3
-",
-ifelse(is.null(Depends),"",paste("Depends:",toString(Depends)))
-	,sep="")
+"
+  ,ifelse(
+    is.null(Depends)
+    ,"\n"
+    ,paste(
+      paste(
+        "Depends:"
+        ,toString(Depends)
+        ,"\n"
+        ,sep=""
+      )
+	    ,sep=""
+    )
+  )
+)
 	descFilePath=file.path(pkgDir,"DESCRIPTION")
 	cat(desc,file=descFilePath)
 }

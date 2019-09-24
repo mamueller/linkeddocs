@@ -1,6 +1,7 @@
 #!/usr/bin/Rscript 
 # vim:set ff=unix expandtab ts=2 sw=2:
 
+source("helpers.R")
 require(R6Unit)
 #require(devtools,quiet=TRUE)
 #devtools::install('../..')
