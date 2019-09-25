@@ -43,9 +43,10 @@ callWithPackageVars <- function(
 	pkgName<-as.character(read.dcf(file=file.path(pkgDir,'DESCRIPTION'),fields='Package'))
 	install.packages(pkgDir,lib=privatePackageLib,repos=NULL,INSTALL_opts="--with-keep.source", type="source")
   #requireNamespace(pkgName,character.only=TRUE)
-  requireNamespace(pkgName)
+  #requireNamespace(pkgName)
   fqPkgName <- sprintf("package:%s",pkgName)
   #pkgEnv <- as.environment(fqPkgName) 
+  pkgEnv <- pkgload::load_all(pkgDir)
   on.exit({
     .libPaths(oldLibs) 
     print(search())
@@ -53,7 +54,7 @@ callWithPackageVars <- function(
     unlink(privatePackageLib,recursive=TRUE,force=TRUE)
     })
   
-  results <- objectsAndSrcRefs(pkgDir)
+  results <- objectsAndSrcRefsForClassesAndMethods(pkgDir,pkgEnv)
 
   ##############################################
   # create the function call
