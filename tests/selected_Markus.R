@@ -10,10 +10,11 @@ require("pkgload")
 pkgload::load_all('../pkg',export_all=FALSE)
 #s<-get_suitefromDiscoveredTestInstances(".","^r6unit.*.R")
 #source("MMTest.R")
-source("ClassDocTest.R")
+#source("ClassDocTest.R")
 #source("PackageTests_3.R")
 #source("PrototypeTests.R")
 #source("ExampleExtractionTest.R")
+source("ExamplePkgScriptTest.R")
 #source("S4MethodDocTest.R")
 
 s<-TestSuite$new(list(
@@ -23,9 +24,10 @@ s<-TestSuite$new(list(
 	# ,
 	# ClassDocTest$new("test.AutoConstructor_lines")
 	# ,
-	# ClassDocTest$new("test.ClassDocXXX")
+	ExamplePkgScriptTest$new("test.copyPackage")
 	# ,
-	ClassDocTest$new("test.title")
+	# ClassDocTest$new("test.title")
+	#ClassDocTest$new("test.classGeneratorFunction")
 	#MMTest$new("test.title")
 	# ,
 	# ClassDocTest$new("test.Rd_method_lines")

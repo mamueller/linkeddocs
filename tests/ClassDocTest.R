@@ -8,6 +8,31 @@ ClassDocTest<-R6Class("ClassDocTest",
 	inherit=ComponentsTest,
   public=list(
     #----------------
+    test.classGeneratorFunction=function(){
+      pkgDir <- 'pkg'
+      testfunc <- function(pkgEnv,results,pkgDir){
+          print(results)
+          clname <- 'ExposedClass'
+          sr <-  findClassSrcRef(results,clname)
+          print("############################ 5 #########################")
+          #cl <- getClass(clname)
+          #cdo <- get_docObject(cl,pkgDir,sr)
+          #res <- Rd_title_lines(cdo)
+          res <- sr
+          res
+      }
+      self$loadAndInstall("ClassGeneratorFunction")
+      
+      res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
+      pp('res')
+
+     # ref_title<- 'an Exposed  class'
+    
+     # self$assertTrue(CompareTrimmedNonEmptyLines(res,ref_title))
+
+    }
+    ,
+    #----------------
     test.title=function(){
       pkgDir <- 'pkg'
       testfunc <- function(pkgEnv,results,pkgDir){
@@ -21,7 +46,7 @@ ClassDocTest<-R6Class("ClassDocTest",
       self$loadAndInstall("ClassWithMethods")
       
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
-      pp('res')
+      #pp('res')
 
       ref_title<- 'an Exposed  class'
       self$assertTrue(CompareTrimmedNonEmptyLines(res,ref_title))

@@ -4,10 +4,10 @@ library(R6Unit)
 #require(devtools,quiet=TRUE)
 require("pkgload")
 #require(linkeddocs)
-pkgload::load_all('../pkg',export_all=FALSE)
 source("helpers.R")
+pkgload::load_all('../pkg',export_all=FALSE)
 s<-get_suitefromDiscoveredTestInstances(".",".*Test.*.R")
-s$parallel <- 1
+#s$parallel <- 1
 print(s$test_names())
 tr<-s$run()
 cat(tr$summary())

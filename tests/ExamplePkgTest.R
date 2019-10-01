@@ -3,7 +3,7 @@
 require(R6Unit)
 source('helpers.R')
 ExamplePkgTest<-R6Class("ExamplePkgTest",
-	inherit=InDirTest,
+	inherit=InDirScriptTest,
   public=list(
     targetPkgName=""
     ,

@@ -14,13 +14,9 @@ source("ExampleExtractionTest.R")
 source("ClassDocTest.R")
 
 s<-TestSuite$new(list(
-	# TestResults$new()
-	# ,
-	# ClassDocTest$new("test.Rd_constructor_lines_for_virtual_class")
-	# ,
-	# ClassDocTest$new("test.AutoConstructor_lines")
-	# ,
-	# ClassDocTest$new("test.ClassDocXXX")
+	 ClassDocTest$new("test.AutoConstructor_lines")
+	 ,
+	 ClassDocTest$new("test.ClassDocXXX")
 	# ,
 	# ClassDocTest$new("test.title")
 	# ,
@@ -58,7 +54,7 @@ s<-TestSuite$new(list(
 	# ,
 	#  PackageTests$new("test.NameSpaceParsing")
 	# ,
-	PackageTests_3$new("test.SoilR")
+	#PackageTests_3$new("test.SoilR")
 	# ,
 	# PackageTests_3$new("test.VirtualClass")
 	# ,
@@ -68,5 +64,5 @@ s<-TestSuite$new(list(
 print(s$test_names())
 s$parallel <- 1 
 tr <- s$run()
-tr$summary()
+cat(tr$summary())
 

@@ -46,7 +46,7 @@ callWithPackageVars <- function(
   #requireNamespace(pkgName)
   fqPkgName <- sprintf("package:%s",pkgName)
   #pkgEnv <- as.environment(fqPkgName) 
-  pkgEnv <- pkgload::load_all(pkgDir)
+  pkgEnv <- pkgload::load_all(pkgDir)$env
   on.exit({
     .libPaths(oldLibs) 
     print(search())
@@ -55,7 +55,6 @@ callWithPackageVars <- function(
     })
   
   results <- objectsAndSrcRefsForClassesAndMethods(pkgDir,pkgEnv)
-
   ##############################################
   # create the function call
   # gather the values for varNamesFromPackageEnv from the local environment

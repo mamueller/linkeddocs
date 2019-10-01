@@ -23,19 +23,27 @@ objectsAndSrcRefsForClassesAndMethods <-  function(pkgDir,pkgEnv){
     srcreflist <- attr(exprs,'srcref')
     n <- length(exprs)
     for (i in seq_len(n)){
+      print("############################ 0 ######################")
       expr <- exprs[[i]]
       call <- calls[[i]]
-      print('################################### 3 #####################################')
-      print(call)
-      #print(srcreflist[i])
-      #print(is.call(call))
       call<-standardise_call(call,pkgEnv)
       name <- as.character(call[[1]])
       if (length(name) > 1) next
       parser <- find_parser(name)
       if (is.null(parser)) next
       # we have to change the parsers not to output the s3 object
+      print("############################ 0 b ######################")
+      print(call)
       res <- parser(call, pkgEnv)#, block)
+      print("############################ 1 ######################")
+      print("call")
+      print(call)
+      print("res")
+      print(res)
+      print("############################ 1 b ######################")
+      pp('j')
+      pp('i')
+      pe(quote(srcreflist[[i]]))
       
       #stop('')
       results[[j]] <- list()
@@ -43,7 +51,8 @@ objectsAndSrcRefsForClassesAndMethods <-  function(pkgDir,pkgEnv){
       results[[j]][['srcref']] <-srcreflist[[i]]
       j=j+1
     }
-    print(results)
+    print("############################ 2 ######################")
+    #print(results)
   }
   return(results)
 }

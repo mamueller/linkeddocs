@@ -16,10 +16,7 @@ parser_setGeneric <- function(call, env, block) {
 
 parser_setMethod <- function(call, env, block) {
   name <- as.character(call$f)
-  print(env)
-  print(call$signature)
-  print('################################### 4 #####################################')
-  value <- methods::getMethod(name, signature=eval(call$signature), where = env$env)
+  value <- methods::getMethod(name, signature=eval(call$signature), where = env)
   #value <- methods::getMethod(name, eval(call$signature), where = env)
   #value@.Data <- extract_method_fun(value@.Data)
 
@@ -69,20 +66,19 @@ parser_setClass <- function(call, env, block) {
 #
 #  value
 #}
-#parser_assignment <- function(call, env, block) {
-#  name <- as.character(call[[2]])
-#
-#  # If it's a compound assignment like x[[2]] <- ignore it
-#  if (length(name) > 1)  return()
-#
-#  # If it doesn't exist (any more), don't document it.
-#  if (!exists(name, env)) return()
-#
-#  value <- get(name, env)
-#  value <- standardise_obj(name, value, env, block)
-#
-#  object(value, name)
-#}
+parser_assignment <- function(call, env, block) {
+  name <- as.character(call[[2]])
+
+  # If it's a compound assignment like x[[2]] <- ignore it
+  if (length(name) > 1)  return()
+
+  # If it doesn't exist (any more), don't document it.
+  if (!exists(name, env)) {
+      return()
+  }
+  value <- get(name, env)
+  value
+}
 find_parser <- function(name) {
   if (name %in% c("=", "<-", "<<-")) name <- "assignment"
 
