@@ -24,10 +24,11 @@ s<-TestSuite$new(list(
 	# ,
 	# ClassDocTest$new("test.AutoConstructor_lines")
 	# ,
-	ExamplePkgScriptTest$new("test.copyPackage")
-	# ,
+	ExamplePkgScriptTest$new("test.title")
+	 ,
 	# ClassDocTest$new("test.title")
 	#ClassDocTest$new("test.classGeneratorFunction")
+	ExamplePkgScriptTest$new("test.classGeneratorFunction")
 	#MMTest$new("test.title")
 	# ,
 	# ClassDocTest$new("test.Rd_method_lines")

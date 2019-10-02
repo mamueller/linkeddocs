@@ -5,6 +5,6 @@ if (!is.element('devtools',installed.packages())){
 require(devtools)
 devtools::install('~/debugHelpers/pkg')
 devtools::install('~/R6Unit/pkg')
-devtools::install('~/linkeddocs/pkg/')
+#devtools::install('~/linkeddocs/pkg/')
 require(getopt)
 print(get_Rscript_filename())

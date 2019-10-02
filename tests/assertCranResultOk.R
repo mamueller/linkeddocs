@@ -8,7 +8,7 @@ assertCranResultOk=function(l,msg="devtools::check failed"){
   if(cond){
     print(l)
   }
-  self$assertEqual(ne,0)
-  self$assertEqual(nw,0)
-  self$assertEqual(nn,0)
+  stopifnot(ne==0)
+  stopifnot(nw==0)
+  stopifnot(nn==0)
 }

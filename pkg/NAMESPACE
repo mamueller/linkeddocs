@@ -1,4 +1,4 @@
-import(methods,stringr, utils,roxygen2)
+import(methods,stringr, utils,roxygen2,debugHelpers)
 exportPattern("^[[:alpha:]]+")
 
 S3method("combine", "character")
