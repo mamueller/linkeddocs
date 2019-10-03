@@ -10,5 +10,5 @@ s<-get_suitefromDiscoveredTestInstances(".",".*Test.*.R")
 #s$parallel <- 1
 print(s$test_names())
 tr<-s$run()
-cat(tr$summary())
+print(tr$summary())
 if( (tr$get_nFailures() + tr$get_nErrors())>0) stop(1)

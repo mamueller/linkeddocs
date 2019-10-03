@@ -64,5 +64,5 @@ s<-TestSuite$new(list(
 print(s$test_names())
 s$parallel <- 1 
 tr <- s$run()
-cat(tr$summary())
+tr$print_summary()
 

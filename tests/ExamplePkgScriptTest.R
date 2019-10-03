@@ -237,5 +237,5 @@ if(is.null(sys.calls()[[sys.nframe()-1]])){
   s=get_suite_from_file(get_Rscript_filename())
   #s$parallel <- 1 
   tr<-s$run()
-  cat(tr$summary())
+  tr$print_summary()
 }
