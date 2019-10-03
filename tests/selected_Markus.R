@@ -1,21 +1,10 @@
 #!/usr/bin/Rscript 
 # vim:set ff=unix expandtab ts=2 sw=2:
 
-source("helpers.R")
 require(R6Unit)
-#require(devtools,quiet=TRUE)
-#devtools::install('../..')
 require("pkgload")
-#require(linkeddocs)
 pkgload::load_all('../pkg',export_all=FALSE)
-#s<-get_suitefromDiscoveredTestInstances(".","^r6unit.*.R")
-#source("MMTest.R")
-#source("ClassDocTest.R")
-#source("PackageTests_3.R")
-#source("PrototypeTests.R")
-#source("ExampleExtractionTest.R")
 source("ExamplePkgScriptTest.R")
-#source("S4MethodDocTest.R")
 
 s<-TestSuite$new(list(
 	# TestResults$new()
