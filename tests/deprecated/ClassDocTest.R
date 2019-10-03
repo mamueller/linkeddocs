@@ -1,8 +1,6 @@
 #!/usr/bin/Rscript 
 ## vim:set ff=unix expandtab ts=2 sw=2:
-require(linkeddocs)
 require(R6Unit)
-source("ExamplePkgTest.R")
 source("ComponentsTest.R")
 ClassDocTest<-R6Class("ClassDocTest",
 	inherit=ComponentsTest,
@@ -223,9 +221,8 @@ ClassDocTest<-R6Class("ClassDocTest",
 )
 ############################################ 
 if(is.null(sys.calls()[[sys.nframe()-1]])){
-  source("helpers.R")
   s=get_suite_from_file(get_Rscript_filename())
   s$parallel <- 1 
   tr<-s$run()
-  tr$summary()
+  tr$print_summary()
 }

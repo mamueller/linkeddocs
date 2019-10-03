@@ -4,7 +4,8 @@
 require(R6Unit)
 require("pkgload")
 pkgload::load_all('../pkg',export_all=FALSE)
-source("ExamplePkgScriptTest.R")
+source("ClassDocScriptTest.R")
+source("ClassDocTest.R")
 
 s<-TestSuite$new(list(
 	# TestResults$new()
@@ -13,11 +14,11 @@ s<-TestSuite$new(list(
 	# ,
 	# ClassDocTest$new("test.AutoConstructor_lines")
 	# ,
-	ExamplePkgScriptTest$new("test.title")
-	 ,
-	# ClassDocTest$new("test.title")
+	#ClassDocScriptTest$new("test.title")
+	# ,
+	ClassDocTest$new("test.title")
 	#ClassDocTest$new("test.classGeneratorFunction")
-	ExamplePkgScriptTest$new("test.classGeneratorFunction")
+	#ClassDocScriptTest$new("test.classGeneratorFunction")
 	#MMTest$new("test.title")
 	# ,
 	# ClassDocTest$new("test.Rd_method_lines")
@@ -64,5 +65,5 @@ s<-TestSuite$new(list(
 print(s$test_names())
 #s$parallel <- 1 
 tr <- s$run()
-print(tr$summary())
+tr$print_summary()
 

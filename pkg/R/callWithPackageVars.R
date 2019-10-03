@@ -45,8 +45,8 @@ callWithPackageVars <- function(
   #requireNamespace(pkgName,character.only=TRUE)
   #requireNamespace(pkgName)
   fqPkgName <- sprintf("package:%s",pkgName)
-  #pkgEnv <- as.environment(fqPkgName) 
-  pkgEnv <- pkgload::load_all(pkgDir)$env
+  #pkgEnv <- pkgload::load_all(pkgDir)$env
+  pkgEnv <- pkgload::load_all(pkgDir,export_all=FALSE)$env
   on.exit({
     .libPaths(oldLibs) 
     print(search())

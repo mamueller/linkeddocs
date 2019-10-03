@@ -1,9 +1,15 @@
 #
 ## vim:set ff=unix expandtab ts=2 sw=2:
 require(R6Unit)
-source('helpers.R')
+source('cpDir.R')
+source('writeDescriptionFile.R')
+source('cp_package_files.R')
+requireNamespace("pkgload")
+requireNamespace("debugHelpers")
+pkgload::load_all('../pkg')
+
 ExamplePkgTest<-R6Class("ExamplePkgTest",
-	inherit=InDirScriptTest,
+	inherit=InDirTest,
   public=list(
     targetPkgName=""
     ,
