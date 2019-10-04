@@ -4,25 +4,30 @@ findGenericSrcRef<- function(results,genName){
     # unfortunately R's own getSrcref function seases to  work if a 
     # generic defines a valueClass
     # This is the reason why we have to look for the source reference ourselves.
-
+   
 	  # M <- setClass("M"...
 	  filterfunc <- function(entry){
-						retval <- FALSE
-						
-            res <- entry[['res']]
-            #print( attr(res,'generic')[[1]])
-					  if (class(res)=='character'){	
-              text <- as.character(entry[['srcref']])
-              retval <- (
-                res ==genName && 
-                any(
-                  grepl(pattern="setGeneric",text) #fixme mm:maybe this is a bit too lax since #setGeneric would also be matched
-                )
-              )
-            }
-						retval
-		}
+		  retval <- FALSE
+      res <- entry[['res']]
+      #pe(attributes(res))
+      if ('generic' %in% names(attributes(res))){
+        resName<-attr(res,'generic')[[1]]
+        pp('resName')
+		    #if (class(res)=='nonstandardGenereicFucntion'){	
+        #browser()
+        if (resName== genName){
+          text <- as.character(entry[['srcref']])
+          retval <- (
+            any(
+              grepl(pattern="setGeneric",text) #fixme mm:maybe this is a bit too lax since #setGeneric would also be matched
+            )
+          )
+        }
+		  }
+		  retval
+    }
 	  bv <- unlist(lapply(results,filterfunc))
+    pp('bv')
     if (!any(bv)){
 	    return(NULL)	  
     }

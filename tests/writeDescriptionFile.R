@@ -1,5 +1,5 @@
 require(R6Unit,quiet=TRUE)
-writeDescriptionFile<-function(Depends=NULL,pkgName="ExamplePackage",pkgDir="."){
+writeDescriptionFile<-function(Imports=NULL,Depends=NULL,pkgName="ExamplePackage",pkgDir="."){
 	desc <-paste("Package:",pkgName," 
 Title: EXAMPLES to TEST the POSSIBILITIES of NAMESPACES  
 Version:0.1
@@ -15,6 +15,19 @@ License: GPL-3
     ,paste(
       paste(
         "Depends:"
+        ,toString(Depends)
+        ,"\n"
+        ,sep=""
+      )
+	    ,sep=""
+    )
+  )
+  ,ifelse(
+    is.null(Imports)
+    ,"\n"
+    ,paste(
+      paste(
+        "Imports:"
         ,toString(Depends)
         ,"\n"
         ,sep=""

@@ -63,9 +63,6 @@ setMethod(
     srcRef <- utils::getSrcref(md)
     fn <- getSrcFilename(md,full.names=TRUE)
     pos  <-  utils::getSrcLocation(srcRef)
-    pp('fn')
-    pp('pos')
-    pp('srcRef')
     
     leadingComments<- leadingComments( fn,pos)
     leadingDesc <- gsub("^[ \t(,#]*", "",leadingComments)

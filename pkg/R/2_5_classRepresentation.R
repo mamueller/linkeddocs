@@ -100,13 +100,13 @@ setMethod(
 setMethod(
   f="method_lines",
   signature=signature(obj="classRepresentation"),
-  def=function(clrep){
-      clName <-attr(clrep,'className')[[1]]
-	    pkgName <- attr(attr(clrep,'className'),'package')
+  def=function(obj){
+      clName <-attr(ojb,'className')[[1]]
+	    pkgName <- attr(attr(obj,'className'),'package')
   	  fqPkgName <- sprintf("package:%s",pkgName)
 	    pkgEnv <- as.environment(fqPkgName)
       exportedClassNames<-getClasses(pkgEnv)
-      clNames<- getAllSuperClasses(clrep)
+      clNames<- getAllSuperClasses(obj)
       methnms <- intersect(genWithClass(clName,pkgEnv),getGenerics(where=pkgEnv))
       nmeths=length(methnms)
 

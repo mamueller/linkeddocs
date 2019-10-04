@@ -14,16 +14,14 @@ documentAll<- function(
 
   ################################### 
   #### document S4Classes
-
   docObjects <- c(docObjects,
      documentS4Classes(pkgEnv, results, pkgDir)) 
-
-  #stop('mmmm')
+  
 
   ################################### 
   #### document generic functions
 
-	exportedGens<-getGenerics(fqPkgName) 
+	#exportedGens<-getGenerics(fqPkgName) 
   # includes ?internal_generic like  [ [[ $ ..
 
 	exportedGenNames<-getGenerics(where=pkgEnv) 

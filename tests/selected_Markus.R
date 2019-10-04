@@ -4,8 +4,10 @@
 require(R6Unit)
 require("pkgload")
 pkgload::load_all('../pkg',export_all=FALSE)
-source("ClassDocScriptTest.R")
-source("ClassDocTest.R")
+#pkgload::load_all('~/debugHelpers/pkg',export_all=FALSE)
+#pkgload::load_all('~/R6Unit/pkg',export_all=FALSE)
+#source("ClassDocScriptTest.R")
+source("PkgScriptTests.R")
 
 s<-TestSuite$new(list(
 	# TestResults$new()
@@ -16,7 +18,9 @@ s<-TestSuite$new(list(
 	# ,
 	#ClassDocScriptTest$new("test.title")
 	# ,
-	ClassDocTest$new("test.title")
+	#ClassDocTest$new("test.title")
+  #,
+  PkgScriptTests$new("test.abbriviatedSignature")
 	#ClassDocTest$new("test.classGeneratorFunction")
 	#ClassDocScriptTest$new("test.classGeneratorFunction")
 	#MMTest$new("test.title")
