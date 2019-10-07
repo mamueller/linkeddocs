@@ -1,37 +1,46 @@
 #!/usr/bin/Rscript 
 ## vim:set ff=unix expandtab ts=2 sw=2:
-require(linkeddocs)
 require(R6Unit)
-source("ExamplePkgTest.R")
-source("ComponentsTest.R")
 ExampleExtractionTest<-R6Class("ExampleExtractionTest",
-	inherit=ComponentsTest,
+	inherit=InDirScriptTest,
   public=list(
+    #------------------------
+    setUp=function(){
+      #source('../../cpDir.R')
+      source('../../writeDescriptionFile.R')
+      source('../../cp_package_files.R')
+      source('../../evalWithExamplePackageLoaded.R')
+      requireNamespace("pkgload")
+      requireNamespace("debugHelpers")
+      pkgload::load_all('../../../pkg')
+    }
+    ,
     #----------------
     test.methodExampleExtractionFromComments=function(){
-        res <- self$evalWithExamplePackageLoaded(
-        'ClassWithMethods'
-        ,
-        quote({
-          meths <- findMethods(exposedGeneric)
-          targetSig <- signature("ExposedClass","numeric")
-          sig=meths[[1]]@defined
-          meth <- getMethod(exposedGeneric,targetSig)
-          do <- get_docObject(meth,'pkg') 
-          l <- get_xxx_chunks(do)
-        })
-      )
-      ref=as.character('
-        eci <- new(Class="ExposedClass",times=1:4)
-        exposedGeneric(eci,3)
-      ')
-      self$assertTrue(CompareTrimmedNonEmptyLines(res[['examples']],ref))
+        res <- evalWithExamplePackageLoaded(
+          'ClassWithMethods'
+          ,
+          quote({
+            meths <- findMethods(exposedGeneric)
+            targetSig <- signature("ExposedClass","numeric")
+            sig=meths[[1]]@defined
+            meth <- getMethod(exposedGeneric,targetSig)
+            do <- get_docObject(meth,'pkg') 
+            l <- get_xxx_chunks(do)
+          })
+        )
+        pp('res')
+        ref=as.character('
+          eci <- new(Class="ExposedClass",times=1:4)
+          exposedGeneric(eci,3)
+        ')
+      stopifnot(CompareTrimmedNonEmptyLines(res[['examples']],ref))
     }
     ,
     #----------------
     test.extract_function_body_with_comments=function(){
         # we only look at one external example function
-        res <- self$evalWithExamplePackageLoaded(
+        res <- evalWithExamplePackageLoaded(
         'ClassWithMethodsAndExampleFiles'
         ,
         quote({
@@ -46,12 +55,12 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
         # another comment
         exposedGeneric(eci,1)
       ')
-      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+      stopifnot(CompareTrimmedNonEmptyLines(res,ref))
     }
     ,
     #----------------
     test.example_lines_from_file=function(){
-        res <- self$evalWithExamplePackageLoaded(
+        res <- evalWithExamplePackageLoaded(
         'ClassWithMethodsAndExampleFiles'
         ,
         quote({
@@ -67,13 +76,13 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
         eci <- new(Class="ExposedClass",times=1:4)
         # another comment
         exposedGeneric(eci,1)')
-      self$assertTrue(CompareTrimmedNonEmptyLines(res[[1]],refr))
+      stopifnot(CompareTrimmedNonEmptyLines(res[[1]],refr))
       refs=as.character('
         # inst/examples/examples_1.R func2: 
         eci <- new(Class="ExposedClass",times=1:4)
         exposedGeneric(eci,2)
       ')
-      self$assertTrue(CompareTrimmedNonEmptyLines(res[[2]],refs))
+      stopifnot(CompareTrimmedNonEmptyLines(res[[2]],refs))
     }
     ,
     #----------------
@@ -93,7 +102,7 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
       '
       ,ref1,ref2) ,'\n'))
       res <- example_references(codeText)
-      self$assertEqual(res,c(ref1,ref2))
+      stopifnot(res==c(ref1,ref2))
     }
     ,
     #----------------
@@ -215,15 +224,14 @@ ExampleExtractionTest<-R6Class("ExampleExtractionTest",
       ref <- '# inst/examples_1.R exFunc1:
       m <-M(5)
       print(M@t)' 
-      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+      stopifnot(CompareTrimmedNonEmptyLines(res,ref))
     }
   )
 )
 ############################################ 
 if(is.null(sys.calls()[[sys.nframe()-1]])){
-  source("helpers.R")
   s=get_suite_from_file(get_Rscript_filename())
   s$parallel <- 1 
   tr<-s$run()
-  print( tr$summary())
+  tr$print_summary()
 }

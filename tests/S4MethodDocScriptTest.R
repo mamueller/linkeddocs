@@ -1,13 +1,20 @@
 #!/usr/bin/Rscript 
 ## vim:set ff=unix expandtab ts=2 sw=2:
-require(linkeddocs)
 require(R6Unit)
-source("ExamplePkgTest.R")
-source("ComponentsTest.R")
 S4MethodDocTest<-R6Class("S4MethodDocTest",
-	inherit=ComponentsTest,
+	inherit=InDirScriptTest,
   public=list(
-    #----------------
+    #------------------------
+    setUp=function(){
+      source('../../cpDir.R')
+      source('../../writeDescriptionFile.R')
+      source('../../cp_package_files.R')
+      requireNamespace("pkgload")
+      requireNamespace("debugHelpers")
+      pkgload::load_all('../../../pkg')
+    }
+    ,
+    #------------------------
     test.SetMethod_lines=function(SKIP){
       pkgDir <- 'pkg'
       testfunc <- function(pkgEnv,results,pkgDir){
@@ -19,11 +26,11 @@ S4MethodDocTest<-R6Class("S4MethodDocTest",
           #res
           sr
       }
-      self$loadAndInstall("MethodSrcRef")
+      cp_package_files("MethodSrcRef")
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))
       pp("res")
       #ref<-c("\t\\code{\\link{RealClass}}\\cr")
-      #self$assertTrue(CompareTrimmedNonEmptyLines(res,ref))
+      #stopifnot(CompareTrimmedNonEmptyLines(res,ref))
     }
     ,
     #----------------
@@ -38,11 +45,11 @@ S4MethodDocTest<-R6Class("S4MethodDocTest",
           #get_xxx_chunks(mdo)
           Rd_lines(mdo)
       }
-      self$loadAndInstall("ClassWithMethods")
+      cp_package_files("ClassWithMethods")
       
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))[['title']]
       ref_title<- 'exposedGeneric,ExposedClass,numeric-method \n short title'
-      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref_title))
+      stopifnot(CompareTrimmedNonEmptyLines(res,ref_title))
 
     }
     ,
@@ -58,23 +65,22 @@ S4MethodDocTest<-R6Class("S4MethodDocTest",
           #get_xxx_chunks(mdo)
           Rd_lines(mdo)
       }
-      self$loadAndInstall("ClassWithMethods")
+      cp_package_files("ClassWithMethods")
       
       res <- callWithPackageVars(pkgDir,workerFunc=testfunc,varNamesFromPackageEnv=c('pkgEnv','results','pkgDir'))[['details']]
       print('mm ######################################')
       print(res)
       #stop()
       ref_title<- c('here come a few details','in two lines')
-      self$assertTrue(CompareTrimmedNonEmptyLines(res,ref_title))
+      stopifnot(CompareTrimmedNonEmptyLines(res,ref_title))
 
     }
   )
 )
 ############################################ 
 if(is.null(sys.calls()[[sys.nframe()-1]])){
-  source("helpers.R")
   s=get_suite_from_file(get_Rscript_filename())
   s$parallel <- 1 
   tr<-s$run()
-  tr$summary()
+  tr$print_summary()
 }

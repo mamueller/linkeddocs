@@ -6,6 +6,6 @@ cp_package_files=function(targetPkgName){
 
   # if necessarry add a default DESCRIPTION file
   if (!file.exists(file.path(pkgDir,"DESCRIPTION"))){ 
-    writeDescriptionFile(Depends="methods",pkgName=targetPkgName,pkgDir=pkgDir)
+    writeDescriptionFile(Imports="methods",pkgName=targetPkgName,pkgDir=pkgDir)
   }
 }

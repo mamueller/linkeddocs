@@ -49,7 +49,7 @@ callWithPackageVars <- function(
   pkgEnv <- pkgload::load_all(pkgDir,export_all=FALSE)$env
   on.exit({
     .libPaths(oldLibs) 
-    print(search())
+    #print(search())
     unloadNamespace(fqPkgName) 
     unlink(privatePackageLib,recursive=TRUE,force=TRUE)
     })

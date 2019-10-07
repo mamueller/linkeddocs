@@ -8,7 +8,7 @@ documentNormalFuncs <- function(
   res <- lapply(
     namesOfNormalFuncs, 
     function(funcName) {
-      obj<-get(funcName)
+      obj<-get(funcName,envir=pkgEnv)
       functionDocObject(
         name=funcName,
         functionObject=obj,

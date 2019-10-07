@@ -4,7 +4,7 @@ findAllFunctions <- function(pkgEnv){
     objectNames<-ls(pkgEnv)
     funcs<-list()
     for (fn in objectNames){
-      f<-eval(as.symbol(fn))
+      f<-eval(as.symbol(fn),pkgEnv)
       if (is.function(f)){
         funcs[[fn]]<-f
         }

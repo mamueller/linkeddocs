@@ -101,7 +101,9 @@ setMethod(
   f="method_lines",
   signature=signature(obj="classRepresentation"),
   def=function(obj){
-      clName <-attr(ojb,'className')[[1]]
+
+      print("######################333333 mmm")
+      clName <-attr(obj,'className')[[1]]
 	    pkgName <- attr(attr(obj,'className'),'package')
   	  fqPkgName <- sprintf("package:%s",pkgName)
 	    pkgEnv <- as.environment(fqPkgName)
