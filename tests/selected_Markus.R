@@ -12,11 +12,12 @@ source("ExampleExtractionTest.R")
 
 s<-TestSuite$new(list(
   #PkgScriptTests$new("test.abbriviatedSignature")
+  PkgScriptTests$new("test.abbriviatedSignatureMinimal")
   #PkgScriptTests$new("test.OverloadedIndexOperator")
   #PkgScriptTests$new("test.noMethodRdFilesForHiddenMethods")
   #PkgScriptTests$new("test.ClassWithMethods")
   #ExampleExtractionTest$new('test.methodExampleExtractionFromComments')
-  ExampleExtractionTest$new('test.extract_function_body_with_comments')
+  #ExampleExtractionTest$new('test.extract_function_body_with_comments')
 ))
 print(s$test_names())
 #s$parallel <- 1 

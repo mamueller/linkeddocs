@@ -28,6 +28,10 @@ PkgScriptTests<-R6Class("PkgScriptTests",
       checkExamplePkg("Signatures")
 	  }
     ,
+	  test.abbriviatedSignatureMinimal=function(){
+      checkExamplePkg("SignaturesMinimal")
+	  }
+    ,
     #--------------------------------
     test.OverloadedIndexOperator=function(){
       checkExamplePkg("OverloadedIndexOperator")
